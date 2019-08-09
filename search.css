@@ -1,0 +1,12 @@
+body{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	background-color: #1a1a1d;
+	-webkit-app-region: drag;
+}
+.noDrag{
+	-webkit-app-region: no-drag;
+}
