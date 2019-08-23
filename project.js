@@ -48,9 +48,9 @@ $('.btn').unbind().on('click',()=>{
 		backgroundColor: "#1a1a1d",
 	}
 
-	// ipcRenderer.send('win',windata);
+	ipcRenderer.send('win',windata);
 
-	ipcRenderer.send('newTab','project')
+	// ipcRenderer.send('newTab','project')
 })
 // $('.btn').on('click',()=>{
 // 	// console.log(this)
