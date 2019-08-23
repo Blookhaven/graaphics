@@ -48,38 +48,97 @@ let userData = app.getPath('userData');console.log(userData)
 
 let quit = false;
 
-function createWindow () {
-  
-  mainWindow = new BrowserWindow({
-    width: 1920,
-    height: 1104,
-    minWidth: 1024,
-    minHeight:576,
-    titleBarStyle: 'hidden',
-    // titleBarStyle: 'hiddenInset',
-    enableLargerThanScreen: false,
-    backgroundColor: "#1a1a1d",
-  })
+let dimensions = [
+  [2560,1440],
+  [2432,1368],
+  [2304,1296],
+  [2176,1224],
+  [2048,1152],
+  [1920,1080],
+  [1792,1008],
+  [1664,936],
+  [1536,864],
+  [1408,792],
+  [1280,720],
+  [1152,648],
+  [1024,576],
+  [896,504],
+  [768,432],
+  [640,360],
+]
 
-  /*open window on secondary display - development*/
-  // let displays = electron.screen.getAllDisplays()
-  // let externalDisplay = displays.find((display) => {
-  //   return display.bounds.x !== 0 || display.bounds.y !== 0
+function createWindow () {
+  // const screen_size = electron.screen.getPrimaryDisplay().workAreaSize;
+  let primaryDisplay = electron.screen.getPrimaryDisplay();
+  
+  console.clear()
+  // mainWindow = new BrowserWindow({
+  //   width: 1920,
+  //   height: 1104,
+  //   minWidth: 1024,
+  //   minHeight:576,
+  //   titleBarStyle: 'hidden',
+  //   // titleBarStyle: 'hiddenInset',
+  //   enableLargerThanScreen: false,
+  //   backgroundColor: "#1a1a1d",
   // })
 
-  // if (externalDisplay) {
-  //   mainWindow = new BrowserWindow({
-  //     width: 1600,
-  //     height: 900,
-  //     minWidth: 1024,
-  //     minHeight:576,
-  //     x: externalDisplay.bounds.x + 50,
-  //     y: externalDisplay.bounds.y + 50,
-  //     titleBarStyle: 'hidden',
-  //     enableLargerThanScreen: false,
-  //     backgroundColor: "#1a1a1d",
-  //   })
-  // }
+  /*open window on secondary display - development*/
+  let displays = electron.screen.getAllDisplays()
+  let externalDisplay = displays.find((display) => {
+    return display.bounds.x !== 0 || display.bounds.y !== 0
+  })
+
+  console.log(displays)
+  console.log('\n- - - - - - - - - -\n')
+
+  if (externalDisplay) {
+
+    let step = 0;
+    // let windowWidth = dimensions[step][0];
+    // let windowHeight = dimensions[step][1];
+
+    let workAreaWidth = Math.floor(externalDisplay.workArea.width);
+    let workAreaHeight = Math.floor(externalDisplay.workArea.height);
+    
+    // // while(workAreaWidth < windowWidth){
+    // while(workAreaWidth < dimensions[step][0]){
+
+    //   step ++;
+    //   windowWidth = dimensions[step][0];
+    //   windowHeight = dimensions[step][1];
+
+    //   console.log('workAreaWidth: ',workAreaWidth)
+    //   // console.log('windowWidth: ',windowWidth)
+    // }
+
+    for(let i in dimensions){
+      if(workAreaWidth < dimensions[step][0] || workAreaHeight < dimensions[step][1]){
+        step ++;
+      }
+    }
+
+    let windowWidth = dimensions[step][0];
+    let windowHeight = dimensions[step][1];
+
+    // let offsetX = Math.floor((externalDisplay.workArea.width - 1664) / 2)
+    // let offsetY = Math.floor((externalDisplay.workArea.height - (936 + 24)) / 2)
+
+    let offsetX = Math.floor((externalDisplay.workArea.width - windowWidth) / 2)
+    let offsetY = Math.floor((externalDisplay.workArea.height - (windowHeight + 24)) / 2)
+    
+    mainWindow = new BrowserWindow({
+      width: dimensions[step][0],// 1664,
+      height: Math.round(dimensions[step][0] * 0.5625) + 24,//(936 + 24),
+      minWidth: 1024,
+      minHeight:(576 + 24),
+      x: externalDisplay.bounds.x + offsetX,
+      y: externalDisplay.bounds.y + offsetY,
+      titleBarStyle: 'hidden',
+      enableLargerThanScreen: false,
+      backgroundColor: "#1a1a1d",
+    })
+  }
   /*open window on secondary display - development*/
   // mainWindow.loadFile('index.html')
   mainWindow.loadURL(`file://${__dirname}/index.html`)
@@ -121,7 +180,7 @@ ipcMain.on('quit',(event,data)=>{
 // })
 
 ipcMain.on('loaded',(event)=>{
-  console.clear()
+  // console.clear()
   console.log('loaded...')
   console.log(os.EOL);//
   console.log(os.arch());//
