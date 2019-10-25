@@ -11,6 +11,38 @@ const dialog = electron.dialog;
 
 const webContents = electron.webContents;
 
+/*temp*/
+const temp = require('temp').track();
+// const util = require('util');
+// const exec = require('child_process').exec;
+// temp.mkdir(`graaphics_`)
+let tempDir;
+/*temp*/
+
+let asset, assetId;
+
+/*SIMPLE SPELLCHECKER*/
+// // Initialization.
+// const SpellChecker = require('simple-spellchecker');
+// let myDictionary = null;
+ 
+// // Load dictionary.
+// SpellChecker.getDictionary("en-US", "./node_modules/simple-spellchecker/dict", (err, result)=>{
+//     if(!err) {
+//         myDictionary = result;
+//     }
+// });
+ 
+// // Define function for consult the dictionary.
+// ipcMain.on('checkspell',(event, word)=>{
+//     let res = null;
+//     if(myDictionary != null && word != null) {
+//         res = myDictionary.spellCheck(word);
+//     }
+//     event.returnValue = res;
+// });
+/*SIMPLE SPELLCHECKER*/
+
 const Menu = electron.Menu;
 let template = [
   {
@@ -49,10 +81,10 @@ let userData = app.getPath('userData');console.log(userData)
 let quit = false;
 
 let dimensions = [
-  [2560,1440],
-  [2432,1368],
-  [2304,1296],
-  [2176,1224],
+  // [2560,1440],
+  // [2432,1368],
+  // [2304,1296],
+  // [2176,1224],
   [2048,1152],
   [1920,1080],
   [1792,1008],
@@ -68,52 +100,24 @@ let dimensions = [
 ]
 
 function createWindow () {
-  // const screen_size = electron.screen.getPrimaryDisplay().workAreaSize;
-  let primaryDisplay = electron.screen.getPrimaryDisplay();
-  
-  console.clear()
-  // mainWindow = new BrowserWindow({
-  //   width: 1920,
-  //   height: 1104,
-  //   minWidth: 1024,
-  //   minHeight:576,
-  //   titleBarStyle: 'hidden',
-  //   // titleBarStyle: 'hiddenInset',
-  //   enableLargerThanScreen: false,
-  //   backgroundColor: "#1a1a1d",
-  // })
 
-  /*open window on secondary display - development*/
-  let displays = electron.screen.getAllDisplays()
+  let primaryDisplay = electron.screen.getPrimaryDisplay();
+
+  /*open window on secondary display - development*//*
+  let displays = electron.screen.getAllDisplays();
   let externalDisplay = displays.find((display) => {
     return display.bounds.x !== 0 || display.bounds.y !== 0
   })
 
-  console.log(displays)
-  console.log('\n- - - - - - - - - -\n')
-
-  if (externalDisplay) {
+  if(externalDisplay){
 
     let step = 0;
-    // let windowWidth = dimensions[step][0];
-    // let windowHeight = dimensions[step][1];
-
     let workAreaWidth = Math.floor(externalDisplay.workArea.width);
     let workAreaHeight = Math.floor(externalDisplay.workArea.height);
-    
-    // // while(workAreaWidth < windowWidth){
-    // while(workAreaWidth < dimensions[step][0]){
-
-    //   step ++;
-    //   windowWidth = dimensions[step][0];
-    //   windowHeight = dimensions[step][1];
-
-    //   console.log('workAreaWidth: ',workAreaWidth)
-    //   // console.log('windowWidth: ',windowWidth)
-    // }
 
     for(let i in dimensions){
       if(workAreaWidth < dimensions[step][0] || workAreaHeight < dimensions[step][1]){
+        console.log(dimensions[step][0],dimensions[step][1],step)
         step ++;
       }
     }
@@ -121,15 +125,12 @@ function createWindow () {
     let windowWidth = dimensions[step][0];
     let windowHeight = dimensions[step][1];
 
-    // let offsetX = Math.floor((externalDisplay.workArea.width - 1664) / 2)
-    // let offsetY = Math.floor((externalDisplay.workArea.height - (936 + 24)) / 2)
-
     let offsetX = Math.floor((externalDisplay.workArea.width - windowWidth) / 2)
     let offsetY = Math.floor((externalDisplay.workArea.height - (windowHeight + 24)) / 2)
     
     mainWindow = new BrowserWindow({
-      width: dimensions[step][0],// 1664,
-      height: Math.round(dimensions[step][0] * 0.5625) + 24,//(936 + 24),
+      width: dimensions[step][0],
+      height: Math.round(dimensions[step][0] * 0.5625) + 24,
       minWidth: 1024,
       minHeight:(576 + 24),
       x: externalDisplay.bounds.x + offsetX,
@@ -139,7 +140,38 @@ function createWindow () {
       backgroundColor: "#1a1a1d",
     })
   }
-  /*open window on secondary display - development*/
+  *//*open window on secondary display - development*/
+
+  /*open window on primary display*/
+  let step = 0;
+  let workAreaWidth = Math.floor(primaryDisplay.workArea.width);
+  let workAreaHeight = Math.floor(primaryDisplay.workArea.height);
+
+  for(let i in dimensions){
+    if(workAreaWidth < dimensions[step][0] || workAreaHeight < dimensions[step][1]){
+      console.log(dimensions[step][0],dimensions[step][1],step)
+      step ++;
+    }
+  }
+
+  let windowWidth = dimensions[step][0];
+  let windowHeight = dimensions[step][1];
+
+  mainWindow = new BrowserWindow({
+    width: dimensions[step][0],// 1664,
+    height: Math.round(dimensions[step][0] * 0.5625) + 24,//(936 + 24),
+    minWidth: 1024,
+    minHeight:(576 + 24),
+    titleBarStyle: 'hidden',
+    enableLargerThanScreen: false,
+    backgroundColor: "#1a1a1d",
+    webPreferences:{
+      nodeIntegration: true,
+      webviewTag: true,
+    },
+  })
+  /*open window on primary display*/
+
   // mainWindow.loadFile('index.html')
   mainWindow.loadURL(`file://${__dirname}/index.html`)
   // mainWindow.webContents.openDevTools()
@@ -149,6 +181,7 @@ function createWindow () {
       event.preventDefault()
       mainWindow.webContents.send('quit')
     }else{
+      console.log('155')
       app.quit()
     }
   });
@@ -156,13 +189,57 @@ function createWindow () {
   // mainWindow.on('keydown',()=>{
   //   console.log('!!!')
   // },true)
+
+  /*downloads*/
+  mainWindow.webContents.session.on('will-download', (event, item, webContents)=>{
+    console.log('\n* * * * * * * * * * will-download * * * * * * * * * *\n\n')
+    console.log(item)
+    console.log(webContents)
+    let thisImagePath = tempDir + '/' + assetId + '.jpg'
+    item.setSavePath(thisImagePath)
+
+    item.on('updated', (event, state) => {
+      if (state === 'interrupted') {
+        console.log('Download is interrupted but can be resumed')
+      } else if (state === 'progressing') {
+        if (item.isPaused()) {
+          console.log('Download is paused')
+        } else {
+          console.log(`Received bytes: ${item.getReceivedBytes()}`)
+        }
+      }
+    })
+    item.once('done', (event, state) => {
+      if (state === 'completed') {
+        console.log('Download successfully')
+        webContents.send('successfulDownload')
+        // currentSearchWindow.send('successfulDownload')
+        // currentProjectWindow.send('successfulDownload',thisImagePath,thisTargets,asset,thisDetails)
+      } else {
+        console.log(`Download failed: ${state}`)
+      }
+    })
+
+    console.log('\n- - - - - - - - - - will-download - - - - - - - - - -\n\n')
+  })
+  /*downloads*/
 }
 
 app.on('ready', createWindow)
 
+ipcMain.on('defineAsset',function(event,data){
+  console.log('\ndefineAsset\n')
+  console.log(event.sender)
+  console.log(data)
+  asset = data;
+  assetId = data.AssetId;
+  event.sender.send('defineAsset')
+})
+
 ipcMain.on('quit',(event,data)=>{
-  quit = data;
+  quit = data;console.log(data)
   if(quit === true){
+    console.log('170')
     app.quit()
   }
 })
@@ -191,10 +268,17 @@ ipcMain.on('loaded',(event)=>{
   console.log(os.tmpdir());//
   console.log(os.totalmem());//
   console.log(os.userInfo());//
+  console.log(os.userInfo()['username']);//
 
   console.log(`*** quit: ${quit} ***`)
+
+  temp.mkdir(`graaphics_`,(err,dirPath)=>{
+    if(err) throw err;
+    tempDir = dirPath;
+    event.sender.send('loaded',tempDir)
+  })
   
-  event.sender.send('loaded')
+  
 })
 
 // ipcMain.on('proj',(event,message)=>{
@@ -212,8 +296,10 @@ ipcMain.on('win',(event,windata)=>{
   mainWindow.webContents.send('lockout');
   // console.log(event.sender.webContents)
   console.log(`\n* * * * * ${event.sender.webContents.viewInstanceId} * * * * *\n`)
-  
-  windata['viewInstanceId'] = event.sender.webContents.viewInstanceId;
+  // console.log(event.sender.webContents.viewInstanceId != undefined)
+  if(event.sender.webContents.viewInstanceId != undefined){
+    windata['viewInstanceId'] = event.sender.webContents.viewInstanceId;
+  }
 
   // console.log(windata['sender'])
   
@@ -221,14 +307,20 @@ ipcMain.on('win',(event,windata)=>{
     width: windata['width'],
     height: windata['height'],
     resizable: windata['resizable'],
+    minimizable: windata['minimizable'],
+    closable: windata['closable'],
     titleBarStyle: windata['titleBarStyle'],
     backgroundColor: windata['backgroundColor'],
     parent:mainWindow,
+    webPreferences:{
+      nodeIntegration: true,
+      webviewTag: true,
+    },
   })
 
   // win.loadURL(`file://${__dirname}/win.html?script=${windata['window']}&params=${Buffer.from(JSON.stringify(windata['data']),'binary').toString('base64')}`);
   win.loadURL(`file://${__dirname}/win.html?script=${windata['window']}`);
-
+  // win.webContents.openDevTools()
   // win.on('load',()=>{
   //   console.log('LOAD')
   //   win.webContents.send('windata',windata['data']);
@@ -249,7 +341,7 @@ ipcMain.on('win',(event,windata)=>{
   })
 
   // ipcMain.on('winload',(event)=>{
-  ipcMain.once('winload',(event)=>{
+  ipcMain.once('winload',(event)=>{/*why 'once'? - can't remember - assume it's with good reason... or maybe it was just to stop console logs filling up?*/
     // console.log(`windata['viewInstanceId'] : ${windata['viewInstanceId']}`)
     // console.log(windata)
     console.log('\n- - - - - - - - - -\n')
@@ -274,3 +366,20 @@ ipcMain.on('projectTitle',(event,data)=>{
   // console.log(event.sender.webContents.viewInstanceId)
   console.log(data['viewInstanceId'])
 })
+
+
+/*login and image search*/
+let user = false;
+
+ipcMain.on('loginSuccess',(event,data)=>{
+  user = data;console.log(data)
+  mainWindow.webContents.send('loginSuccess',user['ContactName']);
+  event.sender.send('loginSuccess');
+})
+
+ipcMain.on('archive',(event)=>{
+  event.sender.send('archive',user != false)
+})
+/*login and image search*/
+
+

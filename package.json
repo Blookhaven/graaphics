@@ -4,7 +4,8 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "postinstall": "electron-builder install-app-deps"
   },
   "repository": "https://github.com/blookhaven/tabs-setup",
   "keywords": [
@@ -17,17 +18,15 @@
   "author": "Sean Fitzpatrick",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^4.2.9",
-    "electron-rebuild": "^1.8.5",
-    "rebuild": "^0.1.2"
+    "electron": "^7.0.0",
+    "electron-builder": "^21.2.0"
   },
   "dependencies": {
-    "dragula": "^3.7.2",
-    "electron-spellchecker": "^1.1.2",
     "electron-tabs": "^0.9.5",
     "ftp": "^0.3.10",
     "jquery": "^3.4.1",
     "os": "^0.1.1",
+    "temp": "^0.9.0",
     "wordcount": "^1.1.1"
   }
 }

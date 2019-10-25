@@ -1,0 +1,100 @@
+body{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	margin: 0;
+	background-color: #43434a;
+	box-sizing: border-box;
+	color: #fff;
+	font-size: 12px;
+	font-family: helvetica;
+}
+.noDrag{
+	-webkit-app-region: no-drag;
+}
+.titleBar{
+	height: 24px;
+	line-height: 24px;
+	text-align: center;
+	-webkit-user-select: none;
+	-webkit-app-region: drag;
+}
+main{
+	background-color: #26262c;
+	position: absolute;
+	top: 24px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	padding: 24px;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+}
+input[type=text],input[type=password]{
+	width: 100%;
+	height: 20px;
+	padding: 2px 2px;
+	margin: 0 0 2px;
+	line-height: 20px;
+	border: none;
+	border-radius: 2px;
+	outline: none;
+	box-sizing: border-box;
+	background-color: #36363c;
+	color: #fff;
+	text-align: center;
+}
+input[type=text]:focus,input[type=password]:focus{
+	background-color: #fff;
+	color: #000;
+}
+.buttons{
+	height: 100%;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	align-items: flex-end;
+}
+.forgot{
+	flex-grow: 1;
+	font-size: 10px;
+	user-select: none;
+}
+.forgot a{
+	text-decoration: none;
+	color: #00aeef;
+	line-height: 22px;
+}
+input[type="button"]{
+	min-width: 60px;
+	height: 22px;
+	background-color: transparent;
+	border: solid 1px #00aeef;
+	color: #00aeef;
+	border-radius: 11px;
+	text-align: center;
+	margin: 0 0 0 4px;
+	cursor: pointer;
+	outline: none;
+}
+input[type="button"]:hover{
+	background-color: #00aeef;
+	color: #FFF;	
+}
+
+.wait{
+	position: fixed;
+	top: 24px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	/*pointer-events: none;*/
+	background-color: rgba(0,0,0,0.75);
+}
+
+.displayNone{
+	display: none;
+}

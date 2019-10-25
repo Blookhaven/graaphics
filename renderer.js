@@ -2,78 +2,24 @@
 
 window.$ = window.jQuery = require('jquery');
 const electron = require('electron');	
-const os = require('os');	
+const os = require('os');
+const fs = require('fs');
+const path = require('path');
+const Client = require('ftp');
+const TabGroup = require("electron-tabs");
 
 const remote = electron.remote;
 const dialog = remote.dialog;
 const app = remote.app;
-
 const ipcRenderer = electron.ipcRenderer;
 
-const fs = require('fs');
-const path = require('path');
-const Client = require('ftp');
+let tabGroup = new TabGroup();
 
-/*SPELLCHECKER*/
-// Require the electron spellchecker
-const electronSpellchecker = require('electron-spellchecker');
-// Retrieve required properties
-const SpellCheckHandler = electronSpellchecker.SpellCheckHandler;
-const ContextMenuListener = electronSpellchecker.ContextMenuListener;
-const ContextMenuBuilder = electronSpellchecker.ContextMenuBuilder;
-// Configure the spellcheckhandler
-window.spellCheckHandler = new SpellCheckHandler();
-window.spellCheckHandler.attachToInput();
-// Start off as "US English, America"
-// window.spellCheckHandler.switchLanguage('en-US');
-// Create the builder with the configured spellhandler
-let contextMenuBuilder = new ContextMenuBuilder(window.spellCheckHandler);
-// Add context menu listener
-let contextMenuListener = new ContextMenuListener((info) => {
-	contextMenuBuilder.showPopupMenu(info);
-});
-/*SPELLCHECKER*/
 console.log(os.arch())
 console.log(os.EOL.split('\\'))
 console.log(os.arch())
 
 /* * * * * * * * * * * * * * * * * * * * * * * */
-
-const TabGroup = require("electron-tabs");
-// const dragula = require("dragula");
- 
-// let tabGroup = new TabGroup({
-// 	// tabClass: 'tabProject',
-// 	// viewClass: 'viewProject',
-// 	closeButtonText: '&times;',
-// 	ready: function (tabGroup) {
-// 		dragula([tabGroup.tabContainer], {
-// 			direction: "horizontal"
-// 		});
-// 	}
-// });
-let tabGroup = new TabGroup();
-
-let home = {
-	title: "Vid3x",
-	src: "tab.html?script=home",
-	visible: true,
-	active: true,
-	closable: false,
-	tabClass: 'tabHome',
-	// viewClass: 'viewHome',
-}
-
-let project = {
-	title: "untitled project 1234567890",
-	src: "tab.html?script=project",
-	visible: true,
-	active: true,
-	closable: true,
-	// tabClass: 'tabProject',
-	// viewClass: 'viewProject',
-	// closeButtonText: 's'
-}
 
 const newTab = (args)=>{
 	
@@ -91,60 +37,103 @@ const newTab = (args)=>{
 	// ipcRenderer.send('countTabs')
 
 	tab.on('close',(tab)=>{
-		// console.log(tab)
 		countTabs();
 	})
 	countTabs();
 };
+
 const countTabs = ()=>{
 	/*maximum of ten project tabs plus home tab - eleven total*/
 
-	$('.etabs-tab').css({maxWidth:`calc(${100 / $('.etabs-tab').length}% - 20px)`})
+	// $('.etabs-tab').css({maxWidth:`calc(${100 / $('.etabs-tab').length}% - 20px)`})
+	$('.etabs-tab').css({maxWidth:`${100 / $('.etabs-tab').length}%`})
 
 	// console.log(tabGroup.getActiveTab())
 	// console.log(tabGroup.getTabs())
 };
+
 ipcRenderer.on('newTab',(event,data)=>{
 	newTab(eval(data));
 })
+
 // ipcRenderer.on('countTabs',(event)=>{
 // 	console.log($('.etabs-tab').length)
 // })
+
 ipcRenderer.on('lockout',(event)=>{
-	// console.log(event)
 	$('body').addClass('pointerEventsNone');
 })
+
 ipcRenderer.on('unlock',(event)=>{
-	// console.log(event)
 	$('body').removeClass('pointerEventsNone');
 })
 
 /*send 'loaded' event to main process to get response*/
 ipcRenderer.send('loaded');
-/*response from main process is needed before calling*/
-/*newTab funtion to correctly inject the preload script - why? maybe async stuff?*/
-ipcRenderer.on('loaded',()=>{
+/*response from main process is needed before calling newTab funtion to correctly inject the preload script - why? maybe async stuff? I can't know everything...*/
+ipcRenderer.on('loaded',(event,data)=>{
+	
+	window['tempDir'] = data;
+
+	window['home'] = {
+		title: "Graaphics",
+		src: `tab.html?script=home&tempDir=${tempDir}`,
+		visible: true,
+		active: true,
+		closable: false,
+		tabClass: 'tabHome',
+		// viewClass: 'viewHome',
+	}
+
+	window['project'] = {
+		title: "untitled project 1234567890",
+		src: `tab.html?script=project&tempDir=${tempDir}`,
+		visible: true,
+		active: true,
+		closable: true,
+	}
+
+	window['quote'] = {
+		title: `quote_${btoa(os.userInfo()['username'])}_${new Date().getTime()}`,
+		src: `tab.html?script=quote&tempDir=${tempDir}`,
+		visible: true,
+		active: true,
+		closable: true,
+	}	
+
 	newTab(home);/*call the newTab function passing designated script name as argument*/
-	// newTab(home);/*call the newTab function passing designated script name as argument*/
-	// newTab(project);/*call the newTab function passing designated script name as argument*/
-	// setTimeout(newTab,500,proj)
 })
 
-
-
-
-
-
-
-
-
-
+ipcRenderer.on('loginSuccess',(event,data)=>{console.log(data)
+	$('.login').off();
+	$('.loginText').html(data);
+})
 
 
 /*apply body of css file to dynamic stylesheet tag*/
 $.get('./index.css',(data)=>{
 	$('#stylesheet').text(data);
 },'text')
+
+
+/*login*/
+$('.login').off().on('click',()=>{
+
+	let windata = {
+		window: 'login',
+		width: 288,
+		height: 162 + 24,
+		resizable: false,
+		minimizable: false,
+		closable: true,
+		titleBarStyle: 'hidden',
+		backgroundColor: "#46464c",
+		data: {},
+	}
+
+	ipcRenderer.send('win',windata);
+})
+/*login*/
 
 /*add keyboard functions*/
 $(document).on('keydown',(event)=>{
@@ -177,7 +166,8 @@ $(document).on('keydown',(event)=>{
 
 
 ipcRenderer.on('quit',(event)=>{
-	ipcRenderer.send('quit',confirm('Quit Vid3x?'));
+	/*meet some conditions?*/
+	ipcRenderer.send('quit',confirm('Quit Graaphics?'));
 });
 
 
@@ -187,3 +177,4 @@ ipcRenderer.on('quit',(event)=>{
 // window.onbeforeunload = (e)=>{
 
 // }
+

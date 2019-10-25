@@ -45,7 +45,7 @@ $('.btn').unbind().on('click',()=>{
 		height: 600,
 		resizable: false,
 		titleBarStyle: 'hidden',
-		backgroundColor: "#1a1a1d",
+		backgroundColor: "#26262c",
 	}
 
 	ipcRenderer.send('win',windata);

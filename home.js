@@ -14,25 +14,16 @@ const ipcRenderer = electron.ipcRenderer;
 
 // ipcRenderer.send('toggleDevTools')
 
-// let project = {
-// 	title: "untitled project",
-// 	src: "tab.html?script=project",
-// 	visible: true,
-// 	active: true,
-// 	closable: true,
-// }
-
 $('body').append(`
-	<div class="btn">
-	btn
-	</div>
+	<main>
+		<input type="button" name="project" value="Project">
+		<input type="button" name="quote" value="Quote">
+	</main>
 `)
 
-$('.btn').on('click',()=>{
-	// ipcRenderer.send(newTab,project)
-	ipcRenderer.send('newTab','project')
+$('input[type=button]').on('click',(e)=>{
+	ipcRenderer.send('newTab',e.target.name)
 })
-
 
 // $('.btn').on('click',()=>{
 	
