@@ -456,19 +456,17 @@ const initialise = ()=>{
 			case e.target.classList.value === 'local':
 
 			dialog.showOpenDialog({
-				properties:['openFile'],
-				filters:[{name: 'Images',extensions:['jpg','jpeg','png','pdf','gif']}]},(fileNames)=>{
-				if(fileNames !== undefined){
-					$(`.${images[activeImage]['identifier']}`).remove();
-
-					let file = tempDir.concat(fileNames[0].substring(fileNames[0].lastIndexOf('/')))
-					
-					fs.copyFile(fileNames[0],file,(err)=>{
-						if(err) throw err;
-						loadImage(file);
-					});
-				}
-			});
+				properties: ['openFile'],
+				filters:[{name: 'Images',extensions:['jpg','jpeg','png','pdf','gif']}],
+			}).then(result => {
+				let file = tempDir.concat(result.filePaths[0].substring(result.filePaths[0].lastIndexOf('/')))
+				fs.copyFile(result.filePaths[0],file,(err)=>{
+					if(err) throw err;
+					loadImage(file);
+				});
+			}).catch(err => {
+				console.log(err)
+			})
 
 			break;
 
