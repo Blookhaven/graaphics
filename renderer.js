@@ -73,7 +73,7 @@ ipcRenderer.send('loaded');
 /*response from main process is needed before calling newTab funtion to correctly inject the preload script - why? maybe async stuff? I can't know everything...*/
 ipcRenderer.on('loaded',(event,data)=>{
 	
-	window['tempDir'] = data;
+	window['tempDir'] = data;console.log(tempDir)
 
 	window['home'] = {
 		title: "Graaphics",

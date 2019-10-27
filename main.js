@@ -1,7 +1,7 @@
 'use strict';
 
 const electron = require('electron');
-const os = require('os');
+const os = require('os');console.log(os.platform() === 'darwin')
 // const {app, BrowserWindow} = require('electron')
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
@@ -171,7 +171,7 @@ function createWindow () {
     },
   })
   /*open window on primary display*/
-
+  mainWindow.removeMenu()//Linux & Windows only
   // mainWindow.loadFile('index.html')
   mainWindow.loadURL(`file://${__dirname}/index.html`)
   // mainWindow.webContents.openDevTools()
@@ -312,6 +312,7 @@ ipcMain.on('win',(event,windata)=>{
     titleBarStyle: windata['titleBarStyle'],
     backgroundColor: windata['backgroundColor'],
     parent:mainWindow,
+    frame:os.platform() === 'darwin',
     webPreferences:{
       nodeIntegration: true,
       webviewTag: true,

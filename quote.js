@@ -459,7 +459,14 @@ const initialise = ()=>{
 				properties: ['openFile'],
 				filters:[{name: 'Images',extensions:['jpg','jpeg','png','pdf','gif']}],
 			}).then(result => {
-				let file = tempDir.concat(result.filePaths[0].substring(result.filePaths[0].lastIndexOf('/')))
+				let file;
+				
+				if(os.platform() === 'darwin'){
+					file = tempDir.concat(result.filePaths[0].substring(result.filePaths[0].lastIndexOf('/')))
+				}else{
+					file = tempDir.concat(result.filePaths[0].substring(result.filePaths[0].lastIndexOf('\\')))
+				}
+
 				fs.copyFile(result.filePaths[0],file,(err)=>{
 					if(err) throw err;
 					loadImage(file);
@@ -484,6 +491,7 @@ const initialise = ()=>{
 	$('.grabber').off().on('click mousedown mouseup',tabBindings);
 	/*layer tabs*/
 	// $('body').removeClass('displayNone')
+	// console.log(document.activeElement)
 };
 
 /*layer tabs*/
