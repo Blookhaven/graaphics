@@ -312,6 +312,7 @@ const initialise = ()=>{
 
 	window['query'] = getQueryParams(document.location.search);
 	window['tempDir'] = query['tempDir'];
+	window['windata'] = null;
 
 	window['productionWidth'] = 1920;
 	window['productionRatio'] = Number($('#ratioSelect').val());
@@ -412,8 +413,6 @@ const initialise = ()=>{
 
 	ipcRenderer.on('archive',(event,user)=>{
 		console.log(user)
-		let windata;
-
 		if(user){
 			windata = {
 				window: 'archive',
@@ -424,6 +423,7 @@ const initialise = ()=>{
 				closable: true,
 				titleBarStyle: 'hidden',
 				backgroundColor: "#46464c",
+				opacity: 1,
 				data: user,
 			}
 		}else{
@@ -436,6 +436,7 @@ const initialise = ()=>{
 				closable: true,
 				titleBarStyle: 'hidden',
 				backgroundColor: "#46464c",
+				opacity: 1,
 				data: null,
 			}
 		}
@@ -463,7 +464,7 @@ const initialise = ()=>{
 				
 				if(os.platform() === 'darwin'){
 					file = tempDir.concat(result.filePaths[0].substring(result.filePaths[0].lastIndexOf('/')))
-				}else{
+				}else{//windows filepaths use backslash
 					file = tempDir.concat(result.filePaths[0].substring(result.filePaths[0].lastIndexOf('\\')))
 				}
 
@@ -492,6 +493,21 @@ const initialise = ()=>{
 	/*layer tabs*/
 	// $('body').removeClass('displayNone')
 	// console.log(document.activeElement)
+
+	/*void window - temporary fix for input focus inconsistency*/
+	ipcRenderer.send('win',{
+		window: 'void',
+		width: 0,
+		height: 0,
+		resizable: false,
+		minimizable: false,
+		closable: true,
+		titleBarStyle: 'hidden',
+		backgroundColor: "#46464c",
+		opacity: 0,
+		data: null,
+	});
+	/*void window - temporary fix for input focus inconsistency*/
 };
 
 /*layer tabs*/
@@ -1449,6 +1465,13 @@ $('input[name=highlighted]').on('input',(e)=>{
 })
 
 // ipcRenderer.send('toggleDevTools')
+
+
+ipcRenderer.on('successfulDownload',(event,data)=>{
+	console.log('\n* * * * * *\n\nsuccessfulDownload\n\n* * * * * * *\n')
+	console.log(data)
+	loadImage(data)
+})
 
 /* * * * * * * * * * * * */
 function thumbnail(){

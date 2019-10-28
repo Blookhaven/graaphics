@@ -213,6 +213,8 @@ function createWindow () {
       if (state === 'completed') {
         console.log('Download successfully')
         webContents.send('successfulDownload')
+        // mainWindow.webContents.send('successfulDownload',thisImagePath)
+        currentTab.send('successfulDownload',thisImagePath)
         // currentSearchWindow.send('successfulDownload')
         // currentProjectWindow.send('successfulDownload',thisImagePath,thisTargets,asset,thisDetails)
       } else {
@@ -233,7 +235,8 @@ ipcMain.on('defineAsset',function(event,data){
   console.log(data)
   asset = data;
   assetId = data.AssetId;
-  event.sender.send('defineAsset')
+  // event.sender.send('defineAsset')
+  event.sender.send('defineAsset',user)
 })
 
 ipcMain.on('quit',(event,data)=>{
@@ -290,12 +293,14 @@ ipcMain.on('toggleDevTools',(event)=>{
     event.sender.toggleDevTools();
 })
 
+let currentTab = null;
 
 ipcMain.on('win',(event,windata)=>{
 
   mainWindow.webContents.send('lockout');
   // console.log(event.sender.webContents)
   console.log(`\n* * * * * ${event.sender.webContents.viewInstanceId} * * * * *\n`)
+  currentTab = event.sender//.webContents.viewInstanceId;
   // console.log(event.sender.webContents.viewInstanceId != undefined)
   if(event.sender.webContents.viewInstanceId != undefined){
     windata['viewInstanceId'] = event.sender.webContents.viewInstanceId;
@@ -311,8 +316,9 @@ ipcMain.on('win',(event,windata)=>{
     closable: windata['closable'],
     titleBarStyle: windata['titleBarStyle'],
     backgroundColor: windata['backgroundColor'],
+    opacity: windata['opacity'],
+    frame: windata['frame'],
     parent:mainWindow,
-    frame:os.platform() === 'darwin',
     webPreferences:{
       nodeIntegration: true,
       webviewTag: true,
@@ -342,7 +348,7 @@ ipcMain.on('win',(event,windata)=>{
   })
 
   // ipcMain.on('winload',(event)=>{
-  ipcMain.once('winload',(event)=>{/*why 'once'? - can't remember - assume it's with good reason... or maybe it was just to stop console logs filling up?*/
+  ipcMain.once('winload',(event)=>{/*why 'once'? - can't remember - assume it's with good reason... or maybe it was just to stop console logs filling up? -- nope. good reason.*/
     // console.log(`windata['viewInstanceId'] : ${windata['viewInstanceId']}`)
     // console.log(windata)
     console.log('\n- - - - - - - - - -\n')
