@@ -352,13 +352,13 @@ h{
 
 .productionFrame{
 	/*position: relative;*/
-	/*position: absolute;*/
+	position: absolute;
 	/*right: 0px;*/
 	/*bottom: 0px;*/
-	/*left: -1920px;*/
+	left: -1920px;
 	width: 1920px;
 	/*height: 1080px;*/
-	background-color: #0C0;
+	/*background-color: #0C0;*/
 }
 
 .rangeGroup{

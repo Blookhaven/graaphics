@@ -2,6 +2,7 @@
 
 const electron = require('electron');
 const os = require('os');console.log(os.platform() === 'darwin')
+const fs = require('fs');
 // const {app, BrowserWindow} = require('electron')
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
@@ -20,6 +21,11 @@ let tempDir;
 /*temp*/
 
 let asset, assetId;
+
+let slash = '/';
+if(os.platform() !== 'darwin'){
+  slash = '\\';
+}
 
 /*SIMPLE SPELLCHECKER*/
 // // Initialization.
@@ -235,8 +241,6 @@ ipcMain.on('defineAsset',function(event,data){
   console.log(data)
   asset = data;
   assetId = data.AssetId;
-  // event.sender.send('defineAsset')
-  event.sender.send('defineAsset',user)
 })
 
 ipcMain.on('quit',(event,data)=>{
@@ -354,14 +358,25 @@ ipcMain.on('win',(event,windata)=>{
     console.log('\n- - - - - - - - - -\n')
     // console.log(webContents.getAllWebContents())
     console.log(webContents.getFocusedWebContents())
-    event.sender.send('windata',windata)
+    event.sender.send('windata',windata)//might not be necessaray
   })
 })
 
 
 ipcMain.on('newTab',(event,data)=>{
   mainWindow.webContents.send('newTab',data);
+
+  if(!fs.existsSync(`${documents+slash}graaphics${slash+data}`)){
+    
+    fs.mkdir(`${documents+slash}graaphics`,(err)=>{
+      console.log(err)
+      fs.mkdir(`${documents+slash}graaphics${slash+data}`,(err)=>{
+        console.log(err)
+      })
+    })
+  }
 })
+
 ipcMain.on('countTabs',(event)=>{
   event.sender.send('countTabs')
 })

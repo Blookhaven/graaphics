@@ -10,8 +10,10 @@ const Client = require('ftp');//https://www.npmjs.com/package/ftp
 const remote = electron.remote;
 const dialog = remote.dialog;
 const app = remote.app;
+const webContents = remote.getCurrentWebContents();
 const shell = electron.shell;//?????
 const ipcRenderer = electron.ipcRenderer;
+
 // ipcRenderer.send('toggleDevTools')
 // const temp = require('temp').track();
 // const util = require('util');
@@ -55,6 +57,13 @@ const webFrame = require('electron').webFrame;
 // 	contextMenuBuilder.showPopupMenu(info);
 // });
 /*SPELLCHECKER*/
+
+const documents = app.getPath('documents');console.log(documents)
+
+let slash = '/';
+if(os.platform() !== 'darwin'){
+  slash = '\\';
+}console.log(slash)
 
 /*build the DOM*/
 $('body').append(`
@@ -122,21 +131,13 @@ $('body').append(`
 				</select>
 
 				<select class="watermarkSelect" title="Watermark">
-					<option value="" disabled="true">Aspect Ratio</option>
+					<option value="" disabled="true">Watermark</option>
 					<option value="none">None</option>
 					<option value="aap" selected="true">AAP</option>
 				</select>
 
 				<button id="saveButton" class="saveButton" title="Save Image"></button>
 			</div>
-
-			<select id="selectImage">
-				<option value="" selected="true" disabled="true">select image</option>
-				<option value="/Volumes/GoogleDrive/My Drive/AAP Graphics/GRAAPHICS/images/IMG_0050.JPG">images/IMG_0050.JPG</option>
-				<option value="/Volumes/GoogleDrive/My Drive/AAP Graphics/GRAAPHICS/images/red.jpg">images/red.jpg</option>
-				<option value="/Volumes/GoogleDrive/My Drive/AAP Graphics/GRAAPHICS/images/thing.png">images/thing.png</option>
-				<option value="/Volumes/GoogleDrive/My Drive/AAP Graphics/GRAAPHICS/images/THUMB.jpg">images/THUMB.jpg</option>
-			</select>
 		</div>
 
 		<div class="workArea">
@@ -375,10 +376,7 @@ const initialise = ()=>{
 	// console.log($('.workArea').width());
 	// console.log($('.productionFrame').width());
 	/* * * * * * * */
-			
-	$('#selectImage').on('change',(e)=>{
-		loadImage(e.target.value)
-	})
+
 	window['activeImage'] = 0;
 	/*layer tabs*/
 	window['layerOrder'] = []
@@ -397,8 +395,7 @@ const initialise = ()=>{
 		imageFrame = `.${images[activeImage]['identifier']}`;
 		
 		if(!$(e.target).hasClass('active')){
-			// console.log(images[activeImage])
-			resetImageSliders();
+			resetImageSliders(false);
 		}
 
 		$('.layersTab').removeClass('active')
@@ -412,7 +409,7 @@ const initialise = ()=>{
 	})
 
 	ipcRenderer.on('archive',(event,user)=>{
-		console.log(user)
+
 		if(user){
 			windata = {
 				window: 'archive',
@@ -424,6 +421,7 @@ const initialise = ()=>{
 				titleBarStyle: 'hidden',
 				backgroundColor: "#46464c",
 				opacity: 1,
+				frame: os.platform() === 'darwin',
 				data: user,
 			}
 		}else{
@@ -437,6 +435,7 @@ const initialise = ()=>{
 				titleBarStyle: 'hidden',
 				backgroundColor: "#46464c",
 				opacity: 1,
+				frame: os.platform() === 'darwin',
 				data: null,
 			}
 		}
@@ -447,7 +446,6 @@ const initialise = ()=>{
 	$('button').on('click',(e)=>{
 		// thumbnail();
 		console.log(e.target.classList.value,activeImage)
-
 		switch(true){
 
 			case e.target.classList.value === 'archive':
@@ -478,10 +476,14 @@ const initialise = ()=>{
 
 			break;
 
-			case images[activeImage]['identifier'] === null://console.log('stop')
+			case e.target.classList.value === 'saveButton':
+			thumbnail();
 			break;
 
-			case e.target.classList.value === 'trash'://console.log(e.target.classList.value)
+			case images[activeImage]['identifier'] === null:
+			break;//break if there is no active image so that the trash button doesn't error. handle all other events first.
+
+			case e.target.classList.value === 'trash':
 			$(`.${images[activeImage]['identifier']}`).remove();
 			images[activeImage] = {identifier:null};
 			break;
@@ -492,8 +494,6 @@ const initialise = ()=>{
 	$('.grabber').off().on('click mousedown mouseup',tabBindings);
 	/*layer tabs*/
 	// $('body').removeClass('displayNone')
-	// console.log(document.activeElement)
-
 	/*void window - temporary fix for input focus inconsistency*/
 	ipcRenderer.send('win',{
 		window: 'void',
@@ -505,6 +505,7 @@ const initialise = ()=>{
 		titleBarStyle: 'hidden',
 		backgroundColor: "#46464c",
 		opacity: 0,
+		frame: os.platform() === 'darwin',
 		data: null,
 	});
 	/*void window - temporary fix for input focus inconsistency*/
@@ -692,20 +693,15 @@ const updateImage = (e)=>{
 	// 	filter: images[activeImage].filter,
 	// 	transform: `rotate(${images[activeImage].rotation}deg)`,
 	// })
-
-	console.log(imageFrame)
-	console.log(images[activeImage])
 };
 
-const resetImageSliders = ()=>{
-	console.log(images[activeImage])
-	/*deal with the zoom slider here or elsewhere?*/
+const resetImageSliders = (overwrite)=>{
+
 	$('#zoom option').remove();//remove datalist options for slider refresh
-	// $('.imageControls input[type=range]').prop('disabled',true);
 
 	switch(true){
 
-		case images[activeImage]['identifier'] === null:
+		case images[activeImage]['identifier'] === null || overwrite:
 
 		$('input[name=zoom]').prop('value',0);
 		$('input[name=opacity]').prop('value',100);
@@ -737,18 +733,12 @@ const resetImageSliders = ()=>{
 			$('#zoom').append(`<option value="${decimalise((images[activeImage]['zoomList'][i] / images[activeImage]['width']),dec)[0]}"></option>`)
 		}
 
-		console.warn(images[activeImage]['width'])
-
 		$('input[type=range][name=zoom]').prop({//apply the array of accepted values to the zoom range slider
 			'min': decimalise((images[activeImage]['zoomList'][0] / images[activeImage]['width']),dec)[0],
 			'max': decimalise((images[activeImage]['zoomList'][Number(images[activeImage]['zoomList'].length) - 1] / images[activeImage]['width']),dec)[0],
-			'step': decimalise(1,dec)[1]
+			'step': decimalise(1,dec)[1],
+			'value': images[activeImage]['zoom']
 		})
-
-		$('input[name=zoom]').prop('value',images[activeImage]['zoom']);
-		// $('input[name=min]').prop('min',images[activeImage]['min']);
-		// $('input[name=max]').prop('max',images[activeImage]['max']);
-		// $('input[name=step]').prop('step',images[activeImage]['step']);
 
 		$('input[name=opacity]').prop('value',images[activeImage]['opacity']);
 		$('input[name=blur]').prop('value',images[activeImage]['blur']);
@@ -770,25 +760,12 @@ const resetImageSliders = ()=>{
 		$('#invertValue').html(Math.round(images[activeImage]['invert']));
 		$('#saturateValue').html(Math.round(images[activeImage]['saturate']));
 		$('#sepiaValue').html(Math.round(images[activeImage]['sepia']));
-
 	}
-
-	// if(images[activeImage]['filter'] && images[activeImage]['filter'] != 'none'){
-		
-	// }else{
-
-	// 	$('input[name=opacity]').prop('value',100);
-	// 	$('input[name=blur]').prop('value',0);
-	// 	$('input[name=brightness]').prop('value',100);
-	// 	$('input[name=contrast]').prop('value',100);
-	// 	$('input[name=hueRotate]').prop('value',0);
-	// 	$('input[name=invert]').prop('value',0);
-	// 	$('input[name=saturate]').prop('value',100);
-	// 	$('input[name=sepia]').prop('value',0);
-	// }
 };
 
 const loadImage = (image)=>{//this is for LOADING A NEW IMAGE - not switching focus between existing ones...
+
+	resetImageSliders(true);
 
 	let viewScale = $('.boundingBox').width() / productionWidth;
 	let viewWidth = productionWidth * viewScale;
@@ -796,16 +773,8 @@ const loadImage = (image)=>{//this is for LOADING A NEW IMAGE - not switching fo
 	let timeStamp = new Date().getTime();
 
 	images[activeImage]={identifier:timeStamp,}
-	// imageFrame = `.${timeStamp}`;console.log(images[activeImage])//this'll have to be sorted out properly...
 	imageFrame = `.${images[activeImage]['identifier']}`;console.log(images[activeImage])//this'll have to be sorted out properly...
-			
-	// $('.boundingBox').append(`
-	// 	<div class="imageFrame ${timeStamp}">
-	// 		<img class="imageActive" src="${image}">
-	// 		<div class="draggable"></div>
-	// 	</div>
-	// `)
-	console.warn($('.active')[0]['id'])
+
 	$(`.boundingBox.${$('.active')[0]['id']}`).html(`
 		<div class="imageFrame ${timeStamp}">
 			<img class="imageActive" src="${image}">
@@ -1088,7 +1057,7 @@ $('input[type=range][name=zoom]').on('keydown',(e)=>{
 });
 
 $('.imageControls input[type=range]').on('input',(e)=>{
-console.log(images)
+
 	if(e.target.name === 'zoom'){
 		applyZoomValues(
 			images[activeImage].width,
@@ -1119,19 +1088,13 @@ console.log(images)
 	$(`.boundingBox ${imageFrame}`).css({'transform':`rotate(${rotation}deg)`})
 });
 
-// $('input, textarea').on('change',(e)=>{
-// 	console.log(e.target.value)
-// });
-		
-// $('input, textarea').on('change',updateText);
 $('.imageControls input').on('change',updateImage);
 
 $('#ratioSelect').on('change',(e)=>{
 	productionRatio = e.target.value;	
 	$('.workArea').css({'height':$('.workArea').width() * productionRatio});
 	$('.productionFrame, .textFrame').css({'height':$('.productionFrame').width() * productionRatio});
-
-	console.log($('.workArea .imageFrame').length)
+	// console.log($('.workArea .imageFrame').length)
 });
 
 /********************************************************************************************************************************************************************************************/
@@ -1171,6 +1134,8 @@ const textHandler = (e)=>{
 		case e.target.type === 'text':
 		$(`.${e.target.name}`).html(e.target.value)
 		textProperties[`${e.target.name}`] = e.target.value;
+		console.log(e.target.value)
+
 		break;
 
 		case e.target.type === 'radio':
@@ -1216,11 +1181,6 @@ const textHandler = (e)=>{
 		}
 		break;
 
-		case e.target.type === 'select' && e.target.classList.value === 'saveButton':
-		/*do something*/
-			// thumbnail();
-		break;
-
 		// case e.target.type === 'checkbox' && e.target.name === 'hyphens' && e.target.checked:
 		// $('.textBox.string').css('hyphens','auto');
 
@@ -1243,11 +1203,9 @@ const textHandler = (e)=>{
 		$('.textBox.string').removeClass('displayNone');
 		$('.textBox.accreditation').removeClass('unaccredited');
 	}
-
-	// console.log(textProperties)
 };
 
-$('.textControls textarea, .textControls input').on('input keyup mouseup change',textHandler);
+$('.textControls textarea, .textControls input').on('input mouseup change',textHandler);
 $('.styleSelect, .watermarkSelect').on('change',textHandler);
 
 $('.textControls input[type=checkbox][name=quotemarks]').on('change',(e)=>{
@@ -1269,7 +1227,6 @@ $('.textControls input[type=checkbox][name=hyphens]').on('change',(e)=>{
 })
 
 $('.textControls input[type=number][name=fontSize]').on('focus',(e)=>{
-	console.log(e.target)
 	$(e.target).select();
 })
 
@@ -1468,15 +1425,13 @@ $('input[name=highlighted]').on('input',(e)=>{
 
 
 ipcRenderer.on('successfulDownload',(event,data)=>{
-	console.log('\n* * * * * *\n\nsuccessfulDownload\n\n* * * * * * *\n')
-	console.log(data)
 	loadImage(data)
 })
 
 /* * * * * * * * * * * * */
-function thumbnail(){
-	$('#text, .watermarkSlide').addClass('displayNone');
-	$('.thumb').addClass('waiting');
+const thumbnail = ()=>{
+	console.log('saving...')
+	// $('.thumb').addClass('waiting');
 	/*
 	https://github.com/electron/electron/issues/7387
 	https://electronjs.org/docs/api/web-contents#contentscapturepagerect-callback
@@ -1484,25 +1439,27 @@ function thumbnail(){
 	https://github.com/electron/electron/issues/8314
 	https://electronjs.org/docs/api/native-image#imagetojpegquality
 	*/
-
-	// const filename = data.directory + 'thumbnail.png';
-	const filename = data.directory + 'thumbnail.jpg';
-
+	let title = new Date().getTime()
+	const filename = `${documents+slash}quote${slash+title}.jpg`
+	console.log(filename)
 	setTimeout(function(){
+		console.log('i')
 		webContents.capturePage({
 			x: -1920,
 			y: 0,
 			width: productionWidth,
 			height: productionHeight
 		}, (img) => {
+			console.log('A')
 			// fs.writeFileSync(filename, img.toPng())
 			fs.writeFileSync(filename, img.toJPEG(100))
 			// shell.openItem(filename)
 			shell.showItemInFolder(filename)
-			$('#text, .watermarkSlide').removeClass('displayNone');
-			$('.thumb').removeClass('waiting');
+			// $('.thumb').removeClass('waiting');
 		});
+		console.log('ii')
 	},1000)
+	console.log('B')
 };
 /* * * * * * * * * * * * */
 
