@@ -7,6 +7,8 @@ const path = require('path');
 
 const Client = require('ftp');//https://www.npmjs.com/package/ftp
 
+const htmltoimage = require('html-to-image');
+
 const remote = electron.remote;
 const dialog = remote.dialog;
 const app = remote.app;
@@ -250,7 +252,7 @@ $('body').append(`
 
 	<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-	<div class="productionFrame">
+	<div class="productionFrame" id="productionFrame">
 		
 		<div class="boundingBox layer_0" id="production_0"></div>
 		<div class="boundingBox layer_1" id="production_1"></div>
@@ -1429,37 +1431,37 @@ ipcRenderer.on('successfulDownload',(event,data)=>{
 })
 
 /* * * * * * * * * * * * */
+// const thumbnail = ()=>{
+
+// 	let title = new Date().getTime()
+// 	const filename = `${documents+slash}graaphics${slash}quote${slash+title}.jpg`
+
+// 	return new Promise((resolve,reject)=>{
+// 		webContents.capturePage({
+// 			x: 1900,
+// 			y: 0,
+// 			width: productionWidth,
+// 			height: productionHeight
+// 		}).then((resolve)=>{
+// 			fs.writeFileSync(filename,resolve.toJPEG(100))
+// 			shell.showItemInFolder(filename)
+// 		}).catch((reject)=>{
+// 			console.log(reject)
+// 		})
+// 	})
+// };
+
 const thumbnail = ()=>{
-	console.log('saving...')
-	// $('.thumb').addClass('waiting');
-	/*
-	https://github.com/electron/electron/issues/7387
-	https://electronjs.org/docs/api/web-contents#contentscapturepagerect-callback
-	https://github.com/electron/electron/issues/8587
-	https://github.com/electron/electron/issues/8314
-	https://electronjs.org/docs/api/native-image#imagetojpegquality
-	*/
-	let title = new Date().getTime()
-	const filename = `${documents+slash}quote${slash+title}.jpg`
-	console.log(filename)
-	setTimeout(function(){
-		console.log('i')
-		webContents.capturePage({
-			x: -1920,
-			y: 0,
-			width: productionWidth,
-			height: productionHeight
-		}, (img) => {
-			console.log('A')
-			// fs.writeFileSync(filename, img.toPng())
-			fs.writeFileSync(filename, img.toJPEG(100))
-			// shell.openItem(filename)
-			shell.showItemInFolder(filename)
-			// $('.thumb').removeClass('waiting');
-		});
-		console.log('ii')
-	},1000)
-	console.log('B')
+	htmltoimage.toJpeg(document.getElementById('productionFrame'), { quality: 0.95 })
+    .then(function (dataUrl) {
+        var link = document.createElement('a');
+        link.download = 'my-image-name.jpeg';
+        link.href = dataUrl;
+        link.click();
+    })
+    .catch(function (error) {
+		console.error('oops, something went wrong!', error);
+	})
 };
 /* * * * * * * * * * * * */
 

@@ -128,7 +128,7 @@ $('.login').off().on('click',()=>{
 		closable: true,
 		titleBarStyle: 'hidden',
 		backgroundColor: "#46464c",
-		opacity: 1,
+		opacity: windata['opacity'],
     	frame:os.platform() === 'darwin',
 		data: {},
 	}
