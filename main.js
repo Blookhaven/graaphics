@@ -169,7 +169,7 @@ function createWindow () {
     minWidth: 1024,
     minHeight:(576 + 24),
     titleBarStyle: 'hidden',
-    enableLargerThanScreen: false,
+    enableLargerThanScreen: true,
     backgroundColor: "#1a1a1d",
     webPreferences:{
       nodeIntegration: true,
@@ -336,6 +336,8 @@ ipcMain.on('win',(event,windata)=>{
   //   console.log('LOAD')
   //   win.webContents.send('windata',windata['data']);
   // })
+
+  // win.setSize(3000,2000)
 
   win.on('blur',()=>{
     // console.log('blur')

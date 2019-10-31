@@ -7,7 +7,8 @@ const path = require('path');
 
 const Client = require('ftp');//https://www.npmjs.com/package/ftp
 
-const htmltoimage = require('html-to-image');
+// const domtoimage = require('dom-to-image');
+// const html2canvas = require('html2canvas');
 
 const remote = electron.remote;
 const dialog = remote.dialog;
@@ -446,7 +447,7 @@ const initialise = ()=>{
 	})
 
 	$('button').on('click',(e)=>{
-		// thumbnail();
+		window['loadThis'] = e.target.classList.value !== 'saveButton';
 		console.log(e.target.classList.value,activeImage)
 		switch(true){
 
@@ -460,13 +461,14 @@ const initialise = ()=>{
 				properties: ['openFile'],
 				filters:[{name: 'Images',extensions:['jpg','jpeg','png','pdf','gif']}],
 			}).then(result => {
-				let file;
+				let file = tempDir.concat(result.filePaths[0].substring(result.filePaths[0].lastIndexOf(slash)))
+				console.log(file)
 				
-				if(os.platform() === 'darwin'){
-					file = tempDir.concat(result.filePaths[0].substring(result.filePaths[0].lastIndexOf('/')))
-				}else{//windows filepaths use backslash
-					file = tempDir.concat(result.filePaths[0].substring(result.filePaths[0].lastIndexOf('\\')))
-				}
+				// if(os.platform() === 'darwin'){
+				// 	file = tempDir.concat(result.filePaths[0].substring(result.filePaths[0].lastIndexOf('/')))
+				// }else{//windows filepaths use backslash
+				// 	file = tempDir.concat(result.filePaths[0].substring(result.filePaths[0].lastIndexOf('\\')))
+				// }
 
 				fs.copyFile(result.filePaths[0],file,(err)=>{
 					if(err) throw err;
@@ -479,7 +481,11 @@ const initialise = ()=>{
 			break;
 
 			case e.target.classList.value === 'saveButton':
-			thumbnail();
+			// console.log(images)
+			// console.log(textProperties)
+			saveImage();
+
+
 			break;
 
 			case images[activeImage]['identifier'] === null:
@@ -766,7 +772,7 @@ const resetImageSliders = (overwrite)=>{
 };
 
 const loadImage = (image)=>{//this is for LOADING A NEW IMAGE - not switching focus between existing ones...
-
+	console.log(loadImage)
 	resetImageSliders(true);
 
 	let viewScale = $('.boundingBox').width() / productionWidth;
@@ -1427,41 +1433,87 @@ $('input[name=highlighted]').on('input',(e)=>{
 
 
 ipcRenderer.on('successfulDownload',(event,data)=>{
-	loadImage(data)
+	if(loadThis){
+		loadImage(data)
+	}
 })
 
 /* * * * * * * * * * * * */
-// const thumbnail = ()=>{
+const saveImage = ()=>{
 
-// 	let title = new Date().getTime()
-// 	const filename = `${documents+slash}graaphics${slash}quote${slash+title}.jpg`
+	console.log('saveImage')
+	// var container = document.getElementById("productionFrame"); //specific element on page
+	// // var container = document.body; // full page 
+	
+	// html2canvas(container,{allowTaint : true}).then(function(canvas) {
+	// 	console.log(1)
+	// 	var link = document.createElement("a");
+	// 	document.body.appendChild(link);
+	// 	// link.text = "LINK"
+	// 	link.download = "html_image.png";
+	// 	link.href = canvas.toDataURL("image/png");
+	// 	link.target = '_blank';
+	// 	link.click()
+	// 	console.log(2)
+	// }).catch((err)=>{
+	// 	console.log(3)
+	// 	if(err) throw err;
+	// })
 
-// 	return new Promise((resolve,reject)=>{
-// 		webContents.capturePage({
-// 			x: 1900,
-// 			y: 0,
-// 			width: productionWidth,
-// 			height: productionHeight
-// 		}).then((resolve)=>{
-// 			fs.writeFileSync(filename,resolve.toJPEG(100))
-// 			shell.showItemInFolder(filename)
-// 		}).catch((reject)=>{
-// 			console.log(reject)
-// 		})
-// 	})
-// };
+	// html2canvas(container, {
+	// 	allowTaint: true,
+	// 	onrendered: function(canvas) {
+	// 		console.log(1)
+	// 		canvas.toBlob(function(blob) {
+	// 			console.log(2)
+	// 			saveAs(blob, fileName);
+	// 		});
+	// 	}
+	// });
 
-const thumbnail = ()=>{
-	htmltoimage.toJpeg(document.getElementById('productionFrame'), { quality: 0.95 })
-    .then(function (dataUrl) {
-        var link = document.createElement('a');
-        link.download = 'my-image-name.jpeg';
-        link.href = dataUrl;
-        link.click();
-    })
-    .catch(function (error) {
-		console.error('oops, something went wrong!', error);
-	})
+	// domtoimage.toJpeg(document.getElementById('productionFrame'), { quality: 0.95 })
+ //    .then(function (dataUrl) {
+ //        var link = document.createElement('a');
+ //        link.download = 'my-image-name.jpeg';
+ //        link.href = dataUrl;
+ //        link.click();
+ //    });
+
+ 	console.log(window.devicePixelRatio)
+ 	console.log($('.productionFrame').html())
+
+
+	let title = new Date().getTime()
+	const filename = `${documents+slash}graaphics${slash}quote${slash+title}.jpg`
+
+	// return new Promise((resolve,reject)=>{
+	// 	webContents.capturePage({
+	// 		x: 0,
+	// 		y: 0,
+	// 		width: 3000,
+	// 		height: productionHeight
+	// 	}).then((resolve)=>{
+	// 		fs.writeFileSync(filename,resolve.toJPEG(100))
+	// 		shell.showItemInFolder(filename)
+	// 	}).catch((reject)=>{
+	// 		console.log(reject)
+	// 	})
+	// })
+
+
+	ipcRenderer.send('win',{
+		window: 'savestatic',
+		width: productionWidth / window.devicePixelRatio,
+		height: productionHeight / window.devicePixelRatio,
+		resizable: false,
+		minimizable: false,
+		closable: true,
+		titleBarStyle: 'none',
+		backgroundColor: "#46464c",
+		opacity: 1,
+		frame: false,
+		data: $('.productionFrame').html(),
+	});
 };
 /* * * * * * * * * * * * */
 
