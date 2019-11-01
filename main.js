@@ -302,21 +302,18 @@ let currentTab = null;
 ipcMain.on('win',(event,windata)=>{
 
   mainWindow.webContents.send('lockout');
-  // console.log(event.sender.webContents)
-  console.log(`\n* * * * * ${event.sender.webContents.viewInstanceId} * * * * *\n`)
   currentTab = event.sender//.webContents.viewInstanceId;
-  // console.log(event.sender.webContents.viewInstanceId != undefined)
+
   if(event.sender.webContents.viewInstanceId != undefined){
     windata['viewInstanceId'] = event.sender.webContents.viewInstanceId;
   }
 
-  // console.log(windata['sender'])
-  
   let win = new BrowserWindow({
     width: windata['width'],
     height: windata['height'],
     resizable: windata['resizable'],
     minimizable: windata['minimizable'],
+    fullscreen: windata['fullscreen'],
     closable: windata['closable'],
     titleBarStyle: windata['titleBarStyle'],
     backgroundColor: windata['backgroundColor'],
@@ -329,38 +326,22 @@ ipcMain.on('win',(event,windata)=>{
     },
   })
 
-  // win.loadURL(`file://${__dirname}/win.html?script=${windata['window']}&params=${Buffer.from(JSON.stringify(windata['data']),'binary').toString('base64')}`);
   win.loadURL(`file://${__dirname}/win.html?script=${windata['window']}`);
-  // win.webContents.openDevTools()
-  // win.on('load',()=>{
-  //   console.log('LOAD')
-  //   win.webContents.send('windata',windata['data']);
-  // })
 
-  // win.setSize(3000,2000)
-
-  win.on('blur',()=>{
-    // console.log('blur')
-    // win.focus();//this might not be the best idea... much loop
-    // win.close();
-  })
-
-  // win.on('focus',()=>{
-  //   console.log('FOCUSED')
-  //   // win.webContents.send('windata',windata['data']);
-  // })
+  win.on('blur',()=>{})
+  win.on('focus',()=>{})
+  
   win.on('closed',()=>{
     mainWindow.webContents.send('unlock');
   })
 
-  // ipcMain.on('winload',(event)=>{
-  ipcMain.once('winload',(event)=>{/*why 'once'? - can't remember - assume it's with good reason... or maybe it was just to stop console logs filling up? -- nope. good reason.*/
-    // console.log(`windata['viewInstanceId'] : ${windata['viewInstanceId']}`)
-    // console.log(windata)
-    console.log('\n- - - - - - - - - -\n')
-    // console.log(webContents.getAllWebContents())
-    console.log(webContents.getFocusedWebContents())
-    event.sender.send('windata',windata)//might not be necessaray
+  ipcMain.once('winload',(event)=>{
+    event.sender.send('windata',windata)
+  })
+
+  ipcMain.on('setSize',(event,data)=>{
+    win.setSize(windata['width'],windata['height'])
+    event.sender.send('setSize')
   })
 })
 

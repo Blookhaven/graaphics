@@ -420,6 +420,7 @@ const initialise = ()=>{
 				height: $(window).height() - 72,
 				resizable: false,
 				minimizable: false,
+				fullscreen: false,
 				closable: true,
 				titleBarStyle: 'hidden',
 				backgroundColor: "#46464c",
@@ -434,6 +435,7 @@ const initialise = ()=>{
 				height: 162 + 24,
 				resizable: false,
 				minimizable: false,
+				fullscreen: false,
 				closable: true,
 				titleBarStyle: 'hidden',
 				backgroundColor: "#46464c",
@@ -509,6 +511,7 @@ const initialise = ()=>{
 		height: 0,
 		resizable: false,
 		minimizable: false,
+		fullscreen: false,
 		closable: true,
 		titleBarStyle: 'hidden',
 		backgroundColor: "#46464c",
@@ -538,6 +541,7 @@ const tabBindings = (e)=>{
 
 		for(let i in layerOrder){/*sort out the bounding box stacking order here*/
 			$('.workArea').prepend($(`#${$('.layersTab')[i]['id'].replace('layer','work')}`))
+			$('.productionFrame').prepend($(`#${$('.layersTab')[i]['id'].replace('layer','production')}`))
 		}
 
 		$('.layersPanel, .layersTab').removeClass('displayNone marginBottom padTop animate');
@@ -1504,15 +1508,19 @@ const saveImage = ()=>{
 	ipcRenderer.send('win',{
 		window: 'savestatic',
 		width: productionWidth / window.devicePixelRatio,
-		height: productionHeight / window.devicePixelRatio,
+		height: productionWidth * productionRatio / window.devicePixelRatio,
 		resizable: false,
 		minimizable: false,
+		fullscreen: false,
 		closable: true,
 		titleBarStyle: 'none',
-		backgroundColor: "#46464c",
+		backgroundColor: "#000",
 		opacity: 1,
 		frame: false,
-		data: $('.productionFrame').html(),
+		data: {
+			html: $('.productionFrame').html(),
+			filename: filename,
+		},
 	});
 };
 /* * * * * * * * * * * * */

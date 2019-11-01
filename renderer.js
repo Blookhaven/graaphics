@@ -125,6 +125,7 @@ $('.login').off().on('click',()=>{
 		height: 162 + 24,
 		resizable: false,
 		minimizable: false,
+		fullscreen: false,
 		closable: true,
 		titleBarStyle: 'hidden',
 		backgroundColor: "#46464c",

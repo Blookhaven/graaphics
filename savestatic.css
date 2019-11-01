@@ -27,198 +27,35 @@
 
 body{
 	margin: 0;
-	-ms-scroll-limit-y-max: 500px;
+	overflow: hidden;
 }
 main{
-	min-width: 1440px;
-	min-height: 810px;
+	/*background-color: rgba(255,0,0,0.5);
 	width: 100vw;
-	height: 100vh;
-	margin: 0;
-	background-color: #26262c;
-	/*background-color: #1a1a1d;*/
-	color: #fff;
-	display: flex;
-	justify-content: space-evenly;
-	align-items: center;
-
-	font-family: helvetica;
-	font-size: 10px;
-}
-.panelLeft{
-	width: 200px;
-}
-.textInputs{
-	margin: 0 0 14px 0;
-}
-textarea, input[type=text], input[type=number]{
-	width: 100%;
-	height: 20px;
-	padding: 2px 2px;
-	line-height: 20px;
-	border: none;
-	border-radius: 2px;
-	outline: none;
-	box-sizing: border-box;
-	background-color: #36363c;
-	color: #fff;
-}
-input[type=text]{
-	width: 100%;
-	margin: 0 0 4px;
-}
-input[type=number]{
-	width: 30px;
-	text-align: center;
-	margin: 8px 0;
-	margin: 4px 4px 4px 0;
-}
-input[type=number]::-webkit-inner-spin-button{
-	-webkit-appearance: none;
-}
-textarea:focus, input[type=text]:focus, input[type=number]:focus{
-	background-color: #fff;
-	color: #000;
-}
-textarea{
-	resize: none;
-	height: 0px;
-	padding: 2px 2px 56.25%;
-	margin: 0 0 2px;
-	overflow: hidden;/*windows - get rid of scrolbar*/
-	line-height: 1.2em;/*windows*/
-	font-family: sans-serif;/*windows*/
-}
-
-.controls.textButtons select,.controls.textButtons button{
-	-webkit-appearance: none;
-	border: none;
-	outline: none;
-	width: 30px;
-	height: 21px;
-	width: 40px;
-	height: 28px;
-	cursor: pointer;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-color: transparent;
-	color: transparent;
-	filter: grayscale(1);
-	text-align: center;
-}
-.controls.textButtons select:hover,.controls.textButtons button:hover{
-	filter: unset;
-}
-.styleSelect{
-	background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 30 21' style='enable-background:new 0 0 30 21;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bfill:none;%7D .st1%7Bfill:%2300AEEF;%7D .st2%7Bdisplay:none;%7D .st3%7Bdisplay:inline;%7D .st4%7Bdisplay:inline;fill:none;%7D .st5%7Bdisplay:inline;fill:%2300AEEF;%7D%0A%3C/style%3E%3Cg id='Layer_1'%3E%3Cg%3E%3Crect class='st0' width='30' height='21'/%3E%3Cpath class='st1' d='M25.6,0.6C25.1,0,21.3,3,17.2,7.1c-3.7,3.7-6.4,7.1-6.6,8.1C8.2,15.2,7,16,7,17.8c0,2.7-2.7,2.7-2.7,2.7 c6.8,0,6.9-3.9,6.7-5c1.1-0.3,4.4-2.9,8-6.5C23.2,4.8,26.1,1.1,25.6,0.6z M7.4,17.8c0-1.6,0.8-2.3,3.2-2.3 C10.6,15.5,12,19.2,7.4,17.8z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_2' class='st2'%3E%3Cg class='st3'%3E%3Crect class='st0' width='30' height='21'/%3E%3Cpath class='st1' d='M22.8,2.7v3.1h-1v1.6h1v10.9H7.2V2.7H22.8z M18.6,3.7H8.2v3.6h10.4V3.7z M17.1,10.5c0-0.6-0.2-1-0.6-1.5 c-0.4-0.4-0.9-0.6-1.5-0.6S13.9,8.6,13.5,9c-0.4,0.4-0.6,0.9-0.6,1.5c0,0.6,0.2,1.1,0.6,1.5c0.4,0.4,0.9,0.6,1.5,0.6 s1.1-0.2,1.5-0.6C16.9,11.6,17.1,11.1,17.1,10.5z M15.8,16.5v-2.1c0-0.5-0.3-0.8-0.8-0.8s-0.8,0.3-0.8,0.8v2.1 c0,0.5,0.3,0.8,0.8,0.8C15.5,17.3,15.7,17,15.8,16.5z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_3' class='st2'%3E%3Cg class='st3'%3E%3Crect class='st0' width='30' height='21'/%3E%3Cpath class='st1' d='M15,1.5c0.4,1.7,0.8,3,1.3,4c0.5,1,1.2,2,2.3,3.2L19,9.1c1.3,1.5,2,3,2,4.4c0,1.6-0.6,3-1.8,4.2 c-1.2,1.2-2.6,1.8-4.2,1.8c-1.6,0-3-0.6-4.2-1.8C9.6,16.6,9,15.2,9,13.6c0-1.5,0.7-3,2-4.4l0.4-0.5c1-1.1,1.8-2.2,2.3-3.2 S14.6,3.2,15,1.5z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_4' class='st2'%3E%3Cg class='st3'%3E%3Cpath class='st1' d='M15,0.3C9.4,0.3,4.8,4.9,4.8,10.5S9.4,20.7,15,20.7s10.2-4.6,10.2-10.2S20.6,0.3,15,0.3z M15,19.5 c-5,0-9-4-9-9c0-2.3,0.8-4.3,2.2-5.9l4.1,4.1c-0.1,0.1-0.2,0.2-0.2,0.3l-0.4,0.4c-1.1,1.2-1.6,2.4-1.6,3.5c0,1.3,0.5,2.4,1.4,3.4 c0.9,0.9,2.1,1.4,3.4,1.4c1.3,0,2.4-0.5,3.4-1.4c0.3-0.3,0.5-0.6,0.7-0.9l1.8,1.8C19.3,18.7,17.3,19.5,15,19.5z M21.8,16.4 l-2.1-2.1c0.1-0.4,0.2-0.9,0.2-1.3c0-1.2-0.5-2.4-1.6-3.5L17.9,9c-0.8-0.9-1.4-1.8-1.8-2.5c-0.4-0.8-0.7-1.8-1.1-3.2 c-0.3,1.3-0.7,2.4-1.1,3.2c-0.2,0.4-0.5,0.9-0.8,1.3l-4-4c1.6-1.4,3.7-2.2,5.9-2.2c5,0,9,4,9,9C24,12.8,23.2,14.8,21.8,16.4z'/%3E%3Crect class='st0' width='30' height='21'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_5' class='st2'%3E%3Crect class='st4' width='30' height='21'/%3E%3Cpath class='st5' d='M29,16.8V1H1v15.8h11V19H5v1h7h6h7v-1h-7v-2.2H29z M2,15.8V2h26v13.8H2z'/%3E%3C/g%3E%3C/svg%3E%0A");
-}
-.styleSelect option{/*windows*/
-	color: #000;
-}
-.ratioSelect{
-	background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 30 21' style='enable-background:new 0 0 30 21;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bdisplay:none;%7D .st1%7Bdisplay:inline;%7D .st2%7Bfill:none;%7D .st3%7Bfill:%2300AEEF;%7D%0A%3C/style%3E%3Cg id='Layer_1' class='st0'%3E%3Cg class='st1'%3E%3Crect class='st2' width='30' height='21'/%3E%3Cpath class='st3' d='M25.6,0.6C25.1,0,21.3,3,17.2,7.1c-3.7,3.7-6.4,7.1-6.6,8.1C8.2,15.2,7,16,7,17.8c0,2.7-2.7,2.7-2.7,2.7 c6.8,0,6.9-3.9,6.7-5c1.1-0.3,4.4-2.9,8-6.5C23.2,4.8,26.1,1.1,25.6,0.6z M7.4,17.8c0-1.6,0.8-2.3,3.2-2.3 C10.6,15.5,12,19.2,7.4,17.8z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_2' class='st0'%3E%3Cg class='st1'%3E%3Crect class='st2' width='30' height='21'/%3E%3Cpath class='st3' d='M22.8,2.7v3.1h-1v1.6h1v10.9H7.2V2.7H22.8z M18.6,3.7H8.2v3.6h10.4V3.7z M17.1,10.5c0-0.6-0.2-1-0.6-1.5 c-0.4-0.4-0.9-0.6-1.5-0.6S13.9,8.6,13.5,9c-0.4,0.4-0.6,0.9-0.6,1.5c0,0.6,0.2,1.1,0.6,1.5c0.4,0.4,0.9,0.6,1.5,0.6 s1.1-0.2,1.5-0.6C16.9,11.6,17.1,11.1,17.1,10.5z M15.8,16.5v-2.1c0-0.5-0.3-0.8-0.8-0.8s-0.8,0.3-0.8,0.8v2.1 c0,0.5,0.3,0.8,0.8,0.8C15.5,17.3,15.7,17,15.8,16.5z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_3' class='st0'%3E%3Cg class='st1'%3E%3Crect class='st2' width='30' height='21'/%3E%3Cpath class='st3' d='M15,1.5c0.4,1.7,0.8,3,1.3,4c0.5,1,1.2,2,2.3,3.2L19,9.1c1.3,1.5,2,3,2,4.4c0,1.6-0.6,3-1.8,4.2 c-1.2,1.2-2.6,1.8-4.2,1.8c-1.6,0-3-0.6-4.2-1.8C9.6,16.6,9,15.2,9,13.6c0-1.5,0.7-3,2-4.4l0.4-0.5c1-1.1,1.8-2.2,2.3-3.2 S14.6,3.2,15,1.5z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_4' class='st0'%3E%3Cg class='st1'%3E%3Cpath class='st3' d='M15,0.3C9.4,0.3,4.8,4.9,4.8,10.5S9.4,20.7,15,20.7s10.2-4.6,10.2-10.2S20.6,0.3,15,0.3z M15,19.5 c-5,0-9-4-9-9c0-2.3,0.8-4.3,2.2-5.9l4.1,4.1c-0.1,0.1-0.2,0.2-0.2,0.3l-0.4,0.4c-1.1,1.2-1.6,2.4-1.6,3.5c0,1.3,0.5,2.4,1.4,3.4 c0.9,0.9,2.1,1.4,3.4,1.4c1.3,0,2.4-0.5,3.4-1.4c0.3-0.3,0.5-0.6,0.7-0.9l1.8,1.8C19.3,18.7,17.3,19.5,15,19.5z M21.8,16.4 l-2.1-2.1c0.1-0.4,0.2-0.9,0.2-1.3c0-1.2-0.5-2.4-1.6-3.5L17.9,9c-0.8-0.9-1.4-1.8-1.8-2.5c-0.4-0.8-0.7-1.8-1.1-3.2 c-0.3,1.3-0.7,2.4-1.1,3.2c-0.2,0.4-0.5,0.9-0.8,1.3l-4-4c1.6-1.4,3.7-2.2,5.9-2.2c5,0,9,4,9,9C24,12.8,23.2,14.8,21.8,16.4z'/%3E%3Crect class='st2' width='30' height='21'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_5'%3E%3Crect class='st2' width='30' height='21'/%3E%3Cpath class='st3' d='M29,16.8V1H1v15.8h11V19H5v1h7h6h7v-1h-7v-2.2H29z M2,15.8V2h26v13.8H2z'/%3E%3C/g%3E%3C/svg%3E%0A");
-	color: #00aeef!important;
-	padding: 0 0 5px;
-	text-align-last: center;
-}
-.ratioSelect option{/*windows*/
-	color: #000;
-}
-.watermarkSelect{
-	background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 30 21' style='enable-background:new 0 0 30 21;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bdisplay:none;%7D .st1%7Bdisplay:inline;%7D .st2%7Bfill:none;%7D .st3%7Bfill:%2300AEEF;%7D .st4%7Bdisplay:inline;fill:none;%7D .st5%7Bdisplay:inline;fill:%2300AEEF;%7D%0A%3C/style%3E%3Cg id='Layer_1' class='st0'%3E%3Cg class='st1'%3E%3Crect class='st2' width='30' height='21'/%3E%3Cpath class='st3' d='M25.6,0.6C25.1,0,21.3,3,17.2,7.1c-3.7,3.7-6.4,7.1-6.6,8.1C8.2,15.2,7,16,7,17.8c0,2.7-2.7,2.7-2.7,2.7 c6.8,0,6.9-3.9,6.7-5c1.1-0.3,4.4-2.9,8-6.5C23.2,4.8,26.1,1.1,25.6,0.6z M7.4,17.8c0-1.6,0.8-2.3,3.2-2.3 C10.6,15.5,12,19.2,7.4,17.8z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_2' class='st0'%3E%3Cg class='st1'%3E%3Crect class='st2' width='30' height='21'/%3E%3Cpath class='st3' d='M22.8,2.7v3.1h-1v1.6h1v10.9H7.2V2.7H22.8z M18.6,3.7H8.2v3.6h10.4V3.7z M17.1,10.5c0-0.6-0.2-1-0.6-1.5 c-0.4-0.4-0.9-0.6-1.5-0.6S13.9,8.6,13.5,9c-0.4,0.4-0.6,0.9-0.6,1.5c0,0.6,0.2,1.1,0.6,1.5c0.4,0.4,0.9,0.6,1.5,0.6 s1.1-0.2,1.5-0.6C16.9,11.6,17.1,11.1,17.1,10.5z M15.8,16.5v-2.1c0-0.5-0.3-0.8-0.8-0.8s-0.8,0.3-0.8,0.8v2.1 c0,0.5,0.3,0.8,0.8,0.8C15.5,17.3,15.7,17,15.8,16.5z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_3'%3E%3Cg%3E%3Crect class='st2' width='30' height='21'/%3E%3Cpath class='st3' d='M15,1.5c0.4,1.7,0.8,3,1.3,4c0.5,1,1.2,2,2.3,3.2L19,9.1c1.3,1.5,2,3,2,4.4c0,1.6-0.6,3-1.8,4.2 c-1.2,1.2-2.6,1.8-4.2,1.8c-1.6,0-3-0.6-4.2-1.8C9.6,16.6,9,15.2,9,13.6c0-1.5,0.7-3,2-4.4l0.4-0.5c1-1.1,1.8-2.2,2.3-3.2 S14.6,3.2,15,1.5z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_4' class='st0'%3E%3Cg class='st1'%3E%3Cpath class='st3' d='M15,0.3C9.4,0.3,4.8,4.9,4.8,10.5S9.4,20.7,15,20.7s10.2-4.6,10.2-10.2S20.6,0.3,15,0.3z M15,19.5 c-5,0-9-4-9-9c0-2.3,0.8-4.3,2.2-5.9l4.1,4.1c-0.1,0.1-0.2,0.2-0.2,0.3l-0.4,0.4c-1.1,1.2-1.6,2.4-1.6,3.5c0,1.3,0.5,2.4,1.4,3.4 c0.9,0.9,2.1,1.4,3.4,1.4c1.3,0,2.4-0.5,3.4-1.4c0.3-0.3,0.5-0.6,0.7-0.9l1.8,1.8C19.3,18.7,17.3,19.5,15,19.5z M21.8,16.4 l-2.1-2.1c0.1-0.4,0.2-0.9,0.2-1.3c0-1.2-0.5-2.4-1.6-3.5L17.9,9c-0.8-0.9-1.4-1.8-1.8-2.5c-0.4-0.8-0.7-1.8-1.1-3.2 c-0.3,1.3-0.7,2.4-1.1,3.2c-0.2,0.4-0.5,0.9-0.8,1.3l-4-4c1.6-1.4,3.7-2.2,5.9-2.2c5,0,9,4,9,9C24,12.8,23.2,14.8,21.8,16.4z'/%3E%3Crect class='st2' width='30' height='21'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_5' class='st0'%3E%3Crect class='st4' width='30' height='21'/%3E%3Cpath class='st5' d='M29,16.8V1H1v15.8h11V19H5v1h7h6h7v-1h-7v-2.2H29z M2,15.8V2h26v13.8H2z'/%3E%3C/g%3E%3C/svg%3E%0A");
-}
-.watermarkNone{
-	background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 30 21' style='enable-background:new 0 0 30 21;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bdisplay:none;%7D .st1%7Bdisplay:inline;%7D .st2%7Bfill:none;%7D .st3%7Bfill:%2300AEEF;%7D .st4%7Bdisplay:inline;fill:none;%7D .st5%7Bdisplay:inline;fill:%2300AEEF;%7D%0A%3C/style%3E%3Cg id='Layer_1' class='st0'%3E%3Cg class='st1'%3E%3Crect class='st2' width='30' height='21'/%3E%3Cpath class='st3' d='M25.6,0.6C25.1,0,21.3,3,17.2,7.1c-3.7,3.7-6.4,7.1-6.6,8.1C8.2,15.2,7,16,7,17.8c0,2.7-2.7,2.7-2.7,2.7 c6.8,0,6.9-3.9,6.7-5c1.1-0.3,4.4-2.9,8-6.5C23.2,4.8,26.1,1.1,25.6,0.6z M7.4,17.8c0-1.6,0.8-2.3,3.2-2.3 C10.6,15.5,12,19.2,7.4,17.8z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_2' class='st0'%3E%3Cg class='st1'%3E%3Crect class='st2' width='30' height='21'/%3E%3Cpath class='st3' d='M22.8,2.7v3.1h-1v1.6h1v10.9H7.2V2.7H22.8z M18.6,3.7H8.2v3.6h10.4V3.7z M17.1,10.5c0-0.6-0.2-1-0.6-1.5 c-0.4-0.4-0.9-0.6-1.5-0.6S13.9,8.6,13.5,9c-0.4,0.4-0.6,0.9-0.6,1.5c0,0.6,0.2,1.1,0.6,1.5c0.4,0.4,0.9,0.6,1.5,0.6 s1.1-0.2,1.5-0.6C16.9,11.6,17.1,11.1,17.1,10.5z M15.8,16.5v-2.1c0-0.5-0.3-0.8-0.8-0.8s-0.8,0.3-0.8,0.8v2.1 c0,0.5,0.3,0.8,0.8,0.8C15.5,17.3,15.7,17,15.8,16.5z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_3' class='st0'%3E%3Cg class='st1'%3E%3Crect class='st2' width='30' height='21'/%3E%3Cpath class='st3' d='M15,1.5c0.4,1.7,0.8,3,1.3,4c0.5,1,1.2,2,2.3,3.2L19,9.1c1.3,1.5,2,3,2,4.4c0,1.6-0.6,3-1.8,4.2 c-1.2,1.2-2.6,1.8-4.2,1.8c-1.6,0-3-0.6-4.2-1.8C9.6,16.6,9,15.2,9,13.6c0-1.5,0.7-3,2-4.4l0.4-0.5c1-1.1,1.8-2.2,2.3-3.2 S14.6,3.2,15,1.5z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_4'%3E%3Cg%3E%3Cpath class='st3' d='M15,0.3C9.4,0.3,4.8,4.9,4.8,10.5S9.4,20.7,15,20.7s10.2-4.6,10.2-10.2S20.6,0.3,15,0.3z M15,19.5 c-5,0-9-4-9-9c0-2.3,0.8-4.3,2.2-5.9l4.1,4.1c-0.1,0.1-0.2,0.2-0.2,0.3l-0.4,0.4c-1.1,1.2-1.6,2.4-1.6,3.5c0,1.3,0.5,2.4,1.4,3.4 c0.9,0.9,2.1,1.4,3.4,1.4c1.3,0,2.4-0.5,3.4-1.4c0.3-0.3,0.5-0.6,0.7-0.9l1.8,1.8C19.3,18.7,17.3,19.5,15,19.5z M21.8,16.4 l-2.1-2.1c0.1-0.4,0.2-0.9,0.2-1.3c0-1.2-0.5-2.4-1.6-3.5L17.9,9c-0.8-0.9-1.4-1.8-1.8-2.5c-0.4-0.8-0.7-1.8-1.1-3.2 c-0.3,1.3-0.7,2.4-1.1,3.2c-0.2,0.4-0.5,0.9-0.8,1.3l-4-4c1.6-1.4,3.7-2.2,5.9-2.2c5,0,9,4,9,9C24,12.8,23.2,14.8,21.8,16.4z'/%3E%3Crect class='st2' width='30' height='21'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_5' class='st0'%3E%3Crect class='st4' width='30' height='21'/%3E%3Cpath class='st5' d='M29,16.8V1H1v15.8h11V19H5v1h7h6h7v-1h-7v-2.2H29z M2,15.8V2h26v13.8H2z'/%3E%3C/g%3E%3C/svg%3E%0A");
-}
-.watermarkSelect option{/*windows*/
-	color: #000;
-}
-.saveButton{
-	background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 30 21' style='enable-background:new 0 0 30 21;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bdisplay:none;%7D .st1%7Bdisplay:inline;%7D .st2%7Bfill:none;%7D .st3%7Bfill:%2300AEEF;%7D .st4%7Bdisplay:inline;fill:none;%7D .st5%7Bdisplay:inline;fill:%2300AEEF;%7D%0A%3C/style%3E%3Cg id='Layer_1' class='st0'%3E%3Cg class='st1'%3E%3Crect class='st2' width='30' height='21'/%3E%3Cpath class='st3' d='M25.6,0.6C25.1,0,21.3,3,17.2,7.1c-3.7,3.7-6.4,7.1-6.6,8.1C8.2,15.2,7,16,7,17.8c0,2.7-2.7,2.7-2.7,2.7 c6.8,0,6.9-3.9,6.7-5c1.1-0.3,4.4-2.9,8-6.5C23.2,4.8,26.1,1.1,25.6,0.6z M7.4,17.8c0-1.6,0.8-2.3,3.2-2.3 C10.6,15.5,12,19.2,7.4,17.8z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_2'%3E%3Cg%3E%3Crect class='st2' width='30' height='21'/%3E%3Cpath class='st3' d='M22.8,2.7v3.1h-1v1.6h1v10.9H7.2V2.7H22.8z M18.6,3.7H8.2v3.6h10.4V3.7z M17.1,10.5c0-0.6-0.2-1-0.6-1.5 c-0.4-0.4-0.9-0.6-1.5-0.6S13.9,8.6,13.5,9c-0.4,0.4-0.6,0.9-0.6,1.5c0,0.6,0.2,1.1,0.6,1.5c0.4,0.4,0.9,0.6,1.5,0.6 s1.1-0.2,1.5-0.6C16.9,11.6,17.1,11.1,17.1,10.5z M15.8,16.5v-2.1c0-0.5-0.3-0.8-0.8-0.8s-0.8,0.3-0.8,0.8v2.1 c0,0.5,0.3,0.8,0.8,0.8C15.5,17.3,15.7,17,15.8,16.5z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_3' class='st0'%3E%3Cg class='st1'%3E%3Crect class='st2' width='30' height='21'/%3E%3Cpath class='st3' d='M15,1.5c0.4,1.7,0.8,3,1.3,4c0.5,1,1.2,2,2.3,3.2L19,9.1c1.3,1.5,2,3,2,4.4c0,1.6-0.6,3-1.8,4.2 c-1.2,1.2-2.6,1.8-4.2,1.8c-1.6,0-3-0.6-4.2-1.8C9.6,16.6,9,15.2,9,13.6c0-1.5,0.7-3,2-4.4l0.4-0.5c1-1.1,1.8-2.2,2.3-3.2 S14.6,3.2,15,1.5z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_4' class='st0'%3E%3Cg class='st1'%3E%3Cpath class='st3' d='M15,0.3C9.4,0.3,4.8,4.9,4.8,10.5S9.4,20.7,15,20.7s10.2-4.6,10.2-10.2S20.6,0.3,15,0.3z M15,19.5 c-5,0-9-4-9-9c0-2.3,0.8-4.3,2.2-5.9l4.1,4.1c-0.1,0.1-0.2,0.2-0.2,0.3l-0.4,0.4c-1.1,1.2-1.6,2.4-1.6,3.5c0,1.3,0.5,2.4,1.4,3.4 c0.9,0.9,2.1,1.4,3.4,1.4c1.3,0,2.4-0.5,3.4-1.4c0.3-0.3,0.5-0.6,0.7-0.9l1.8,1.8C19.3,18.7,17.3,19.5,15,19.5z M21.8,16.4 l-2.1-2.1c0.1-0.4,0.2-0.9,0.2-1.3c0-1.2-0.5-2.4-1.6-3.5L17.9,9c-0.8-0.9-1.4-1.8-1.8-2.5c-0.4-0.8-0.7-1.8-1.1-3.2 c-0.3,1.3-0.7,2.4-1.1,3.2c-0.2,0.4-0.5,0.9-0.8,1.3l-4-4c1.6-1.4,3.7-2.2,5.9-2.2c5,0,9,4,9,9C24,12.8,23.2,14.8,21.8,16.4z'/%3E%3Crect class='st2' width='30' height='21'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_5' class='st0'%3E%3Crect class='st4' width='30' height='21'/%3E%3Cpath class='st5' d='M29,16.8V1H1v15.8h11V19H5v1h7h6h7v-1h-7v-2.2H29z M2,15.8V2h26v13.8H2z'/%3E%3C/g%3E%3C/svg%3E%0A");
-}
-
-.textButtons{
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin: 0 0 18px 0;
-}
-.textCheckBoxes{
-	display: flex;
-	flex-direction: column;
-}
-.textPositions{
-	width: 48px;
-	height: 48px;
-
-	display: grid;
-	grid-template-columns: repeat(3,auto);
-	grid-template-rows: repeat(3,auto);
-
-	justify-items: center;
-	align-items: center;
-}
-.textPositions input[type=radio]{
-	-webkit-appearance: none;
-	width: 10px;
-	height: 10px;
-	background-color: #36363c;
-	outline: none;
-	cursor: pointer;
-}
-.textPositions input[type=radio]:checked{
-	background-color: #00aeef;
-}
-
-input[type=checkbox]{
-	cursor: pointer;
-	/*-webkit-appearance: none;*/
-}
-input[type=checkbox]:checked{
-
-}
-input[type=checkbox]:disabled{
-	/*background-color: red;*/
-}
-
-/* - - - - - - - - - - - - - - - - - - - - - - - */
-
-.workArea{
-	position: relative;
-	width: 960px;
-	/*height: 540px;*/
-	background-color: #000;
-}
-.boundingBox{
-	/*position: relative;*/
+	height: 100vh;*/
 	position: absolute;
-	width: inherit;
-	height: inherit;
-	overflow: hidden;
-	pointer-events: none;
 }
-/*Image Frames*/
+
+.productionFrame{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+}
+
+.boundingBox{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
 .imageFrame{
 	position: absolute;
 	overflow: hidden;
-	cursor: move;
-	/*background-color: rgba(255,255,0,0.5);*/
 }
 .imageFrame img{
 	display: block;
-	pointer-events: none;
-
-
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-
-	/*TEMPORARY!*/
-	/*width: 100%;*/
-	/*TEMPORARY!*/
 }
 .imageFrame div{
 	position: absolute;
@@ -324,218 +161,31 @@ input[type=checkbox]:disabled{
 	opacity: 0.5;
 	z-index: 1;
 }
-.ldquot{
+.positive .ldquot{
 	top: -10px;
 	left: -45px;
 	background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 70 60' style='enable-background:new 0 0 70 60;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bfill:%23FFFFFF;%7D%0A%3C/style%3E%3Cg%3E%3Cpath class='st0' d='M0,60V37.9c0-4.6,0.2-8.4,0.5-11.4c0.3-3,1-5.8,1.9-8.5c0.9-2.7,2.3-5,4.1-7c1.8-2,4.1-3.8,6.8-5.6 c2.7-1.8,6.1-3.6,10.3-5.4l5.9,13.3c-5.4,2.7-8.9,5-10.5,6.9c-1.6,1.9-2.4,4.8-2.4,8.6h13.6V60H0z M39.8,60V37.9 c0-4.6,0.2-8.4,0.5-11.4c0.3-3,0.9-5.8,1.8-8.5c0.9-2.7,2.2-5,4-7c1.8-2,4.1-3.8,6.8-5.6C55.6,3.7,59,1.8,63.2,0l6.1,13.3 c-5.5,2.7-9,5-10.7,6.9c-1.6,1.9-2.4,4.8-2.4,8.6H70V60H39.8z'/%3E%3C/g%3E%3C/svg%3E");
 }
-.rdquot{
+.positive .rdquot{
 	right: -45px;
 	bottom: -10px;
 	background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 70 60' style='enable-background:new 0 0 70 60;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bfill:%23FFFFFF;%7D%0A%3C/style%3E%3Cg%3E%3Cpath class='st0' d='M70,0v22.1c0,4.6-0.2,8.4-0.5,11.4c-0.3,3-1,5.8-1.9,8.5c-0.9,2.7-2.3,5-4.1,7c-1.8,2-4.1,3.8-6.8,5.6 c-2.7,1.8-6.1,3.6-10.3,5.4l-5.9-13.3c5.4-2.7,8.9-5,10.5-6.9c1.6-1.9,2.4-4.8,2.4-8.6H39.8V0L70,0z M30.2,0v22.1 c0,4.6-0.2,8.4-0.5,11.4c-0.3,3-0.9,5.8-1.8,8.5c-0.9,2.7-2.2,5-4,7c-1.8,2-4.1,3.8-6.8,5.6C14.4,56.3,11,58.2,6.8,60L0.6,46.7 c5.5-2.7,9-5,10.7-6.9c1.6-1.9,2.4-4.8,2.4-8.6H0L0,0L30.2,0z'/%3E%3C/g%3E%3C/svg%3E%0A");
+}
+.negative .ldquot{
+	top: -10px;
+	left: -45px;
+	background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 70 60' style='enable-background:new 0 0 70 60;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bfill:%23000000;%7D%0A%3C/style%3E%3Cg%3E%3Cpath class='st0' d='M0,60V37.9c0-4.6,0.2-8.4,0.5-11.4c0.3-3,1-5.8,1.9-8.5c0.9-2.7,2.3-5,4.1-7c1.8-2,4.1-3.8,6.8-5.6 c2.7-1.8,6.1-3.6,10.3-5.4l5.9,13.3c-5.4,2.7-8.9,5-10.5,6.9c-1.6,1.9-2.4,4.8-2.4,8.6h13.6V60H0z M39.8,60V37.9 c0-4.6,0.2-8.4,0.5-11.4c0.3-3,0.9-5.8,1.8-8.5c0.9-2.7,2.2-5,4-7c1.8-2,4.1-3.8,6.8-5.6C55.6,3.7,59,1.8,63.2,0l6.1,13.3 c-5.5,2.7-9,5-10.7,6.9c-1.6,1.9-2.4,4.8-2.4,8.6H70V60H39.8z'/%3E%3C/g%3E%3C/svg%3E");
+}
+.negative .rdquot{
+	right: -45px;
+	bottom: -10px;
+	background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 70 60' style='enable-background:new 0 0 70 60;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bfill:%23000000;%7D%0A%3C/style%3E%3Cg%3E%3Cpath class='st0' d='M70,0v22.1c0,4.6-0.2,8.4-0.5,11.4c-0.3,3-1,5.8-1.9,8.5c-0.9,2.7-2.3,5-4.1,7c-1.8,2-4.1,3.8-6.8,5.6 c-2.7,1.8-6.1,3.6-10.3,5.4l-5.9-13.3c5.4-2.7,8.9-5,10.5-6.9c1.6-1.9,2.4-4.8,2.4-8.6H39.8V0L70,0z M30.2,0v22.1 c0,4.6-0.2,8.4-0.5,11.4c-0.3,3-0.9,5.8-1.8,8.5c-0.9,2.7-2.2,5-4,7c-1.8,2-4.1,3.8-6.8,5.6C14.4,56.3,11,58.2,6.8,60L0.6,46.7 c5.5-2.7,9-5,10.7-6.9c1.6-1.9,2.4-4.8,2.4-8.6H0L0,0L30.2,0z'/%3E%3C/g%3E%3C/svg%3E%0A");
 }
 
 h{
 	color: #ff0;
 	font-weight: bold;
 }
-
-.workArea .textFrame{
-	transform: scale(0.5);
-	/*top: -270px;*/
-	/*left: -480px;*/
-	top: -50%;
-	left: -50%;
-}
-
-/*Text Frames*/
-
-.productionFrame{
-	/*position: relative;*/
-	position: absolute;
-	/*right: 0px;*/
-	/*bottom: 0px;*/
-	left: -1920px;
-	width: 1920px;
-	/*height: 1080px;*/
-	/*background-color: #0C0;*/
-}
-
-.rangeGroup{
-	width: 200px;
-	height: 40px;
-}
-
-.rangeGroup div{
-	padding: 0 10px;
-}
-
-/*.imageControls span{*/
-.controls span{
-	text-align: right;
-	float: right;
-}
-
-/*.imageControls */input[type=range]{
-	-webkit-appearance: none;
-	background-color: transparent;
-	width: 100%;
-	outline: none;
-}
-
-/*.imageControls */input[type=range]::-webkit-slider-runnable-track {
-  	width: 100%;
-  	height: 4px;
-  	cursor: pointer;
-  	/*background: #00aeef;*/
-    background-color: #36363c;
-  	border-radius: 2px;
-}
-
-/*.imageControls */input[type=range]::-webkit-slider-thumb {
-	pointer-events: all;
-	position: relative;
-	z-index: 1;
-	outline: 0;
-	-webkit-appearance: none;
-
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	background-color: #66666c;
-	cursor: pointer;
-
-	margin: -2px 0 0 0;
-}
-
-/*.imageControls */input[type=range]:disabled label{
-	color: #36363c;
-}
-/*.imageControls */input[type=range]:disabled::-webkit-slider-thumb {
-	background-color: #36363c;
-}
-
-/* - - - - - - - - - - - - - - - - - - - - - - - */
-.layersPanel{
-	position: relative;
-	background-color: #16161c;
-	height: 150px;
-	margin: 0 0 30px;
-	box-sizing: border-box;
-}
-.layersTab{
-	position: relative;
-	width: 200px;
-	height: 30px;
-
-	border: solid 1px rgba(0,0,0,0.5);
-	border-top: solid 1px rgba(255,255,255,0.125);
-
-	border: solid 1px rgba(255,255,255,0.125);
-	border-bottom: solid 1px rgba(0,0,0,0.5);
-	
-	box-sizing: border-box;
-
-	display: flex;
-	justify-content: space-evenly;
-	/*justify-content: space-between;*/
-	align-items: center;
-
-	font-size: 10px;
-	font-family: helvetica;
-
-	background-color: #36363c;
-	background-color: #26262c;
-	color: #555;
-}
-.padTop{
-	padding-top: 30px;
-}
-.marginBottom{
-	margin-bottom: 30px;
-}
-.animate{
-	transition: all 0.125s linear;	
-}
-
-.grabber{
-	width: 20px;
-	height: 26px;
-	cursor: grab;
-	background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 20 26' style='enable-background:new 0 0 20 26;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bdisplay:none;%7D .st1%7Bdisplay:inline;fill:%2336363F;%7D .st2%7Bfill:%23FFFFFF;%7D%0A%3C/style%3E%3Cg id='Layer_1' class='st0'%3E%3Crect class='st1' width='20' height='26'/%3E%3C/g%3E%3Cg id='Layer_2'%3E%3Cg%3E%3Cg%3E%3Cg%3E%3Ccircle class='st2' cx='4' cy='3' r='1'/%3E%3Ccircle class='st2' cx='7' cy='3' r='1'/%3E%3Ccircle class='st2' cx='10' cy='3' r='1'/%3E%3Ccircle class='st2' cx='13' cy='3' r='1'/%3E%3Ccircle class='st2' cx='16' cy='3' r='1'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Ccircle class='st2' cx='2.5' cy='5' r='1'/%3E%3Ccircle class='st2' cx='5.5' cy='5' r='1'/%3E%3Ccircle class='st2' cx='8.5' cy='5' r='1'/%3E%3Ccircle class='st2' cx='11.5' cy='5' r='1'/%3E%3Ccircle class='st2' cx='14.5' cy='5' r='1'/%3E%3Ccircle class='st2' cx='17.5' cy='5' r='1'/%3E%3C/g%3E%3Cg%3E%3Ccircle class='st2' cx='4' cy='7' r='1'/%3E%3Ccircle class='st2' cx='7' cy='7' r='1'/%3E%3Ccircle class='st2' cx='10' cy='7' r='1'/%3E%3Ccircle class='st2' cx='13' cy='7' r='1'/%3E%3Ccircle class='st2' cx='16' cy='7' r='1'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Ccircle class='st2' cx='2.5' cy='9' r='1'/%3E%3Ccircle class='st2' cx='5.5' cy='9' r='1'/%3E%3Ccircle class='st2' cx='8.5' cy='9' r='1'/%3E%3Ccircle class='st2' cx='11.5' cy='9' r='1'/%3E%3Ccircle class='st2' cx='14.5' cy='9' r='1'/%3E%3Ccircle class='st2' cx='17.5' cy='9' r='1'/%3E%3C/g%3E%3Cg%3E%3Ccircle class='st2' cx='4' cy='11' r='1'/%3E%3Ccircle class='st2' cx='7' cy='11' r='1'/%3E%3Ccircle class='st2' cx='10' cy='11' r='1'/%3E%3Ccircle class='st2' cx='13' cy='11' r='1'/%3E%3Ccircle class='st2' cx='16' cy='11' r='1'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Ccircle class='st2' cx='2.5' cy='13' r='1'/%3E%3Ccircle class='st2' cx='5.5' cy='13' r='1'/%3E%3Ccircle class='st2' cx='8.5' cy='13' r='1'/%3E%3Ccircle class='st2' cx='11.5' cy='13' r='1'/%3E%3Ccircle class='st2' cx='14.5' cy='13' r='1'/%3E%3Ccircle class='st2' cx='17.5' cy='13' r='1'/%3E%3C/g%3E%3Cg%3E%3Ccircle class='st2' cx='4' cy='15' r='1'/%3E%3Ccircle class='st2' cx='7' cy='15' r='1'/%3E%3Ccircle class='st2' cx='10' cy='15' r='1'/%3E%3Ccircle class='st2' cx='13' cy='15' r='1'/%3E%3Ccircle class='st2' cx='16' cy='15' r='1'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Ccircle class='st2' cx='2.5' cy='17' r='1'/%3E%3Ccircle class='st2' cx='5.5' cy='17' r='1'/%3E%3Ccircle class='st2' cx='8.5' cy='17' r='1'/%3E%3Ccircle class='st2' cx='11.5' cy='17' r='1'/%3E%3Ccircle class='st2' cx='14.5' cy='17' r='1'/%3E%3Ccircle class='st2' cx='17.5' cy='17' r='1'/%3E%3C/g%3E%3Cg%3E%3Ccircle class='st2' cx='4' cy='19' r='1'/%3E%3Ccircle class='st2' cx='7' cy='19' r='1'/%3E%3Ccircle class='st2' cx='10' cy='19' r='1'/%3E%3Ccircle class='st2' cx='13' cy='19' r='1'/%3E%3Ccircle class='st2' cx='16' cy='19' r='1'/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Cg%3E%3Ccircle class='st2' cx='2.5' cy='21' r='1'/%3E%3Ccircle class='st2' cx='5.5' cy='21' r='1'/%3E%3Ccircle class='st2' cx='8.5' cy='21' r='1'/%3E%3Ccircle class='st2' cx='11.5' cy='21' r='1'/%3E%3Ccircle class='st2' cx='14.5' cy='21' r='1'/%3E%3Ccircle class='st2' cx='17.5' cy='21' r='1'/%3E%3C/g%3E%3Cg%3E%3Ccircle class='st2' cx='4' cy='23' r='1'/%3E%3Ccircle class='st2' cx='7' cy='23' r='1'/%3E%3Ccircle class='st2' cx='10' cy='23' r='1'/%3E%3Ccircle class='st2' cx='13' cy='23' r='1'/%3E%3Ccircle class='st2' cx='16' cy='23' r='1'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E%0A");
-	filter: opacity(0.0625);
-}
-.tabThumb{
-	width: 32px;
-	height: 18px;
-	height: 26px;
-	height: 22px;
-	background-color: #26262c;
-	background-color: #36363c;
-	background-color: #16161c;
-	pointer-events: none;
-}
-.layersTab span{
-	pointer-events: none;
-	user-select: none;
-}
-.layersTab button, .imageControls button{
-	width: 30px;
-	height: 21px;
-	background-repeat: no-repeat;
-	background-color: transparent;
-	outline: none;
-	border: none;
-	/*cursor: pointer!important;*/
-	filter: grayscale(1) brightness(0.5);
-	pointer-events: none;
-}
-.archive{
-	background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 30 21' style='enable-background:new 0 0 30 21;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bfill:none;%7D .st1%7Bfill:%2300AEEF;%7D .st2%7Bfill:%23013A81;%7D .st3%7Bdisplay:none;%7D .st4%7Bdisplay:inline;%7D%0A%3C/style%3E%3Cg id='Layer_1'%3E%3Cg%3E%3Crect class='st0' width='30' height='21'/%3E%3Cg%3E%3Cg%3E%3Cpath class='st1' d='M13.7,6.6c-2.2,0.1-4.8,0.6-8,1.3l0,0c0.4,2.3,2.3,9.5,9.7,4.6C14.1,10.2,13.6,8.2,13.7,6.6z'/%3E%3Cpath class='st1' d='M21,7.6c0.7-0.7,1.3-1.5,2.1-2.4c-1.2-1.8-3-3.2-5.2-3.9c-1.9,0.9-3.9,2.5-4.2,5.3 C17.1,6.4,19.4,6.8,21,7.6z'/%3E%3Cpath class='st1' d='M21,7.6c-2.1,2.3-4,3.9-5.6,5c1,1.8,2.5,3.8,4.6,6.1c1.6-1,2.8-2.3,3.7-4C24.1,12.5,24.2,9.3,21,7.6z'/%3E%3C/g%3E%3Cg%3E%3Cpath class='st2' d='M24.6,10.3c0-1.9-0.6-3.6-1.5-5.1c-0.7,0.9-1.4,1.6-2.1,2.4c3.2,1.6,3.2,4.8,2.6,7.1 C24.3,13.4,24.6,11.9,24.6,10.3z'/%3E%3Cpath class='st2' d='M5.7,8c-0.2,0.9-0.4,1.8-0.3,2.7c0.1,5.3,4.5,9.5,9.8,9.4c1.7,0,3.4-0.5,4.8-1.4c-2.1-2.3-3.6-4.4-4.6-6.1 C8,17.4,6.1,10.3,5.7,8z'/%3E%3Cpath class='st2' d='M17.9,1.3c-1-0.3-2-0.5-3.1-0.4C10.5,1,6.8,4,5.7,8c3.2-0.8,5.8-1.2,8-1.3C13.9,3.8,16,2.2,17.9,1.3z'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_2' class='st3'%3E%3Cg class='st4'%3E%3Crect class='st0' width='30' height='21'/%3E%3Cpath class='st1' d='M24.7,4H11.2L9.6,2.4H5.3c-0.6,0-1.1,0.5-1.1,1.1v14c0,0.6,0.5,1.1,1.1,1.1h19.4c0.6,0,1.1-0.5,1.1-1.1V5.1 C25.8,4.5,25.3,4,24.7,4z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_3' class='st3'%3E%3Cg class='st4'%3E%3Crect class='st0' width='30' height='21'/%3E%3Cg%3E%3Cg%3E%3Cg%3E%3Cg%3E%3Cpolygon class='st1' points='16.9,3.6 16.9,2.1 13.1,2.1 13.1,3.6 9.3,3.6 9.3,5.2 20.7,5.2 20.7,3.6 '/%3E%3Cpolygon class='st1' points='10.4,18.9 19.6,18.9 20.7,5.9 9.3,5.9 '/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E%0A");
-}
-.local{
-	background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 300 210' style='enable-background:new 0 0 300 210;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bdisplay:none;%7D .st1%7Bdisplay:inline;%7D .st2%7Bfill:none;%7D .st3%7Bfill:%2300AEEF;%7D .st4%7Bfill:%23013A81;%7D%0A%3C/style%3E%3Cg id='Layer_1' class='st0'%3E%3Cg class='st1'%3E%3Crect class='st2' width='300' height='210'/%3E%3Cg%3E%3Cg%3E%3Cpath class='st3' d='M137.3,66.4C115.5,67.8,89,72,57.4,79.8l0,0c4,23,22.8,94.7,96.6,46.3C140.5,101.7,136.1,82.1,137.3,66.4z' /%3E%3Cpath class='st3' d='M209.8,76.3c6.6-7.2,13.5-15.1,20.6-23.6c-12-18.5-30.2-32.5-51.6-39.2c-18.9,8.7-39.4,24.7-41.6,52.9 C171.2,64.1,194.4,68.3,209.8,76.3z'/%3E%3Cpath class='st3' d='M209.8,76.3c-21.4,23.3-39.9,39.2-55.8,49.7c9.8,17.7,24.6,38,45.5,61.3c15.7-9.5,28.4-23.3,36.6-39.8 C241.4,124.6,241.8,92.7,209.8,76.3z'/%3E%3C/g%3E%3Cg%3E%3Cpath class='st4' d='M246,103.3c-0.3-18.7-6-36-15.5-50.6c-7.2,8.6-14.1,16.4-20.6,23.6c31.8,16.4,31.6,48.3,26.3,71.2 C242.7,134.2,246.3,119.2,246,103.3z'/%3E%3Cpath class='st4' d='M57.4,79.7c-2.3,8.6-3.5,17.6-3.4,27c1,53,44.6,95.3,97.7,94.3c17.5-0.3,33.8-5.3,47.8-13.7 c-20.9-23.2-35.6-43.5-45.5-61.3C80.2,174.4,61.4,102.7,57.4,79.7z'/%3E%3Cpath class='st4' d='M178.9,13.4c-9.7-3.1-19.9-4.6-30.6-4.4c-43.7,0.8-79.9,30.5-90.9,70.7c31.7-7.7,58-11.8,79.9-13.4 C139.5,38,160,22.1,178.9,13.4z'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_2'%3E%3Cg%3E%3Crect class='st2' width='300' height='210'/%3E%3Cpath class='st3' d='M247.2,40.2h-135L96,24H52.8C46.9,24,42,28.9,42,34.8v140.4c0,5.9,4.9,10.8,10.8,10.8h194.4 c5.9,0,10.8-4.9,10.8-10.8V51C258,45.1,253.1,40.2,247.2,40.2z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_3' class='st0'%3E%3Cg class='st1'%3E%3Crect class='st2' width='300' height='210'/%3E%3Cg%3E%3Cg%3E%3Cg%3E%3Cg%3E%3Cpolygon class='st3' points='169.2,36 169.2,21 130.8,21 130.8,36 93,36 93,51.6 207,51.6 207,36 '/%3E%3Cpolygon class='st3' points='104.4,189 195.6,189 207,59.4 93,59.4 '/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E%0A");
-}
-.trash{
-	background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 300 210' style='enable-background:new 0 0 300 210;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bdisplay:none;%7D .st1%7Bdisplay:inline;%7D .st2%7Bfill:none;%7D .st3%7Bfill:%2300AEEF;%7D .st4%7Bfill:%23013A81;%7D%0A%3C/style%3E%3Cg id='Layer_1' class='st0'%3E%3Cg class='st1'%3E%3Crect class='st2' width='300' height='210'/%3E%3Cg%3E%3Cg%3E%3Cpath class='st3' d='M137.3,66.4C115.5,67.8,89,72,57.4,79.8l0,0c4,23,22.8,94.7,96.6,46.3C140.5,101.7,136.1,82.1,137.3,66.4z' /%3E%3Cpath class='st3' d='M209.8,76.3c6.6-7.2,13.5-15.1,20.6-23.6c-12-18.5-30.2-32.5-51.6-39.2c-18.9,8.7-39.4,24.7-41.6,52.9 C171.2,64.1,194.4,68.3,209.8,76.3z'/%3E%3Cpath class='st3' d='M209.8,76.3c-21.4,23.3-39.9,39.2-55.8,49.7c9.8,17.7,24.6,38,45.5,61.3c15.7-9.5,28.4-23.3,36.6-39.8 C241.4,124.6,241.8,92.7,209.8,76.3z'/%3E%3C/g%3E%3Cg%3E%3Cpath class='st4' d='M246,103.3c-0.3-18.7-6-36-15.5-50.6c-7.2,8.6-14.1,16.4-20.6,23.6c31.8,16.4,31.6,48.3,26.3,71.2 C242.7,134.2,246.3,119.2,246,103.3z'/%3E%3Cpath class='st4' d='M57.4,79.7c-2.3,8.6-3.5,17.6-3.4,27c1,53,44.6,95.3,97.7,94.3c17.5-0.3,33.8-5.3,47.8-13.7 c-20.9-23.2-35.6-43.5-45.5-61.3C80.2,174.4,61.4,102.7,57.4,79.7z'/%3E%3Cpath class='st4' d='M178.9,13.4c-9.7-3.1-19.9-4.6-30.6-4.4c-43.7,0.8-79.9,30.5-90.9,70.7c31.7-7.7,58-11.8,79.9-13.4 C139.5,38,160,22.1,178.9,13.4z'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_2' class='st0'%3E%3Cg class='st1'%3E%3Crect class='st2' width='300' height='210'/%3E%3Cpath class='st3' d='M247.2,40.2h-135L96,24H52.8C46.9,24,42,28.9,42,34.8v140.4c0,5.9,4.9,10.8,10.8,10.8h194.4 c5.9,0,10.8-4.9,10.8-10.8V51C258,45.1,253.1,40.2,247.2,40.2z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Layer_3'%3E%3Cg%3E%3Crect class='st2' width='300' height='210'/%3E%3Cg%3E%3Cg%3E%3Cg%3E%3Cg%3E%3Cpolygon class='st3' points='169.2,36 169.2,21 130.8,21 130.8,36 93,36 93,51.6 207,51.6 207,36 '/%3E%3Cpolygon class='st3' points='104.4,189 195.6,189 207,59.4 93,59.4 '/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E%0A");
-}
-.newLayer{
-	position: absolute;
-	bottom: 0px;
-	left: 50%;
-	margin: 0 0 4px -15px;
-	background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 30 21' style='enable-background:new 0 0 30 21;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bfill:none;%7D .st1%7Bfill:%2300AEEF;%7D%0A%3C/style%3E%3Cg%3E%3Crect x='-180' y='90' class='st0' width='50' height='35'/%3E%3Cg%3E%3Cg%3E%3Cg%3E%3Cg%3E%3Cpath class='st1' d='M-155,91.7c-8.7,0-15.8,7.1-15.8,15.8s7.1,15.8,15.8,15.8s15.8-7.1,15.8-15.8S-146.3,91.7-155,91.7z M-155,121.9c-7.9,0-14.4-6.4-14.4-14.4s6.5-14.4,14.4-14.4c7.9,0,14.4,6.4,14.4,14.4S-147.1,121.9-155,121.9z'/%3E%3Cpath class='st1' d='M-145.5,106.4h-8.5V98c0-0.6-0.5-1-1-1s-1,0.5-1,1v8.4h-8.4c-0.6,0-1.1,0.5-1.1,1.1s0.5,1,1.1,1h8.4v8.4 c0,0.6,0.5,1.1,1,1.1s1-0.5,1-1.1v-8.4h8.4c0.6,0,1-0.5,1-1C-144.5,106.9-145,106.4-145.5,106.4z'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3Cg%3E%3Crect class='st0' width='30' height='21'/%3E%3Cg%3E%3Cg%3E%3Cg%3E%3Cg%3E%3Cpath class='st1' d='M15,1c-5.2,0-9.5,4.3-9.5,9.5S9.8,20,15,20s9.5-4.3,9.5-9.5S20.2,1,15,1z M15,19.1c-4.7,0-8.6-3.8-8.6-8.6 s3.9-8.6,8.6-8.6s8.6,3.8,8.6,8.6S19.7,19.1,15,19.1z'/%3E%3Cpath class='st1' d='M20.7,9.8h-5.1v-5c0-0.4-0.3-0.6-0.6-0.6c-0.3,0-0.6,0.3-0.6,0.6v5h-5c-0.4,0-0.7,0.3-0.7,0.7 c0,0.4,0.3,0.6,0.7,0.6h5v5c0,0.4,0.3,0.7,0.6,0.7c0.3,0,0.6-0.3,0.6-0.7v-5h5c0.4,0,0.6-0.3,0.6-0.6 C21.3,10.1,21,9.8,20.7,9.8z'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E%0A");
-}
-
-.layersTab.active{
-	color: #fff;
-	border: solid 1px rgba(0,0,0,0.75);
-	border-top: solid 1px rgba(255,255,255,0.25);
-
-	border: solid 1px rgba(255,255,255,0.25);
-	border-bottom: solid 1px rgba(0,0,0,0.75);
-}
-.layersTab.active button{
-	pointer-events: unset;
-	filter: grayscale(1) brightness(1);
-}
-.layersTab.active button:hover{
-	filter: unset;
-}
-
-.tabGhost{
-	position: absolute;
-	margin: 0px;
-	cursor: grabbing;
-	transition: unset;
-}
-.tabGhost button{
-	pointer-events: none;
-}
-.tabGhost .grabber{
-	cursor: grabbing;
-}
-/* - - - - - - - - - - - - - - - - - - - - - - - */
 
 .watermark{
 	position: absolute;
@@ -551,29 +201,6 @@ h{
 	background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 112 42' style='enable-background:new 0 0 112 42;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bfill:url(%23SVGID_1_);%7D .st1%7Bfill:url(%23SVGID_2_);%7D .st2%7Bfill:url(%23SVGID_3_);%7D .st3%7Bfill:url(%23SVGID_4_);%7D .st4%7Bfill:url(%23SVGID_5_);%7D .st5%7Bfill:url(%23SVGID_6_);%7D .st6%7Bfill:%23013A81;%7D .st7%7Bfill:none;%7D%0A%3C/style%3E%3Cg%3E%3Cg%3E%3Cg%3E%3ClinearGradient id='SVGID_1_' gradientUnits='userSpaceOnUse' x1='33.3578' y1='10.2935' x2='33.3578' y2='28.4395'%3E%3Cstop offset='0' style='stop-color:%23144E8B'/%3E%3Cstop offset='1' style='stop-color:%230094D9'/%3E%3C/linearGradient%3E%3Cpath class='st0' d='M34.9,26.7c1.2-2.5,1.9-5.3,1.9-8.3c-0.1-3.5-1.1-6.8-2.9-9.5c-1.3,1.6-2.6,3.1-3.9,4.4 C35.9,16.4,35.9,22.4,34.9,26.7z'/%3E%3ClinearGradient id='SVGID_2_' gradientUnits='userSpaceOnUse' x1='16.259' y1='8.6051' x2='7.1689' y2='23.8119'%3E%3Cstop offset='0.1612' style='stop-color:%23204788'/%3E%3Cstop offset='0.2095' style='stop-color:%231D4F90'/%3E%3Cstop offset='0.5377' style='stop-color:%230E82C3'/%3E%3Cstop offset='0.7856' style='stop-color:%2304A2E3'/%3E%3Cstop offset='0.9227' style='stop-color:%2300AEEF'/%3E%3C/linearGradient%3E%3Cpath class='st1' d='M19.5,22.7c-2.5-4.6-3.4-8.2-3.1-11.2c-4.1,0.3-9.1,1.1-15,2.5v0C2.1,18.3,5.6,31.8,19.5,22.7z'/%3E%3ClinearGradient id='SVGID_3_' gradientUnits='userSpaceOnUse' x1='11.3469' y1='1.6112' x2='30.8869' y2='12.0608'%3E%3Cstop offset='0.3447' style='stop-color:%2300AEEF'/%3E%3Cstop offset='0.4523' style='stop-color:%2304A3E4'/%3E%3Cstop offset='0.6411' style='stop-color:%230E86C7'/%3E%3Cstop offset='0.8872' style='stop-color:%231F5898'/%3E%3Cstop offset='1' style='stop-color:%23284180'/%3E%3C/linearGradient%3E%3Cpath class='st2' d='M16.4,11.5c6.4-0.4,10.7,0.4,13.6,1.9c1.2-1.3,2.5-2.8,3.9-4.4c-2.3-3.5-5.7-6.1-9.7-7.4 C20.6,3.2,16.8,6.2,16.4,11.5z'/%3E%3ClinearGradient id='SVGID_4_' gradientUnits='userSpaceOnUse' x1='36.7638' y1='23.7949' x2='0.7319' y2='23.7949'%3E%3Cstop offset='0.1193' style='stop-color:%2300AEEF'/%3E%3Cstop offset='0.2066' style='stop-color:%2302A8E9'/%3E%3Cstop offset='0.3259' style='stop-color:%230997D7'/%3E%3Cstop offset='0.4631' style='stop-color:%23137DBB'/%3E%3Cstop offset='0.5497' style='stop-color:%231B68A5'/%3E%3C/linearGradient%3E%3Cpath class='st3' d='M30,13.4c-4,4.4-7.5,7.4-10.5,9.3c1.9,3.3,4.6,7.1,8.5,11.5c2.9-1.8,5.3-4.4,6.9-7.5 C35.9,22.4,35.9,16.4,30,13.4z'/%3E%3ClinearGradient id='SVGID_5_' gradientUnits='userSpaceOnUse' x1='34.6988' y1='-133.9764' x2='64.818' y2='-133.9764' gradientTransform='matrix(0.9811 0.1936 -0.1936 0.9811 -60.5375 148.2114)'%3E%3Cstop offset='0.2424' style='stop-color:%23274084'/%3E%3Cstop offset='0.5035' style='stop-color:%231A5499'/%3E%3Cstop offset='0.9273' style='stop-color:%23007DC4'/%3E%3C/linearGradient%3E%3Cpath class='st4' d='M19.5,22.7C5.6,31.8,2.1,18.3,1.4,14c-0.4,1.6-0.7,3.3-0.6,5.1C0.9,29,9.1,37,19.1,36.8c3.3-0.1,6.3-1,9-2.6 C24.1,29.9,21.3,26,19.5,22.7z'/%3E%3ClinearGradient id='SVGID_6_' gradientUnits='userSpaceOnUse' x1='6.1536' y1='14.708' x2='14.1844' y2='5.1374'%3E%3Cstop offset='0.2424' style='stop-color:%23274084'/%3E%3Cstop offset='0.5035' style='stop-color:%231A5499'/%3E%3Cstop offset='0.9273' style='stop-color:%23007DC4'/%3E%3C/linearGradient%3E%3Cpath class='st5' d='M18.4,0.8C10.2,0.9,3.4,6.5,1.4,14c5.9-1.4,10.9-2.2,15-2.5c0.4-5.3,4.3-8.3,7.8-9.9 C22.4,1,20.4,0.7,18.4,0.8z'/%3E%3C/g%3E%3Cg%3E%3Cpath class='st6' d='M39.6,26.6c0-7.2,3.8-9.2,15.8-9.2h1.3c-0.1-3.6-0.9-5.3-6-5.3c-3,0-5.6,1.1-7.1,2.1l-2.2-3.4 C43.1,9.7,46.9,8,51.1,8c8.2,0,9.6,2.9,9.6,10.1v9c0,2.4,0.2,2.8,2.4,2.8v3.9c-0.3,0.1-0.9,0.1-1.7,0.1c-2.6,0-3.5-0.8-4.1-2.9 c-1.4,2.1-4,3.3-9.1,3.3C41.3,34.2,39.6,30.9,39.6,26.6z M56.7,22.7v-1.5h-1.1c-9.9,0-12,1.2-12,5.2c0,2.7,1.2,4.1,5.3,4.1 C54.4,30.4,56.7,28.1,56.7,22.7z'/%3E%3Cpath class='st6' d='M63.5,26.6c0-7.2,3.8-9.2,15.8-9.2h1.3c-0.1-3.6-0.9-5.3-6-5.3c-3,0-5.6,1.1-7.1,2.1l-2.2-3.4 C67,9.7,70.8,8,75,8c8.2,0,9.6,2.9,9.6,10.1v9c0,2.4,0.2,2.8,2.4,2.8v3.9c-0.3,0.1-0.9,0.1-1.7,0.1c-2.6,0-3.5-0.8-4.1-2.9 c-1.4,2.1-4,3.3-9.1,3.3C65.2,34.2,63.5,30.9,63.5,26.6z M80.6,22.7v-1.5h-1.1c-9.9,0-12,1.2-12,5.2c0,2.7,1.2,4.1,5.3,4.1 C78.3,30.4,80.6,28.1,80.6,22.7z'/%3E%3Cpath class='st6' d='M88.1,8.8l3.3-0.2l0.3,2.7C93,9.1,95.7,8,101,8c8,0,10.2,5.4,10.2,13.1c0,7.7-2.3,13-10.4,13 c-5,0-7.4-1-8.6-3v10.1h-4.2V8.8z M107,21.3c0-5.5-1.4-9.1-6.9-9.1c-5.6,0-7.8,2.4-7.8,9.1c0,6.7,2.1,8.9,7.8,8.9 C105.6,30.2,107,26.8,107,21.3z'/%3E%3C/g%3E%3C/g%3E%3Crect class='st7' width='112' height='42'/%3E%3C/g%3E%3C/svg%3E%0A");
 }
 
-@media screen and (max-device-width: 1500px){
-/*@media screen and (max-width: 1600px){*/
-	main{
-		width: 1152px;
-		height: 648px;
-		grid-template-columns: 13px 230px 13px 640px 13px 230px 13px;
-		grid-template-rows: auto 360px auto;
-	}
-	.workArea{
-		/*width: 800px;*/
-		/*height: 450px;*/
-		width: 640px;
-		height: 360px;
-	}
-}
-
-
 .displayNone{
 	display: none;
-}
-.pointerEventsNone{
-	pointer-events: none;
-}
-.pointerEventsAll{
-	pointer-events: all;
 }
