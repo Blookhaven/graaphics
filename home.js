@@ -16,7 +16,7 @@ const ipcRenderer = electron.ipcRenderer;
 
 $('body').append(`
 	<main>
-		<input type="button" name="project" value="Project">
+		<!--<input type="button" name="project" value="Project">-->
 		<input type="button" name="quote" value="Quote">
 	</main>
 `)

@@ -279,6 +279,10 @@ ipcMain.on('loaded',(event)=>{
 
   console.log(`*** quit: ${quit} ***`)
 
+  global['tabs'] = {
+    total:0
+  }
+
   temp.mkdir(`graaphics_`,(err,dirPath)=>{
     if(err) throw err;
     tempDir = dirPath;
@@ -347,31 +351,43 @@ ipcMain.on('win',(event,windata)=>{
 
 
 ipcMain.on('newTab',(event,data)=>{
-  mainWindow.webContents.send('newTab',data);
 
-  if(!fs.existsSync(`${documents+slash}graaphics${slash+data}`)){
-    
-    fs.mkdir(`${documents+slash}graaphics`,(err)=>{
-      console.log(err)
-      fs.mkdir(`${documents+slash}graaphics${slash+data}`,(err)=>{
+  if(tabs['total'] < 6){
+
+    if(!fs.existsSync(`${documents+slash}graaphics${slash+data}`)){
+      fs.mkdir(`${documents+slash}graaphics`,(err)=>{
         console.log(err)
+        fs.mkdir(`${documents+slash}graaphics${slash+data}`,(err)=>{
+          console.log(err)
+        })
       })
-    })
+    }
+
+    if(!tabs[data]){
+      tabs[data] = 1;
+    }else{
+      tabs[data] += 1
+    }
+    console.log(`\n* - * - * - * - *\n${data}: ${tabs[data]}\n* - * - * - * - *\n`)
+
+    mainWindow.webContents.send('newTab',data,tabs[data]);
+  }else{
+    mainWindow.webContents.send('maxTabs')
   }
 })
 
-ipcMain.on('countTabs',(event)=>{
-  event.sender.send('countTabs')
+ipcMain.on('countTabs',(event,data)=>{
+  tabs['total'] = data;
+  console.log(`\n* - * - * - * - *\n${tabs['total']}\n* - * - * - * - *\n`)
 })
 
-
+ipcMain.on('initialise',(event,data)=>{
+  event.sender.send('initialise',tabs[data]);
+})
 
 ipcMain.on('projectTitle',(event,data)=>{
-  // console.log(event,data,'* * * * *')
-  // console.log(event.sender.webContents.viewInstanceId)
-  console.log(data['viewInstanceId'])
+  mainWindow.send('projectTitle',data);
 })
-
 
 /*login and image search*/
 let user = false;

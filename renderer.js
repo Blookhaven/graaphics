@@ -22,7 +22,7 @@ console.log(os.arch())
 /* * * * * * * * * * * * * * * * * * * * * * * */
 
 const newTab = (args)=>{
-	
+	console.log(args)
 	let tab = tabGroup.addTab(args)
 	/*define the new webview*/
 	let webview = tab['webview'];
@@ -34,7 +34,6 @@ const newTab = (args)=>{
 	/*a webview (in this case, tab contents) is NOT a new app window*/
 	/*it is a ¿sandboxed? element in the renderer process (here, index.html)*/
 	/*and requires preload script to allow node/electron to interact with it's contents*/
-	// ipcRenderer.send('countTabs')
 
 	tab.on('close',(tab)=>{
 		countTabs();
@@ -43,29 +42,32 @@ const newTab = (args)=>{
 };
 
 const countTabs = ()=>{
-	/*maximum of ten project tabs plus home tab - eleven total*/
-
-	// $('.etabs-tab').css({maxWidth:`calc(${100 / $('.etabs-tab').length}% - 20px)`})
+	ipcRenderer.send('countTabs',$('.etabs-tab').length)
 	$('.etabs-tab').css({maxWidth:`${100 / $('.etabs-tab').length}%`})
-
-	// console.log(tabGroup.getActiveTab())
-	// console.log(tabGroup.getTabs())
 };
 
-ipcRenderer.on('newTab',(event,data)=>{
-	newTab(eval(data));
+ipcRenderer.on('newTab',(event,data,num)=>{
+	let args = eval(data);
+	args['title'] = `${data} ${num}`;
+	newTab(args);
 })
 
 // ipcRenderer.on('countTabs',(event)=>{
 // 	console.log($('.etabs-tab').length)
 // })
 
+ipcRenderer.on('maxTabs',(event)=>{
+	alert('Limit reached.\nClose a tab to make room for a new one.' )
+})
+
 ipcRenderer.on('lockout',(event)=>{
 	$('body').addClass('pointerEventsNone');
+	$('.wait').removeClass('displayNone');
 })
 
 ipcRenderer.on('unlock',(event)=>{
 	$('body').removeClass('pointerEventsNone');
+	$('.wait').addClass('displayNone');
 })
 
 /*send 'loaded' event to main process to get response*/
@@ -86,7 +88,7 @@ ipcRenderer.on('loaded',(event,data)=>{
 	}
 
 	window['project'] = {
-		title: "untitled project 1234567890",
+		title: "project",
 		src: `tab.html?script=project&tempDir=${tempDir}`,
 		visible: true,
 		active: true,
@@ -94,7 +96,7 @@ ipcRenderer.on('loaded',(event,data)=>{
 	}
 
 	window['quote'] = {
-		title: `quote_${btoa(os.userInfo()['username'])}_${new Date().getTime()}`,
+		title: 'quote',
 		src: `tab.html?script=quote&tempDir=${tempDir}`,
 		visible: true,
 		active: true,
@@ -140,6 +142,19 @@ $('.login').off().on('click',()=>{
 /*login*/
 
 /*add keyboard functions*/
+
+
+
+ipcRenderer.on('quit',(event)=>{
+	/*meet some conditions?*/
+	ipcRenderer.send('quit',confirm('Quit Graaphics?'));
+});
+
+ipcRenderer.on('projectTitle',(event,data)=>{
+	tabGroup.getActiveTab().setTitle(data)
+})
+
+
 $(document).on('keydown',(event)=>{
 	
 	/*add toggleDevTools function*/
@@ -167,18 +182,3 @@ $(document).on('keydown',(event)=>{
 	// 	// tab.activate(tabGroup.getNextTab())
 	// }
 });
-
-
-ipcRenderer.on('quit',(event)=>{
-	/*meet some conditions?*/
-	ipcRenderer.send('quit',confirm('Quit Graaphics?'));
-});
-
-
-
-// let quit = confirm('false');
-
-// window.onbeforeunload = (e)=>{
-
-// }
-

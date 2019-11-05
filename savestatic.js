@@ -15,7 +15,7 @@ const documents = app.getPath('documents');console.log(documents)
 // ipcRenderer.send('toggleDevTools')
 let slash = '/';
 if(os.platform() !== 'darwin'){
-  slash = '\\';
+	slash = '\\';
 }
 /*close the window when escape key is pressed*/
 $(window).on('keydown',(e)=>{
@@ -70,6 +70,15 @@ const saveImage = ()=>{
 			height: windata['height']
 		}).then((resolve)=>{
 			fs.writeFileSync(windata['data']['filename'],resolve.toJPEG(100))
+			// fs.writeFileSync(windata['data']['filename'],resolve.toJPEG(100),{flag:'wx'},(err)=>{
+			// 	if (err) {
+			// 		console.log("file " + windata['data']['filename'] + " already exists, testing next");
+			// 		windata['data']['filename'] = windata['data']['filename'] + "0";
+			// 		writeFileSync();
+			// 	}else{
+			// 		console.log("Succesfully written " + windata['data']['filename']);
+			// 	}
+			// })
 			shell.showItemInFolder(windata['data']['filename'])
 			remote.BrowserWindow.getFocusedWindow().close();
 		}).catch((reject)=>{

@@ -153,14 +153,10 @@ $('body').append(`
 			
 			<div class="textFrame watermarked aap positive top left">
 				<div class="textContainer">
-					<div class="textBox string">
-						<div class="quotemark ldquot"></div>
-						I hate people that watch me play the <h>skill tester</h>. Get a life you <h>space cadets</h> I don't spend two bucks a pop to entertain you all day.
-						<div class="quotemark rdquot"></div>
-					</div>
+					<div class="textBox string"></div>
 					<div class="textBox accreditation">
-						<div class="source">Herald Sun reader</div>
-						<div class="exposition">Unknown context</div>
+						<div class="source"></div>
+						<div class="exposition"></div>
 					</div>
 				</div>
 				<div class="watermark aap bottom right"></div>
@@ -243,11 +239,11 @@ $('body').append(`
 				<datalist id="sepia"><option value="0"></option><option value="25"></option><option value="50"></option><option value="75"></option><option value="100"></option></datalist>
 			</div>
 
-			<div class="rangeGroup">
+			<!--<div class="rangeGroup">
 				<div>Rotation<span><label for="rotation" id="rotationValue">0</label>&#176;</span></div>
 				<input type="range" name="rotation" max="270" value="0" step="90" list="rotation" disabled="true">
 				<datalist id="rotation"><option value="0"></option><option value="90"></option><option value="180"></option><option value="270"></option></datalist>
-			</div>
+			</div>-->
 		</div>
 	</main>
 
@@ -263,14 +259,10 @@ $('body').append(`
 		
 		<div class="textFrame watermarked aap positive top left">
 			<div class="textContainer">
-				<div class="textBox string">
-					<div class="quotemark ldquot"></div>
-					I hate people that watch me play the <h>skill tester</h>. Get a life you <h>space cadets</h> I don't spend two bucks a pop to entertain you all day.
-					<div class="quotemark rdquot"></div>
-				</div>
+				<div class="textBox string"></div>
 				<div class="textBox accreditation">
-					<div class="source">Herald Sun reader</div>
-					<div class="exposition">Unknown context</div>
+					<div class="source"></div>
+					<div class="exposition"></div>
 				</div>
 			</div>
 			<div class="watermark aap bottom right"></div>
@@ -312,10 +304,12 @@ const getQueryParams = (qs)=>{
 	return params;
 };
 
-const initialise = ()=>{
+const initialise = (num)=>{
 
 	window['query'] = getQueryParams(document.location.search);
 	window['tempDir'] = query['tempDir'];
+	window['title'] = `quote ${num}`;
+	window['initTitle'] = title;
 	window['windata'] = null;
 
 	window['productionWidth'] = 1920;
@@ -328,7 +322,7 @@ const initialise = ()=>{
 	window['project'] = {
 		history:[
 			{
-				title: `untitled`,
+				title: title,
 				ratio: $('#ratioSelect').val(),
 				theme: `positive`,//`negative`*/
 				textFramePosition: `top left`,
@@ -378,6 +372,7 @@ const initialise = ()=>{
 
 	// console.log($('.workArea').width());
 	// console.log($('.productionFrame').width());
+	$('[name=title]').prop('placeholder',initTitle)
 	/* * * * * * * */
 
 	window['activeImage'] = 0;
@@ -1114,9 +1109,19 @@ $('#ratioSelect').on('change',(e)=>{
 const textHandler = (e)=>{
 
 	if(e.type === 'change'){
+
+		if(e.target.name === 'title'){
+			if(e.target.value.length > 0){
+				title = e.target.value;
+			}else{
+				title = initTitle;
+			}
+			ipcRenderer.send('projectTitle',title)
+		}
 		// console.log('* * * * * * * * * * *\n\n* * * CHANGED! * * *\n\n* * * * * * * * * * *\n\n')
 		// console.log(e.target.type)
 		// console.log(e.target.classList.value)
+		console.log(textProperties)
 	}
 
 	// textProperties = {
@@ -1143,10 +1148,11 @@ const textHandler = (e)=>{
 		// textProperties[`${e.target.name}`] = e.target.value;
 		break;
 
-		case e.target.type === 'text':
+		// case e.target.type === 'text':
+		case e.target.name === 'source' || e.target.name === 'exposition':
 		$(`.${e.target.name}`).html(e.target.value)
 		textProperties[`${e.target.name}`] = e.target.value;
-		console.log(e.target.value)
+		console.log(e.target.value);
 
 		break;
 
@@ -1487,7 +1493,7 @@ const saveImage = ()=>{
  	console.log($('.productionFrame').html())
 
 
-	let title = new Date().getTime()
+	// let title = new Date().getTime()
 	const filename = `${documents+slash}graaphics${slash}quote${slash+title}.jpg`
 
 	// return new Promise((resolve,reject)=>{
@@ -1515,7 +1521,7 @@ const saveImage = ()=>{
 		closable: true,
 		titleBarStyle: 'none',
 		backgroundColor: "#000",
-		opacity: 1,
+		opacity: 0,
 		frame: false,
 		data: {
 			html: $('.productionFrame').html(),
@@ -1527,4 +1533,7 @@ const saveImage = ()=>{
 
 // document.ready = initialise();
 // setTimeout(initialise,2500)
-$('body').ready(initialise);
+$('body').ready(ipcRenderer.send('initialise','quote'));
+ipcRenderer.once('initialise',(event,data)=>{
+	initialise(data);
+});

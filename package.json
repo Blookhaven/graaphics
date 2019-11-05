@@ -1,22 +1,42 @@
 {
-  "name": "Vid3x",
-  "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "name": "graaphics",
+  "productName": "Graaphics",
+  "version": "0.0.0",
+  "description": "Application for production of AAP visual media",
   "main": "main.js",
+  "author": "Sean Fitzpatrick",
+  "license": "MIT",
+  "repository": "https://github.com/blookhaven/graaphics",
+  "keywords": [
+    "graphics",
+    "AAP",
+    "static",
+    "visual",
+    "explainer"
+  ],
   "scripts": {
     "start": "electron .",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps",
+    "pack": "build --dir",
+    "dist": "build"
   },
-  "repository": "https://github.com/blookhaven/tabs-setup",
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
-  "author": "Sean Fitzpatrick",
-  "license": "CC0-1.0",
+  "build": {
+    "appId": "Graaphics",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    }
+  },
   "devDependencies": {
     "electron": "^7.0.0",
     "electron-builder": "^21.2.0"
