@@ -1,7 +1,7 @@
 {
   "name": "graaphics",
   "productName": "Graaphics",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Application for production of AAP visual media",
   "main": "main.js",
   "author": "Sean Fitzpatrick",
@@ -17,8 +17,8 @@
   "scripts": {
     "start": "electron .",
     "postinstall": "electron-builder install-app-deps",
-    "pack": "build --dir",
-    "dist": "build"
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "build": {
     "appId": "Graaphics",
@@ -29,12 +29,16 @@
           "y": 150
         },
         {
-          "x": 240,
+          "x": 420,
           "y": 150,
           "type": "link",
           "path": "/Applications"
         }
       ]
+    },
+    "win": {
+      "target": "squirrel",
+      "icon": "build/icon.ico"
     }
   },
   "devDependencies": {
