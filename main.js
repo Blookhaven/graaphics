@@ -53,6 +53,12 @@ if(os.platform() !== 'darwin'){
 // });
 /*SIMPLE SPELLCHECKER*/
 
+const newDocument = ()=>{console.log(newDocument)};
+const openDocument = ()=>{console.log(openDocument)};
+const saveDocument = ()=>{console.log(saveDocument)};
+const exportDocument = ()=>{console.log(exportDocument)};
+const closeDocument = ()=>{console.log(closeDocument)};
+
 const Menu = electron.Menu;
 let template = [
   {
@@ -61,6 +67,21 @@ let template = [
       { label: "About Graaphics", selector: "orderFrontStandardAboutPanel:" },
       { type: "separator" },
       { label: "Quit", accelerator: "CmdOrCtrl+Q", click:()=>{app.quit()}}
+    ]
+  },
+  {
+    label: "File",
+    submenu: [
+      { label: "New", accelerator: "CmdOrCtrl+N", click: newDocument},
+      { label: "Open", accelerator: "CmdOrCtrl+O", click: openDocument},
+      // { label: "Save", accelerator: "CmdOrCtrl+S", click: saveDocument},
+      { type: "separator" },
+      // { label: "Preview", accelerator: "CmdOrCtrl+P", click: previewDocument},
+      // { label: "Package", accelerator: "Shift+CmdOrCtrl+P", click: packageDocument},
+      { label: "Export", accelerator: "CmdOrCtrl+E", click: exportDocument},
+      { type: "separator" },
+      { label: "Close", accelerator: "CmdOrCtrl+W", click: closeDocument}//,
+      // { role: 'close'}//,
     ]
   },
   {
@@ -104,7 +125,7 @@ let dimensions = [
   [640,360],
 ]
 
-function createWindow () {
+const createWindow = ()=>{
 
   let primaryDisplay = electron.screen.getPrimaryDisplay();
 
@@ -234,7 +255,7 @@ function createWindow () {
 
 app.on('ready', createWindow)
 
-ipcMain.on('defineAsset',function(event,data){
+ipcMain.on('defineAsset',(event,data)=>{
   console.log('\ndefineAsset\n')
   console.log(event.sender)
   console.log(data)
@@ -249,18 +270,6 @@ ipcMain.on('quit',(event,data)=>{
     app.quit()
   }
 })
-
-// app.on('window-all-closed', function () {
-//   // if (process.platform !== 'darwin') {
-//   //   app.quit()
-//   // }
-// })
-
-// app.on('activate', function () {//???
-//   if (mainWindow === null) {
-//     createWindow()
-//   }
-// })
 
 ipcMain.on('loaded',(event)=>{
   // console.clear()
