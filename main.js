@@ -14,7 +14,7 @@ const webContents = electron.webContents;
 
 const {systemPreferences} = require('electron')
 
-systemPreferences.setUserDefault('NSDisabledDictationMenuItem', 'boolean', true)
+//systemPreferences.setUserDefault('NSDisabledDictationMenuItem', 'boolean', true)
 
 /*temp*/
 const temp = require('temp').track();
@@ -29,6 +29,8 @@ let asset, assetId;
 let slash = '/';
 if(os.platform() !== 'darwin'){
   slash = '\\';
+}else{
+  systemPreferences.setUserDefault('NSDisabledDictationMenuItem', 'boolean', true)
 }
 
 /*SIMPLE SPELLCHECKER*/

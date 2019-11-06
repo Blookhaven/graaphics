@@ -43,7 +43,8 @@
   },
   "devDependencies": {
     "electron": "^7.0.0",
-    "electron-builder": "^21.2.0"
+    "electron-builder": "^21.2.0",
+    "electron-builder-squirrel-windows": "^22.1.0"
   },
   "dependencies": {
     "electron-tabs": "^0.9.5",
