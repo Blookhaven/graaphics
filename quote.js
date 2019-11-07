@@ -131,6 +131,7 @@ $('body').append(`
 					<option value="" disabled="true">Aspect Ratio</option>
 					<option value="0.5625" selected="true">16:9</option>
 					<option value="0.75">4:3</option>
+					<option value="1">1:1</option>
 				</select>
 
 				<select class="watermarkSelect" title="Watermark">
@@ -239,11 +240,11 @@ $('body').append(`
 				<datalist id="sepia"><option value="0"></option><option value="25"></option><option value="50"></option><option value="75"></option><option value="100"></option></datalist>
 			</div>
 
-			<!--<div class="rangeGroup">
+			<div class="rangeGroup">
 				<div>Rotation<span><label for="rotation" id="rotationValue">0</label>&#176;</span></div>
 				<input type="range" name="rotation" max="270" value="0" step="90" list="rotation" disabled="true">
 				<datalist id="rotation"><option value="0"></option><option value="90"></option><option value="180"></option><option value="270"></option></datalist>
-			</div>-->
+			</div>
 		</div>
 	</main>
 
