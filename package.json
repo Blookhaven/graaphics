@@ -15,45 +15,51 @@
     "explainer"
   ],
   "scripts": {
-    "start": "electron .",
     "postinstall": "electron-builder install-app-deps",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder"
-  },
-  "build": {
-    "appId": "com.aap.graaphics",
-    "dmg": {
-      "contents": [
-        {
-          "x": 110,
-          "y": 150
-        },
-        {
-          "x": 420,
-          "y": 150,
-          "type": "link",
-          "path": "/Applications"
-        }
-      ]
-    },
-    "win": {
-      "target": "squirrel",
-      "icon": "build/icon.ico"
-    }
+    "publish-mac": "build --mac -p always",
+    "publish-win": "build --win -p always",
+    "start": "electron ."
   },
   "devDependencies": {
-    "electron": "^7.0.0",
-    "electron-builder": "^21.2.0",
-    "electron-builder-squirrel-windows": "^22.1.0",
+    "electron": "^5.0.0",
+    "electron-builder": "^20.41.0",
     "electron-rebuild": "^1.8.6"
   },
   "dependencies": {
     "electron-spellchecker": "^2.2.1",
     "electron-tabs": "^0.9.5",
+    "electron-log": "^1.3.0",
+    "electron-updater": "^4.0.6",
     "ftp": "^0.3.10",
     "jquery": "^3.4.1",
     "os": "^0.1.1",
     "temp": "^0.9.0",
     "wordcount": "^1.1.1"
+  },
+  "build": {
+    "appId": "com.aap.graaphics",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Blookhaven",
+        "repo": "graaphics"
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        "zip",
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": "nsis"
+    }
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": true,
+    "allowElevation": true,
+    "allowToChangeInstallationDirectory": true
   }
 }

@@ -17,7 +17,7 @@ const webContents = remote.getCurrentWebContents();
 const shell = electron.shell;//?????
 const ipcRenderer = electron.ipcRenderer;
 
-ipcRenderer.send('toggleDevTools')
+// ipcRenderer.send('toggleDevTools')
 // const temp = require('temp').track();
 // const util = require('util');
 // const exec = require('child_process').exec;
@@ -455,25 +455,37 @@ const initialise = (num)=>{
 
 			case e.target.classList.value === 'local':
 
+			// dialog.showOpenDialog({
+			// 	properties: ['openFile'],
+			// 	filters:[{name: 'Images',extensions:['jpg','jpeg','png','pdf','gif']}],
+			// }).then(result => {
+			// 	let file = tempDir.concat(result.filePaths[0].substring(result.filePaths[0].lastIndexOf(slash)))
+			// 	console.log(file)
+				
+			// 	// if(os.platform() === 'darwin'){
+			// 	// 	file = tempDir.concat(result.filePaths[0].substring(result.filePaths[0].lastIndexOf('/')))
+			// 	// }else{//windows filepaths use backslash
+			// 	// 	file = tempDir.concat(result.filePaths[0].substring(result.filePaths[0].lastIndexOf('\\')))
+			// 	// }
+
+			// 	fs.copyFile(result.filePaths[0],file,(err)=>{
+			// 		if(err) throw err;
+			// 		loadImage(file);
+			// 	});
+			// }).catch(err => {
+			// 	console.log(err)
+			// })//captioned out 191115 - had to revert to electron ^5.0.0 for builder to work but that stopped promises working.
+
 			dialog.showOpenDialog({
 				properties: ['openFile'],
-				filters:[{name: 'Images',extensions:['jpg','jpeg','png','pdf','gif']}],
-			}).then(result => {
-				let file = tempDir.concat(result.filePaths[0].substring(result.filePaths[0].lastIndexOf(slash)))
+				filters:[{name: 'Images',extensions:['jpg','jpeg','png','pdf','gif']}]
+			},(result)=>{
+				let file = tempDir.concat(result[0].substring(result[0].lastIndexOf(slash)))
 				console.log(file)
-				
-				// if(os.platform() === 'darwin'){
-				// 	file = tempDir.concat(result.filePaths[0].substring(result.filePaths[0].lastIndexOf('/')))
-				// }else{//windows filepaths use backslash
-				// 	file = tempDir.concat(result.filePaths[0].substring(result.filePaths[0].lastIndexOf('\\')))
-				// }
-
-				fs.copyFile(result.filePaths[0],file,(err)=>{
+				fs.copyFile(result[0],file,(err)=>{
 					if(err) throw err;
 					loadImage(file);
 				});
-			}).catch(err => {
-				console.log(err)
 			})
 
 			break;

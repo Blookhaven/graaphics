@@ -403,7 +403,7 @@ ipcMain.on('projectTitle',(event,data)=>{
 let user = false;
 
 ipcMain.on('loginSuccess',(event,data)=>{
-  user = data;console.log(data)
+  user = data;
   mainWindow.webContents.send('loginSuccess',user['ContactName']);
   event.sender.send('loginSuccess');
 })
