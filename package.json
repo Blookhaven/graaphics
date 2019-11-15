@@ -1,7 +1,7 @@
 {
   "name": "graaphics",
   "productName": "Graaphics",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Application for production of AAP visual media",
   "main": "main.js",
   "author": "Sean Fitzpatrick",
@@ -21,7 +21,7 @@
     "dist": "electron-builder"
   },
   "build": {
-    "appId": "Graaphics",
+    "appId": "com.aap.graaphics",
     "dmg": {
       "contents": [
         {
@@ -44,9 +44,11 @@
   "devDependencies": {
     "electron": "^7.0.0",
     "electron-builder": "^21.2.0",
-    "electron-builder-squirrel-windows": "^22.1.0"
+    "electron-builder-squirrel-windows": "^22.1.0",
+    "electron-rebuild": "^1.8.6"
   },
   "dependencies": {
+    "electron-spellchecker": "^2.2.1",
     "electron-tabs": "^0.9.5",
     "ftp": "^0.3.10",
     "jquery": "^3.4.1",
