@@ -79,8 +79,15 @@ const saveImage = ()=>{
 			// 		console.log("Succesfully written " + windata['data']['filename']);
 			// 	}
 			// })
-			shell.showItemInFolder(windata['data']['filename'])
-			remote.BrowserWindow.getFocusedWindow().close();
+			if(os.platform() === 'darwin'){
+				shell.showItemInFolder(windata['data']['filename'])
+				remote.BrowserWindow.getFocusedWindow().close();
+			}else{
+				ipcRenderer.send('unlock');
+				shell.showItemInFolder(windata['data']['filename'])
+				remote.BrowserWindow.getFocusedWindow().close();
+			}
+			
 		}).catch((reject)=>{
 			console.log(reject)
 		})

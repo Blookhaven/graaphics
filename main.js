@@ -359,6 +359,10 @@ ipcMain.on('win',(event,windata)=>{
   })
 })
 
+ipcMain.on('unlock',(event)=>{
+  mainWindow.webContents.send('unlock');
+})
+
 
 ipcMain.on('newTab',(event,data)=>{
 
