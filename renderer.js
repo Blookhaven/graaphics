@@ -182,3 +182,9 @@ $(document).on('keydown',(event)=>{
 	// 	// tab.activate(tabGroup.getNextTab())
 	// }
 });
+
+/*UPDATER*/
+ipcRenderer.on('message',(event,data)=>{
+	console.log(data)
+})
+/*UPDATER*/
