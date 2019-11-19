@@ -154,8 +154,8 @@ $('body').append(`
 			
 			<div class="textFrame watermarked aap positive top left">
 				<div class="textContainer">
-					<div class="textBox string"></div>
-					<div class="textBox accreditation">
+					<div class="textBox displayNone string"></div>
+					<div class="textBox displayNone accreditation">
 						<div class="source"></div>
 						<div class="exposition"></div>
 					</div>
@@ -260,8 +260,8 @@ $('body').append(`
 		
 		<div class="textFrame watermarked aap positive top left">
 			<div class="textContainer">
-				<div class="textBox string"></div>
-				<div class="textBox accreditation">
+				<div class="textBox displayNone string"></div>
+				<div class="textBox displayNone accreditation">
 					<div class="source"></div>
 					<div class="exposition"></div>
 				</div>
@@ -359,7 +359,11 @@ const initialise = (num)=>{
 	window['currentImage'] = {};
 	window['imageFrame'] = null;
 
-	window['textProperties'] = {};
+	window['textProperties'] = {
+		string: '',
+		source: '',
+		exposition: '',
+	};
 	window['tester'] = [];//to do with caret position and highlights
 	window['prevStringLength'] = 0;
 	window['selectedRange'] = [];
@@ -1522,6 +1526,14 @@ const saveImage = ()=>{
 	// 		console.log(reject)
 	// 	})
 	// })
+
+	if(fs.existsSync(filename)){
+		let overwrite = confirm(`${title}.jpg already exists.\nOverwrite file?`)
+		console.log(overwrite)
+		if(!overwrite){
+			return overwrite;
+		}
+	}
 
 
 	ipcRenderer.send('win',{
