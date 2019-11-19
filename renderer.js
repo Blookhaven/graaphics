@@ -185,6 +185,6 @@ $(document).on('keydown',(event)=>{
 
 /*UPDATER*/
 ipcRenderer.on('message',(event,data)=>{
-	console.log(data)
+	console.log(`\n* * * * *\n${data}\n* * * * *\n`)
 })
 /*UPDATER*/
