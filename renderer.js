@@ -185,7 +185,7 @@ ipcRenderer.on('message',(event,text,disp)=>{
 		case 'number':
 		$('.messageText').text(text);
 		setTimeout(()=>{
-			$('.messageText').text(text);
+			$('.messageText').text('');
 		},disp);
 		break;
 
