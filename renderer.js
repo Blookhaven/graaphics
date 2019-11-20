@@ -15,9 +15,8 @@ const ipcRenderer = electron.ipcRenderer;
 
 let tabGroup = new TabGroup();
 
-console.log(os.arch())
-console.log(os.EOL.split('\\'))
-console.log(os.arch())
+// console.log(os.arch())
+// console.log(os.EOL.split('\\'))//The operating system-specific end-of-line marker.
 
 /* * * * * * * * * * * * * * * * * * * * * * * */
 
@@ -51,10 +50,6 @@ ipcRenderer.on('newTab',(event,data,num)=>{
 	args['title'] = `${data} ${num}`;
 	newTab(args);
 })
-
-// ipcRenderer.on('countTabs',(event)=>{
-// 	console.log($('.etabs-tab').length)
-// })
 
 ipcRenderer.on('maxTabs',(event)=>{
 	alert('Limit reached.\nClose a tab to make room for a new one.' )
@@ -106,7 +101,7 @@ ipcRenderer.on('loaded',(event,data)=>{
 	newTab(home);/*call the newTab function passing designated script name as argument*/
 })
 
-ipcRenderer.on('loginSuccess',(event,data)=>{console.log(data)
+ipcRenderer.on('loginSuccess',(event,data)=>{
 	$('.login').off();
 	$('.loginText').html(data);
 })
@@ -162,11 +157,6 @@ $(document).on('keydown',(event)=>{
 		ipcRenderer.send('toggleDevTools')
 	}
 
-	console.log('keyCode: ',event.keyCode);
-	// // console.log('altKey: ',event.altKey);
-	console.log('metaKey: ',event.metaKey);
-	// // console.log('ctrlKey: ',event.ctrlKey);
-
 	// if(
 	// 	event.keyCode === 192 && event.metaKey
 	// 	// (event.keyCode === 192/*~*/) && 
@@ -184,8 +174,25 @@ $(document).on('keydown',(event)=>{
 });
 
 /*UPDATER*/
-ipcRenderer.on('message',(event,data)=>{
-	console.log(`\n- - - - -\n${data}\n- - - - -\n`)
-	$('.messageText').text(data);
+ipcRenderer.on('message',(event,text,disp)=>{
+	console.log(`\n- - - - -\n${text}\n- - - - -\n`)
+	
+	switch(typeof disp){
+		case 'boolean':
+		$('.messageText').text(text);
+		break;
+		
+		case 'number':
+		$('.messageText').text(text);
+		setTimeout(()=>{
+			$('.messageText').text(text);
+		},disp);
+		break;
+
+		case 'string':
+		$('.messageText').text(disp);
+	}
+
+	// $('.messageText').text(data);
 })
 /*UPDATER*/

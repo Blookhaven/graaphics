@@ -24,31 +24,33 @@ autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
 log.info('App starting...');
 
-const sendStatusToWindow = (text)=>{
+const sendStatusToWindow = (text,disp)=>{
   log.info(text);
-  mainWindow.webContents.send('message', text);
+  mainWindow.webContents.send('message',text,disp);
 }
 
 autoUpdater.on('checking-for-update', () => {
-  sendStatusToWindow('Checking for update...');
+  sendStatusToWindow('Checking for updates...',false);
 })
 autoUpdater.on('update-available', (info) => {
-  sendStatusToWindow('Update available.');
+  sendStatusToWindow('Update available.',false);
 })
 autoUpdater.on('update-not-available', (info) => {
-  sendStatusToWindow('Update not available.');
+  sendStatusToWindow('No updates available.',3000);
 })
 autoUpdater.on('error', (err) => {
-  sendStatusToWindow('Error in auto-updater. ' + err);
+  sendStatusToWindow(`Error in auto-updater. ${err}`,5000);
 })
 autoUpdater.on('download-progress', (progressObj) => {
-  let log_message = "Download speed: " + progressObj.bytesPerSecond;
-  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
-  log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-  sendStatusToWindow(log_message);
+  // let log_message = "Download speed: " + progressObj.bytesPerSecond;
+  // log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+  // log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+  let log_message = `Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}% (${progressObj.transferred}/${progressObj.total})`;
+  let display_msg = `Downloading update: ${Math.floor(progressObj.percent)}%`
+  sendStatusToWindow(log_message,display_msg);
 })
 autoUpdater.on('update-downloaded', (info) => {
-  sendStatusToWindow('Update downloaded.');
+  sendStatusToWindow('Update downloaded.',3000);
 });
 /*UPDATER*/
 
@@ -259,7 +261,7 @@ const createWindow = ()=>{
     console.log('\n* * * * * * * * * * will-download * * * * * * * * * *\n\n')
     console.log(item)
     console.log(webContents)
-    let thisImagePath = tempDir + '/' + assetId + '.jpg'
+    let thisImagePath = `${tempDir}/${assetId}.jpg'`;
     item.setSavePath(thisImagePath)
 
     item.on('updated', (event, state) => {
