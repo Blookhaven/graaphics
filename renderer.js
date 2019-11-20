@@ -15,13 +15,7 @@ const ipcRenderer = electron.ipcRenderer;
 
 let tabGroup = new TabGroup();
 
-// console.log(os.arch())
-// console.log(os.EOL.split('\\'))//The operating system-specific end-of-line marker.
-
-/* * * * * * * * * * * * * * * * * * * * * * * */
-
 const newTab = (args)=>{
-	console.log(args)
 	let tab = tabGroup.addTab(args)
 	/*define the new webview*/
 	let webview = tab['webview'];
@@ -99,21 +93,19 @@ ipcRenderer.on('loaded',(event,data)=>{
 	}	
 
 	newTab(home);/*call the newTab function passing designated script name as argument*/
-})
-
-ipcRenderer.on('loginSuccess',(event,data)=>{
-	$('.login').off();
-	$('.loginText').html(data);
-})
-
+});
 
 /*apply body of css file to dynamic stylesheet tag*/
 $.get('./index.css',(data)=>{
 	$('#stylesheet').text(data);
 },'text')
 
-
 /*login*/
+ipcRenderer.on('loginSuccess',(event,data)=>{
+	$('.login').off();
+	$('.loginText').html(data);
+});
+
 $('.login').off().on('click',()=>{
 
 	let windata = {
@@ -126,7 +118,6 @@ $('.login').off().on('click',()=>{
 		closable: true,
 		titleBarStyle: 'hidden',
 		backgroundColor: "#46464c",
-		// opacity: windata['opacity'],
 		opacity: 1,
     	frame:os.platform() === 'darwin',
 		data: {},
@@ -135,10 +126,6 @@ $('.login').off().on('click',()=>{
 	ipcRenderer.send('win',windata);
 })
 /*login*/
-
-/*add keyboard functions*/
-
-
 
 ipcRenderer.on('quit',(event)=>{
 	/*meet some conditions?*/
@@ -149,6 +136,26 @@ ipcRenderer.on('projectTitle',(event,data)=>{
 	tabGroup.getActiveTab().setTitle(data)
 })
 
+/*UPDATER*/
+ipcRenderer.on('message',(event,text,disp)=>{
+	console.log(text);
+	switch(typeof disp){
+		case 'boolean':
+		$('.messageText').text(text);
+		break;
+		
+		case 'number':
+		$('.messageText').text(text);
+		setTimeout(()=>{
+			$('.messageText').text('');
+		},disp);
+		break;
+
+		case 'string':
+		$('.messageText').text(disp);
+	}
+});
+/*UPDATER*/
 
 $(document).on('keydown',(event)=>{
 	
@@ -172,27 +179,3 @@ $(document).on('keydown',(event)=>{
 	// 	// tab.activate(tabGroup.getNextTab())
 	// }
 });
-
-/*UPDATER*/
-ipcRenderer.on('message',(event,text,disp)=>{
-	console.log(`\n- - - - -\n${text}\n- - - - -\n`)
-	
-	switch(typeof disp){
-		case 'boolean':
-		$('.messageText').text(text);
-		break;
-		
-		case 'number':
-		$('.messageText').text(text);
-		setTimeout(()=>{
-			$('.messageText').text('');
-		},disp);
-		break;
-
-		case 'string':
-		$('.messageText').text(disp);
-	}
-
-	// $('.messageText').text(data);
-})
-/*UPDATER*/
