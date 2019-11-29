@@ -345,3 +345,22 @@ autoUpdater.on('update-downloaded', (info) => {
 /*UPDATER*/
 
 app.on('ready', createWindow);
+
+
+
+
+
+
+
+/*bushfire*/
+ipcMain.on('firepic',(event,data)=>{
+  currentTab.send('firepic',data)
+})
+
+ipcMain.on('nodesent',(event,data)=>{
+  // webContents.send('successfulDownload')
+
+  webContents.getAllWebContents().forEach(wc => {
+    wc.send('nodesent')
+  })
+})

@@ -90,6 +90,14 @@ ipcRenderer.on('loaded',(event,data)=>{
 		visible: true,
 		active: true,
 		closable: true,
+	}
+
+	window['fire'] = {
+		title: 'fire',
+		src: `tab.html?script=fire&tempDir=${tempDir}`,
+		visible: true,
+		active: true,
+		closable: true,
 	}	
 
 	newTab(home);/*call the newTab function passing designated script name as argument*/

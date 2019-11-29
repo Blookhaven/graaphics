@@ -31,6 +31,7 @@
     "electron-tabs": "^0.9.5",
     "electron-updater": "^4.0.6",
     "ftp": "^0.3.10",
+    "google-maps": "^3.3.0",
     "jquery": "^3.4.1",
     "os": "^0.1.1",
     "temp": "^0.9.0",

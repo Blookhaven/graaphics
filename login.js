@@ -58,6 +58,7 @@ const login = ()=>{
 		success: (data)=>{
 			localStorage.setItem('api',api);
 			localStorage.setItem('Username',user['Username']);
+			localStorage.setItem('Password',user['Password']);
 			user['ContactName'] = data['ContactName'];
 			ipcRenderer.send('loginSuccess',user);
 		},
@@ -108,7 +109,15 @@ $(document).ready(()=>{
 	}else{
 		$('[name=user]').focus();
 	}
-
+	/*191129*/
+	if(localStorage['Password']){
+		user['Password'] = localStorage.getItem('Password');
+		$('[name=pass]').val(user['Password']);
+		$('[name=pass]').focus();
+	}else{
+		$('[name=user]').focus();
+	}
+	/*191129*/
 	if(localStorage['api']){
 		window['api'] = localStorage.getItem('api')
 		$('[name=api]').remove();
