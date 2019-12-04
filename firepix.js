@@ -25,7 +25,7 @@ $('body').append(`
 	</div>
 `)
 
-$('#searchField').focus();
+$('#searchField').select();
 
 $(window).on('keydown',(e)=>{/*close the window when escape key is pressed*/
 	if(e.keyCode === 27 && $('.wait').hasClass('displayNone')){
