@@ -98,6 +98,14 @@ ipcRenderer.on('loaded',(event,data)=>{
 		visible: true,
 		active: true,
 		closable: true,
+	}
+
+	window['covid19'] = {
+		title: 'covid19',
+		src: `tab.html?script=covid19&tempDir=${tempDir}`,
+		visible: true,
+		active: true,
+		closable: true,
 	}	
 
 	newTab(home);/*call the newTab function passing designated script name as argument*/

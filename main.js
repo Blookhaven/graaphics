@@ -357,6 +357,11 @@ ipcMain.on('firepic',(event,data)=>{
   currentTab.send('firepic',data)
 })
 
+/*covid19*/
+ipcMain.on('covid19pic',(event,data)=>{
+  currentTab.send('covid19pic',data)
+})
+
 ipcMain.on('nodesent',(event,data)=>{
   // webContents.send('successfulDownload')
 

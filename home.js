@@ -18,7 +18,8 @@ $('body').append(`
 	<main>
 		<!--<input type="button" name="project" value="Project">-->
 		<input type="button" name="quote" value="Quote">
-		<input type="button" name="fire" value="Fire">
+		<input type="button" name="covid19" value="Covid19">
+		<!--<input type="button" name="fire" value="Fire">-->
 	</main>
 `)
 

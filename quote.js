@@ -129,8 +129,8 @@ $('body').append(`
 
 				<select class="ratioSelect" id="ratioSelect" title="Aspect Ratio">
 					<option value="" disabled="true">Aspect Ratio</option>
-					<option value="0.5625" selected="true">16:9</option>
-					<option value="0.75">4:3</option>
+					<option value="0.5625">16:9</option>
+					<option value="0.75" selected="true">4:3</option>
 					<option value="1">1:1</option>
 				</select>
 
