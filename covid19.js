@@ -131,7 +131,7 @@ if(localStorage['ftpUser']){$('[name=ftpUser').val(localStorage['ftpUser'])}
 if(localStorage['ftpPass']){$('[name=ftpPass').val(localStorage['ftpPass'])}
 if(localStorage['dataURL']){$('[name=dataURL').val(localStorage['dataURL'])}
 
-$('.remember').on('change',(e)=>{
+$('.remember').off().on('change',(e)=>{
 	let x = e.target;
 	localStorage.setItem(x.name,x.value)
 })
@@ -168,10 +168,11 @@ const getQueryParams = (qs)=>{
 	}
 	return params;
 };
-
+let today = new Date();
 let dates;
 let dateKeys;
 const initialise = (num)=>{
+	console.log(`initialise(${num})`)
 	/*map bits*/
 	$.getJSON(`http://${$('[name=dataURL]').val()}.js?t=${new Date().getTime()}`,function(data){
 		console.log($('[name=dataURL]').val())
@@ -183,7 +184,7 @@ const initialise = (num)=>{
 		console.log(err)
 	})
 
-	window['today'] = new Date();
+	// window['today'] = new Date();
 	today.setDate(today.getDate() - 1);/*SET BACK BY ONE DAY TO GET LATEST REPORT ON UTC*/
 	window['yyStr'] = today.getFullYear() - 2000;
 	window['mmStr'] = today.getMonth() + 1;
@@ -201,78 +202,80 @@ const initialise = (num)=>{
 
 	window['dateString'] = $('#yy').val().toString() + $('#mm').val().toString() + $('#dd').val().toString();
 	localStorage.setItem("covidDateString",`20${$('#yy').val().toString()}-${$('#mm').val().toString()}-${$('#dd').val().toString()}`)
-	$('.dateString').on('change',(e)=>{
+	$('.dateString').off().on('change',(e)=>{
 		if(e.target.id == 'mm'){$('#dd').val('01')}
 		dateString = $('#yy').val().toString() + $('#mm').val().toString() + $('#dd').val().toString();
 		localStorage.setItem("covidDateString",`20${$('#yy').val().toString()}-${$('#mm').val().toString()}-${$('#dd').val().toString()}`)
 		loadDate();
 	})
 
-	$('#morePic').on('click',()=>{
-
-		if(!dates[dateString]){
-			dates[dateString] = {
-				"images": [],
-				"updated": "xxxxxx",
-				"act": {
-					"Confirmed": 0,
-					"New": 0,
-					"Deaths": 0,
-					"Recoveries": 0
-				},
-				"nsw": {
-					"Confirmed": 0,
-					"New": 0,
-					"Deaths": 0,
-					"Recoveries": 0
-				},
-				"nt": {
-					"Confirmed": 0,
-					"New": 0,
-					"Deaths": 0,
-					"Recoveries": 0
-				},
-				"qld": {
-					"Confirmed": 0,
-					"New": 0,
-					"Deaths": 0,
-					"Recoveries": 0
-				},
-				"sa": {
-					"Confirmed": 0,
-					"New": 0,
-					"Deaths": 0,
-					"Recoveries": 0
-				},
-				"tas": {
-					"Confirmed": 0,
-					"New": 0,
-					"Deaths": 0,
-					"Recoveries": 0
-				},
-				"vic": {
-					"Confirmed": 0,
-					"New": 0,
-					"Deaths": 0,
-					"Recoveries": 0
-				},
-				"wa": {
-					"Confirmed": 0,
-					"New": 0,
-					"Deaths": 0,
-					"Recoveries": 0
-				},
-				"totals": {
-					"Confirmed": 0,
-					"New": 0,
-					"Deaths": 0,
-					"Recoveries": 0
+	if(num != false){
+		$('#morePic').off().on('click',()=>{
+	
+			if(!dates[dateString]){
+				dates[dateString] = {
+					"images": [],
+					"updated": "xxxxxx",
+					"act": {
+						"Confirmed": 0,
+						"New": 0,
+						"Deaths": 0,
+						"Recoveries": 0
+					},
+					"nsw": {
+						"Confirmed": 0,
+						"New": 0,
+						"Deaths": 0,
+						"Recoveries": 0
+					},
+					"nt": {
+						"Confirmed": 0,
+						"New": 0,
+						"Deaths": 0,
+						"Recoveries": 0
+					},
+					"qld": {
+						"Confirmed": 0,
+						"New": 0,
+						"Deaths": 0,
+						"Recoveries": 0
+					},
+					"sa": {
+						"Confirmed": 0,
+						"New": 0,
+						"Deaths": 0,
+						"Recoveries": 0
+					},
+					"tas": {
+						"Confirmed": 0,
+						"New": 0,
+						"Deaths": 0,
+						"Recoveries": 0
+					},
+					"vic": {
+						"Confirmed": 0,
+						"New": 0,
+						"Deaths": 0,
+						"Recoveries": 0
+					},
+					"wa": {
+						"Confirmed": 0,
+						"New": 0,
+						"Deaths": 0,
+						"Recoveries": 0
+					},
+					"totals": {
+						"Confirmed": 0,
+						"New": 0,
+						"Deaths": 0,
+						"Recoveries": 0
+					}
 				}
 			}
-		}
-		
-		ipcRenderer.send('archive');
-	})
+			
+			ipcRenderer.send('archive');
+		})
+	}
 	/*map bits*/
 
 	window['query'] = getQueryParams(document.location.search);
@@ -280,6 +283,7 @@ const initialise = (num)=>{
 	window['title'] = `quote ${num}`;
 	window['initTitle'] = title;
 	window['windata'] = null;
+};
 
 	ipcRenderer.on('archive',(event,user)=>{
 
@@ -333,7 +337,7 @@ const initialise = (num)=>{
 		data: null,
 	});
 	/*void window - temporary fix for input focus inconsistency*/
-};
+//};
 
 /*map bit*/
 let localities = []
@@ -617,7 +621,7 @@ const loadDate = ()=>{console.log('loadDate')
 	 	},
 	 	error:(err)=>{
 	 		alert(JSON.stringify(err))
-	 		initialise()
+	 		initialise(false)
 	 	}
 	});
 	/*COVID*/
@@ -649,7 +653,7 @@ const loadDate = ()=>{console.log('loadDate')
 		pix[i]['Description'] = $(x).val();
 	})
 
-	$('.picCol .trash').on('click',(e)=>{
+	$('.picCol .trash').off().on('click',(e)=>{
 		let x = e.target;
 		let reallyDelete = confirm('really delete this photo?')
 
@@ -837,4 +841,4 @@ const upload = ()=>{
 		}
 	})
 };
-$('button').on('click',upload)
+$('button').off().on('click',upload)

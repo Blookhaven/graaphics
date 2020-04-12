@@ -135,8 +135,26 @@ function searchImages(new_search){
 	}else{
 		pay_load = JSON.stringify({"MediaTypes":["image"],"Credits":["aapimage"]});
 	}
+	
+	let rangeStart = new Date(localStorage['covidDateString'])
+	rangeStart.setDate(rangeStart.getDate() - 1);
+	let rsfy = rangeStart.getFullYear();
+	let rsmm = rangeStart.getMonth() + 1;
+	if(rsmm < 10){rsmm = `0${rsmm}`}
+	let rsdd = rangeStart.getDate();
+	if(rsdd < 10){rsdd = `0${rsdd}`}
+	rangeStart = `${rsfy}-${rsmm}-${rsdd}`;
 
-	pay_load = JSON.stringify({"MediaTypes":["image"],"Credits":["aapimage"],"DateRange":[{"Start":localStorage['covidDateString'],"End":localStorage['covidDateString']}],"DateCreatedFilter":"true"});
+	let rangeEnd = new Date(localStorage['covidDateString'])
+	rangeEnd.setDate(rangeEnd.getDate() + 1);
+	let refy = rangeEnd.getFullYear();
+	let remm = rangeEnd.getMonth() + 1;
+	if(remm < 10){remm = `0${remm}`}
+	let redd = rangeEnd.getDate();
+	if(redd < 10){redd = `0${redd}`}
+	rangeEnd = `${refy}-${remm}-${redd}`;
+
+	pay_load = JSON.stringify({"MediaTypes":["image"],"Credits":["aapimage"],"DateRange":[{"Start":rangeStart,"End":rangeEnd}],"DateCreatedFilter":"true"});
 
 	$.ajax({
 		type: "POST",
