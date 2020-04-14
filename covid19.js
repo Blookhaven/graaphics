@@ -21,7 +21,7 @@ const ipcRenderer = electron.ipcRenderer;
 
 // const GoogleMapsLoader = require('google-maps');
 
-// ipcRenderer.send('toggleDevTools')
+ipcRenderer.send('toggleDevTools')
 
 /*SPELLCHECKER*/
 // Require the electron spellchecker
