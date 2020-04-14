@@ -113,7 +113,7 @@ $('body').append(`
 			<input class="remember" type="text" name="ftpClient" placeholder="ftpClient">
 			<input class="remember" type="text" name="ftpUser" placeholder="ftpUser">
 			<input class="remember" type="password" name="ftpPass" placeholder="ftpPass">
-			<input class="remember" type="text" name="dataURL" placeholder="dataURL">
+			<input class="remember" type="text" name="dataURL" placeholder="dataURL" value="hosted.aap.com.au/interactives/covid19/script/dates">
 			<button>Publish</button>
 		</div>
 		<div class="top_right">Photos</div>
