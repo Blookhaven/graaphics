@@ -7,7 +7,7 @@ const path = require('path');
 
 const Client = require('ftp');//https://www.npmjs.com/package/ftp
 
-const request = require('request')
+// const request = require('request')
 
 // const domtoimage = require('dom-to-image');
 // const html2canvas = require('html2canvas');
@@ -21,7 +21,7 @@ const ipcRenderer = electron.ipcRenderer;
 
 // const GoogleMapsLoader = require('google-maps');
 
-ipcRenderer.send('toggleDevTools')
+// ipcRenderer.send('toggleDevTools')
 
 /*SPELLCHECKER*/
 // Require the electron spellchecker
@@ -787,42 +787,42 @@ $('button').off().on('click',upload)
 /**
  * Promise based download file method
  */
-function downloadFile(configuration){
-	return new Promise(function(resolve, reject){
-		// Save variable to know progress
-		var received_bytes = 0;
-		var total_bytes = 0;
+// function downloadFile(configuration){
+// 	return new Promise(function(resolve, reject){
+// 		// Save variable to know progress
+// 		var received_bytes = 0;
+// 		var total_bytes = 0;
 
-		var req = request({
-			method: 'GET',
-			uri: configuration.remoteFile
-		});
+// 		var req = request({
+// 			method: 'GET',
+// 			uri: configuration.remoteFile
+// 		});
 
-		var out = fs.createWriteStream(configuration.localFile);
-		req.pipe(out);
+// 		var out = fs.createWriteStream(configuration.localFile);
+// 		req.pipe(out);
 
-		req.on('response', function ( data ) {
-			// Change the total bytes value to get progress later.
-			total_bytes = parseInt(data.headers['content-length' ]);
-		});
+// 		req.on('response', function ( data ) {
+// 			// Change the total bytes value to get progress later.
+// 			total_bytes = parseInt(data.headers['content-length' ]);
+// 		});
 
-		// Get progress if callback exists
-		if(configuration.hasOwnProperty("onProgress")){
-			req.on('data', function(chunk) {
-				// Update the received bytes
-				received_bytes += chunk.length;
+// 		// Get progress if callback exists
+// 		if(configuration.hasOwnProperty("onProgress")){
+// 			req.on('data', function(chunk) {
+// 				// Update the received bytes
+// 				received_bytes += chunk.length;
 
-				configuration.onProgress(received_bytes, total_bytes);
-			});
-		}else{
-			req.on('data', function(chunk) {
-				// Update the received bytes
-				received_bytes += chunk.length;
-			});
-		}
+// 				configuration.onProgress(received_bytes, total_bytes);
+// 			});
+// 		}else{
+// 			req.on('data', function(chunk) {
+// 				// Update the received bytes
+// 				received_bytes += chunk.length;
+// 			});
+// 		}
 
-		req.on('end', function() {
-			resolve();
-		});
-	});
-}
+// 		req.on('end', function() {
+// 			resolve();
+// 		});
+// 	});
+// }
