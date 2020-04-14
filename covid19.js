@@ -7,6 +7,8 @@ const path = require('path');
 
 const Client = require('ftp');//https://www.npmjs.com/package/ftp
 
+const request = require('request')
+
 // const domtoimage = require('dom-to-image');
 // const html2canvas = require('html2canvas');
 
@@ -494,11 +496,16 @@ const loadDate = ()=>{console.log('loadDate')
 						if(ausstateterrs[j] == arr[0]){
 							// console.log(short[j],arr[2],arr[3],arr[4],arr[5])
 							
+							let New = Number(arr[3]) - Number(dates[yesterStr][short[j]]['Confirmed']);
+							// console.log(New)
+							if(New < 0){
+								New = 0;
+							}
 
 							dates[dateString]['updated'] = arr[2]
 							dates[dateString][short[j]] = {
 								Confirmed:Number(arr[3]),
-								New:Number(arr[3]) - Number(dates[yesterStr][short[j]]['Confirmed']),
+								New:New,
 								Deaths:Number(arr[4]),
 								Recoveries:Number(arr[5]),
 							}
@@ -564,10 +571,15 @@ const loadDate = ()=>{console.log('loadDate')
 					for(let j in ausstateterrs){
 						if(ausstateterrs[j] == arr[0]){
 
+							let New = Number(arr[5]) - Number(dates[yesterStr][short[j]]['Confirmed']);
+							if(New < 0){
+								New = 0;
+							}console.log(short[j],New)
+
 							dates[dateString]['updated'] = arr[2]
 							dates[dateString][short[j]] = {
 								Confirmed:Number(arr[5]),
-								New:Number(arr[5]) - Number(dates[yesterStr][short[j]]['Confirmed']),
+								New:New,
 								Deaths:Number(arr[6]),
 								Recoveries:Number(arr[7]),
 							}
@@ -600,6 +612,10 @@ const loadDate = ()=>{console.log('loadDate')
 				}
 				wNew = wConfirmed - Number(dates[yesterStr]['world']['Confirmed'])
 
+				if(wNew < 0){
+					wNew = 0;
+				}
+
 				dates[dateString]['world'] = {
 					Confirmed: wConfirmed,
 					New: wNew,
@@ -621,6 +637,7 @@ const loadDate = ()=>{console.log('loadDate')
 	 	},
 	 	error:(err)=>{
 	 		alert(JSON.stringify(err))
+	 		today = new Date();
 	 		initialise(false)
 	 	}
 	});
@@ -637,7 +654,7 @@ const loadDate = ()=>{console.log('loadDate')
 		}
 
 		let thisCaption = pix[i]['Description'].substring(0,stringEnd)
-
+		console.log(pix[i])
 		$('#morePic').before(`
 			<div class="picBox" id="picBox_${i}">
 				<img src="${pix[i]['Layout']}">
@@ -645,6 +662,15 @@ const loadDate = ()=>{console.log('loadDate')
 				<div class="trash"></div>
 			</div>
 		`)
+
+		// downloadFile({
+		// 	remoteFile: pix[i]['Layout'],
+		// 	localFile: `${documents}/graaphics/covid19/layout/${pix[i]['AssetId']}.jpg`
+		// })
+		// downloadFile({
+		// 	remoteFile: pix[i]['Thumbnail'],
+		// 	localFile: `${documents}/graaphics/covid19/thumbnail/${pix[i]['AssetId']}.jpg`
+		// })
 	}
 
 	$('.picBox textarea').off().on('input',(e)=>{
@@ -671,6 +697,17 @@ const loadDate = ()=>{console.log('loadDate')
 		}
 	})
 	/*photos*/
+
+	// downloadFile({
+	// 	remoteFile: "http://www.planwallpaper.com/static/images/butterfly-wallpaper.jpeg",
+	// 	localFile: "/var/www/downloads/butterfly-wallpaper.jpeg",
+	// 	onProgress: function (received,total){
+	// 		var percentage = (received * 100) / total;
+	// 		console.log(percentage + "% | " + received + " bytes out of " + total + " bytes.");
+	// 	}
+	// }).then(function(){
+	// 	console.log("File succesfully downloaded");
+	// });
 };
 
 $('body').ready(ipcRenderer.send('initialise','covid19'));
@@ -699,102 +736,6 @@ let styledMapOptions;
 let customMapType;
 
 let markersArray = [];
-
-// GoogleMapsLoader.load(function(google){
-// 	console.log('load_map')
-// 	map_center = new google.maps.LatLng(-30,133);
-// 	last_valid_center = map_center;
-// 	initialZoom = 4;
-// 	MY_MAPTYPE_ID = 'custom_style';
-
-// 	featureOpts = [
-// 		{
-// 			stylers: [
-// 				{ hue: '#7DD124' },
-// 				{ visibility: 'simplified' },
-// 				{ gamma: 0.5 },
-// 				{ weight: 0.5 }
-// 			]
-// 		},
-// 		{
-// 			elementType: 'labels',
-// 			stylers: [
-// 				{ visibility: 'on' }
-// 			]
-// 		},
-// 		{
-// 			featureType: 'water',
-// 			stylers: [
-// 				{ color: '#3390df' }
-// 			]
-// 		}
-// 	];
-// 	mapOptions = {
-// 		zoom: initialZoom,
-// 		center: map_center,
-// 		mapTypeControlOptions: {
-// 			mapTypeIds: [google.maps.MapTypeId.ROADMAP, MY_MAPTYPE_ID]
-// 		},
-// 		mapTypeId: MY_MAPTYPE_ID,
-// 		panControl: false,
-// 		fullscreenControl:false,
-// 		zoomControl: true,
-// 		zoomControlOptions: {
-// 			style: google.maps.ZoomControlStyle.SMALL,
-// 			position: google.maps.ControlPosition.RIGHT_TOP
-// 		}
-// 	};
-// 	map = new google.maps.Map(document.getElementById('map_box'),mapOptions);
-// 	styledMapOptions = {name:'Custom Style'};
-// 	customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
-// 	map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
-
-
-// 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-// })
-
-// function updateMarkers(pin){
-// 	localities = pin;
-// 	console.log(localities)
-
-// 	for(let i in markersArray){
-// 		markersArray[i].setMap(null);
-// 	}
-// 	markersArray = [];
-// 	setMarkers(map);
-// };
-
-// function setMarkers(){
-
-// 	for (let i = 0; i < localities.length; i++){
-			
-// 		let siteLatLng = new google.maps.LatLng(localities[i].lat,localities[i].lon);
-// 		let hrIcon = new google.maps.MarkerImage(`images/${localities[i]['kind']}.png`, null, null, null, new google.maps.Size(40,50));
-// 		// let hrIcon = new google.maps.MarkerImage(`flamebasic.xml`, null, null, null, new google.maps.Size(40,50));
-			
-// 		let marker = new google.maps.Marker({
-// 			map: map,
-// 			locality: localities[i].locality,
-// 			icon: hrIcon,
-// 			position: siteLatLng,
-// 			// image: localities[i].image,
-// 			// address: localities[i].address,
-// 			// qwerty: localities[i].uiop,
-// 			// capacity: localities[i].capacity,
-// 			// events: localities[i].events,
-// 			// blurb: localities[i].blurb,
-// 			// html: "<div class='infoWindowText'><h1 style='color:#5B8013; font-size:1.2em; margin:0px'>" + localities[i].locality + "</h1><span class='zoom' id='" + localities[i].lat + "_" + localities[i].lon + "' style='cursor:pointer'>...</span></div>"
-// 		});
-
-// 		markersArray.push(marker);
-// 		// google.maps.event.addListener(marker, "click", show_info);
-// 	}
-// 	// console.log(markersArray)
-// 	// get_bounds();
-// };
-
-
 
 const upload = ()=>{
 
@@ -842,3 +783,46 @@ const upload = ()=>{
 	})
 };
 $('button').off().on('click',upload)
+
+/**
+ * Promise based download file method
+ */
+function downloadFile(configuration){
+	return new Promise(function(resolve, reject){
+		// Save variable to know progress
+		var received_bytes = 0;
+		var total_bytes = 0;
+
+		var req = request({
+			method: 'GET',
+			uri: configuration.remoteFile
+		});
+
+		var out = fs.createWriteStream(configuration.localFile);
+		req.pipe(out);
+
+		req.on('response', function ( data ) {
+			// Change the total bytes value to get progress later.
+			total_bytes = parseInt(data.headers['content-length' ]);
+		});
+
+		// Get progress if callback exists
+		if(configuration.hasOwnProperty("onProgress")){
+			req.on('data', function(chunk) {
+				// Update the received bytes
+				received_bytes += chunk.length;
+
+				configuration.onProgress(received_bytes, total_bytes);
+			});
+		}else{
+			req.on('data', function(chunk) {
+				// Update the received bytes
+				received_bytes += chunk.length;
+			});
+		}
+
+		req.on('end', function() {
+			resolve();
+		});
+	});
+}
