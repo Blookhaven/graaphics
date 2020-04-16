@@ -1,7 +1,7 @@
 {
   "name": "graaphics",
   "productName": "Graaphics",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "description": "Application for production of AAP visual media",
   "main": "main.js",
   "author": "Sean Fitzpatrick",

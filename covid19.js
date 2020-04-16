@@ -56,13 +56,13 @@ $('body').append(`
 		<div class="top_left">
 			<label for="yy">yy</label>
 			<select class="dateString" id="yy">
-				<option value="19">19</option>
 				<option value="20">20</option>
 				<option value="21">21</option>
 			</select>
 			<label for="mm">mm</label>
 			<select class="dateString" id="mm">
 				<!--<option value="01">01</option>-->
+				<option value="01">01</option>
 				<option value="02">02</option>
 				<option value="03">03</option>
 				<option value="04">04</option>
@@ -114,7 +114,8 @@ $('body').append(`
 			<input class="remember" type="text" name="ftpUser" placeholder="ftpUser">
 			<input class="remember" type="password" name="ftpPass" placeholder="ftpPass">
 			<input class="remember" type="text" name="dataURL" placeholder="dataURL" value="hosted.aap.com.au/interactives/covid19/script/dates">
-			<button>Publish</button>
+			<button class="publish">Publish</button>
+			<button class="static">Static</button>
 		</div>
 		<div class="top_right">Photos</div>
 		<div class="picCol">
@@ -205,7 +206,13 @@ const initialise = (num)=>{
 	window['dateString'] = $('#yy').val().toString() + $('#mm').val().toString() + $('#dd').val().toString();
 	localStorage.setItem("covidDateString",`20${$('#yy').val().toString()}-${$('#mm').val().toString()}-${$('#dd').val().toString()}`)
 	$('.dateString').off().on('change',(e)=>{
-		if(e.target.id == 'mm'){$('#dd').val('01')}
+		if(e.target.id == 'mm'){
+			if(e.target.value == '01'){
+				$('#dd').val('25')
+			}else{
+				$('#dd').val('01')
+			}
+		}
 		dateString = $('#yy').val().toString() + $('#mm').val().toString() + $('#dd').val().toString();
 		localStorage.setItem("covidDateString",`20${$('#yy').val().toString()}-${$('#mm').val().toString()}-${$('#dd').val().toString()}`)
 		loadDate();
@@ -282,7 +289,7 @@ const initialise = (num)=>{
 
 	window['query'] = getQueryParams(document.location.search);
 	window['tempDir'] = query['tempDir'];console.log(tempDir)
-	window['title'] = `quote ${num}`;
+	window['title'] = `covid_${dateString}`;
 	window['initTitle'] = title;
 	window['windata'] = null;
 };
@@ -537,8 +544,12 @@ const loadDate = ()=>{console.log('loadDate')
 						wRecoveries += thisRecoveries
 					}
 				}
-				wNew = wConfirmed - Number(dates[yesterStr]['world']['Confirmed'])
-				console.log(dateString,yesterStr,wConfirmed,dates[yesterStr]['world']['Confirmed'],wNew,'* * * * *')
+				if(dateString == 200125){
+					wNew = 470;
+				}else{
+					wNew = wConfirmed - Number(dates[yesterStr]['world']['Confirmed'])
+					console.log(dateString,yesterStr,wConfirmed,dates[yesterStr]['world']['Confirmed'],wNew,'* * * * *')
+				}
 				dates[dateString]['world'] = {
 					Confirmed: wConfirmed,
 					New: wNew,
@@ -782,8 +793,17 @@ const upload = ()=>{
 		}
 	})
 };
-$('button').off().on('click',upload)
+$('.publish').off().on('click',upload)
 
+window.onerror = function (msg, url, lineNo, columnNo, error) {
+	alert(`Ah. Looks like an error.\nLikely in uploading a file.\nSwitch off VPN and try again.`)
+	// alert(msg)
+	// console.log(url)
+	// console.log(lineNo)
+	// console.log(columnNo)
+	// console.log(error)
+	return false;
+}
 /**
  * Promise based download file method
  */
@@ -826,3 +846,38 @@ $('button').off().on('click',upload)
 // 		});
 // 	});
 // }
+
+const saveImage = ()=>{
+
+	console.log('saveImage')
+ 	console.log(window.devicePixelRatio)
+ 	console.log($('.productionFrame').html())
+	const filename = `${documents+slash}graaphics${slash}covid19${slash+title}.jpg`
+
+	if(fs.existsSync(filename)){
+		let overwrite = confirm(`${title}.jpg already exists.\nOverwrite file?`)
+		console.log(overwrite)
+		if(!overwrite){
+			return overwrite;
+		}
+	}
+
+	ipcRenderer.send('win',{
+		window: 'savestatic',
+		width: 1280 / window.devicePixelRatio,
+		height: 960 / window.devicePixelRatio,
+		resizable: false,
+		minimizable: false,
+		fullscreen: false,
+		closable: true,
+		titleBarStyle: 'none',
+		backgroundColor: "#000",
+		opacity: 0,
+		frame: false,
+		data: {
+			html: `<iframe style="width:1280px; height: 960px;" frameborder="0" scrolling="no" src="http://cdnhosted.aap.com.au/interactives/covid19/static.html"></iframe>`,
+			filename: filename,
+		},
+	});
+};
+$('.static').off().on('click',saveImage)
