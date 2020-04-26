@@ -43,12 +43,12 @@ let contextMenuListener = new ContextMenuListener((info) => {
 });
 /*SPELLCHECKER*/
 
-const documents = app.getPath('documents');console.log(documents)
+const documents = app.getPath('documents');//console.log(documents)
 
 let slash = '/';
 if(os.platform() !== 'darwin'){
 	slash = '\\';
-}console.log(slash)
+}//console.log(slash)
 
 /*build the DOM*/
 $('body').append(`
@@ -115,9 +115,83 @@ $('body').append(`
 			<input class="remember" type="password" name="ftpPass" placeholder="ftpPass">
 			<input class="remember" type="text" name="dataURL" placeholder="dataURL" value="hosted.aap.com.au/interactives/covid19/script/dates">
 			<button class="publish">Publish</button>
+			<button class="reload">Reload</button>
 			<button class="static">Static</button>
 		</div>
+		<div class="top_middle">Figures</div>
 		<div class="top_right">Photos</div>
+		<div class="numCol">
+			<div class="numRow">
+				<div class="state">State</div>
+				<div class="numC">Confirmed</div>
+				<div class="numR">Recoveries</div>
+				<div class="numD">Deaths</div>
+				<div class="numN">New</div>
+			</div>
+			<hr>
+			<div class="numRow"><div class="state">act</div>
+				<div class="numInput numC"><input type="text" id="C_act" name="act" placeholder="Confirmed"></div>
+				<div class="numInput numR"><input type="text" id="R_act" name="act" placeholder="Recoveries"></div>
+				<div class="numInput numD"><input type="text" id="D_act" name="act" placeholder="Deaths"></div>
+				<div class="numInput numN"><input type="text" id="N_act" name="act" placeholder="New"></div>
+			</div>
+			<div class="numRow"><div class="state">nsw</div>
+				<div class="numInput numC"><input type="text" id="C_nsw" name="nsw" placeholder="Confirmed"></div>
+				<div class="numInput numR"><input type="text" id="R_nsw" name="nsw" placeholder="Recoveries"></div>
+				<div class="numInput numD"><input type="text" id="D_nsw" name="nsw" placeholder="Deaths"></div>
+				<div class="numInput numN"><input type="text" id="N_nsw" name="nsw" placeholder="New"></div>
+			</div>
+			<div class="numRow"><div class="state">nt</div>
+				<div class="numInput numC"><input type="text" id="C_nt" name="nt" placeholder="Confirmed"></div>
+				<div class="numInput numR"><input type="text" id="R_nt" name="nt" placeholder="Recoveries"></div>
+				<div class="numInput numD"><input type="text" id="D_nt" name="nt" placeholder="Deaths"></div>
+				<div class="numInput numN"><input type="text" id="N_nt" name="nt" placeholder="New"></div>
+			</div>
+			<div class="numRow"><div class="state">qld</div>
+				<div class="numInput numC"><input type="text" id="C_qld" name="qld" placeholder="Confirmed"></div>
+				<div class="numInput numR"><input type="text" id="R_qld" name="qld" placeholder="Recoveries"></div>
+				<div class="numInput numD"><input type="text" id="D_qld" name="qld" placeholder="Deaths"></div>
+				<div class="numInput numN"><input type="text" id="N_qld" name="qld" placeholder="New"></div>
+			</div>
+			<div class="numRow"><div class="state">sa</div>
+				<div class="numInput numC"><input type="text" id="C_sa" name="sa" placeholder="Confirmed"></div>
+				<div class="numInput numR"><input type="text" id="R_sa" name="sa" placeholder="Recoveries"></div>
+				<div class="numInput numD"><input type="text" id="D_sa" name="sa" placeholder="Deaths"></div>
+				<div class="numInput numN"><input type="text" id="N_sa" name="sa" placeholder="New"></div>
+			</div>
+			<div class="numRow"><div class="state">tas</div>
+				<div class="numInput numC"><input type="text" id="C_tas" name="tas" placeholder="Confirmed"></div>
+				<div class="numInput numR"><input type="text" id="R_tas" name="tas" placeholder="Recoveries"></div>
+				<div class="numInput numD"><input type="text" id="D_tas" name="tas" placeholder="Deaths"></div>
+				<div class="numInput numN"><input type="text" id="N_tas" name="tas" placeholder="New"></div>
+			</div>
+			<div class="numRow"><div class="state">vic</div>
+				<div class="numInput numC"><input type="text" id="C_vic" name="vic" placeholder="Confirmed"></div>
+				<div class="numInput numR"><input type="text" id="R_vic" name="vic" placeholder="Recoveries"></div>
+				<div class="numInput numD"><input type="text" id="D_vic" name="vic" placeholder="Deaths"></div>
+				<div class="numInput numN"><input type="text" id="N_vic" name="vic" placeholder="New"></div>
+			</div>
+			<div class="numRow"><div class="state">wa</div>
+				<div class="numInput numC"><input type="text" id="C_wa" name="wa" placeholder="Confirmed"></div>
+				<div class="numInput numR"><input type="text" id="R_wa" name="wa" placeholder="Recoveries"></div>
+				<div class="numInput numD"><input type="text" id="D_wa" name="wa" placeholder="Deaths"></div>
+				<div class="numInput numN"><input type="text" id="N_wa" name="wa" placeholder="New"></div>
+			</div>
+			<hr>
+			<div class="numRow"><div class="state">totals</div>
+				<div class="numInput numC"><input type="text" id="C_totals" name="totals" placeholder="Confirmed"></div>
+				<div class="numInput numR"><input type="text" id="R_totals" name="totals" placeholder="Recoveries"></div>
+				<div class="numInput numD"><input type="text" id="D_totals" name="totals" placeholder="Deaths"></div>
+				<div class="numInput numN"><input type="text" id="N_totals" name="totals" placeholder="New"></div>
+			</div>
+			<hr>
+			<div class="numRow"><div class="state">world</div>
+				<div class="numInput numC"><input type="text" id="C_world" name="world" placeholder="Confirmed"></div>
+				<div class="numInput numR"><input type="text" id="R_world" name="world" placeholder="Recoveries"></div>
+				<div class="numInput numD"><input type="text" id="D_world" name="world" placeholder="Deaths"></div>
+				<div class="numInput numN"><input type="text" id="N_world" name="world" placeholder="New"></div>
+			</div>
+		</div>
 		<div class="picCol">
 			<div class="more" id="morePic"></div>
 		</div>
@@ -128,6 +202,83 @@ $('body').append(`
 	</main>
 `);
 /*build the DOM*/
+
+const numInput = (e)=>{
+
+	let x = e.target;
+	let now = new Date();
+	console.log(now)
+	now.setHours(now.getHours() - 10)
+	let nowMonth = now.getMonth() + 1;
+	let nowDate = now.getDate()
+	let nowHours = now.getHours()
+	let nowMinutes = now.getMinutes()
+	if(nowMonth < 10){nowMonth = '0' + nowMonth};
+	if(nowDate < 10){nowDate = '0' + nowDate};
+	if(nowHours < 10){nowHours = '0' + nowHours};
+	if(nowMinutes < 10){nowMinutes = '0' + nowMinutes};
+	
+	dates[dateString]['updated'] = `${now.getFullYear()}-${nowMonth}-${nowDate} ${nowHours}:${nowMinutes}:00`;
+
+	dates[dateString][x.name][x.placeholder] = Number(x.value);
+
+	if(x.placeholder == 'Confirmed'){
+		/**/
+		let yesterday = new Date(`20${dateString.substring(0,2)}-${dateString.substring(2,4)}-${dateString.substring(4,6)}`)
+		yesterday.setDate(yesterday.getDate() - 1);
+		let YyyStr = yesterday.getFullYear() - 2000;
+		let YmmStr = yesterday.getMonth() + 1;
+		if(YmmStr < 10){
+			YmmStr = '0' + YmmStr;
+		}
+		let YddStr = yesterday.getDate();
+		if(YddStr < 10){
+			YddStr = '0' + YddStr;
+		}
+		let yesterStr = `${YyyStr}${YmmStr}${YddStr}`;
+		let thisNew = dates[dateString][x.name]['Confirmed'] - dates[yesterStr][x.name]['Confirmed'];
+		if(thisNew <= 0){
+			thisNew = 0;
+		}
+		dates[dateString][x.name]['New'] = thisNew;
+		$(`#N_${x.name}`).val(dates[dateString][x.name]['New'])
+		/**/
+	}
+
+	if(x.placeholder == 'Recoveries' && x.value == ''){
+		dates[dateString][x.name]['Recoveries'] = null;
+	}
+
+	if(x.placeholder == 'New' && x.value == ''){
+		dates[dateString][x.name]['New'] = null;
+	}
+
+	if(x.name != 'totals'){
+
+		dates[dateString]['totals']['Confirmed'] = dates[dateString]['act']['Confirmed'] + dates[dateString]['nsw']['Confirmed'] + dates[dateString]['nt']['Confirmed'] + dates[dateString]['qld']['Confirmed'] + dates[dateString]['sa']['Confirmed'] + dates[dateString]['tas']['Confirmed'] + dates[dateString]['vic']['Confirmed'] + dates[dateString]['wa']['Confirmed'];
+		dates[dateString]['totals']['Recoveries'] = dates[dateString]['act']['Recoveries'] + dates[dateString]['nsw']['Recoveries'] + dates[dateString]['nt']['Recoveries'] + dates[dateString]['qld']['Recoveries'] + dates[dateString]['sa']['Recoveries'] + dates[dateString]['tas']['Recoveries'] + dates[dateString]['vic']['Recoveries'] + dates[dateString]['wa']['Recoveries'];
+		dates[dateString]['totals']['Deaths'] = dates[dateString]['act']['Deaths'] + dates[dateString]['nsw']['Deaths'] + dates[dateString]['nt']['Deaths'] + dates[dateString]['qld']['Deaths'] + dates[dateString]['sa']['Deaths'] + dates[dateString]['tas']['Deaths'] + dates[dateString]['vic']['Deaths'] + dates[dateString]['wa']['Deaths'];
+		dates[dateString]['totals']['New'] = dates[dateString]['act']['New'] + dates[dateString]['nsw']['New'] + dates[dateString]['nt']['New'] + dates[dateString]['qld']['New'] + dates[dateString]['sa']['New'] + dates[dateString]['tas']['New'] + dates[dateString]['vic']['New'] + dates[dateString]['wa']['New'];
+
+		if(dates[dateString]['totals']['Recoveries'] == 0){dates[dateString]['totals']['Recoveries'] = null}
+
+		$('#C_totals').val(dates[dateString]['totals']['Confirmed']);
+		$('#R_totals').val(dates[dateString]['totals']['Recoveries']);
+		$('#D_totals').val(dates[dateString]['totals']['Deaths']);
+		$('#N_totals').val(dates[dateString]['totals']['New']);
+	}
+
+	// console.log(dates[dateString][x.name]);
+	console.log(dates[dateString]);
+};
+
+$('.numInput').off().on('input',numInput);
+// $('.numInput').off().on('input keyup',numInput);
+// $('.numInput').off().on('keydown keyup input blur change',numInput);
+
+$('.numInput').on('focusin',(e)=>{
+	$(e.target).select();
+});
 
 if(localStorage['ftpClient']){$('[name=ftpClient').val(localStorage['ftpClient'])}
 if(localStorage['ftpUser']){$('[name=ftpUser').val(localStorage['ftpUser'])}
@@ -175,12 +326,12 @@ let today = new Date();
 let dates;
 let dateKeys;
 const initialise = (num)=>{
-	console.log(`initialise(${num})`)
+	// console.log(`initialise(${num})`)
 	/*map bits*/
 	$.getJSON(`http://${$('[name=dataURL]').val()}.js?t=${new Date().getTime()}`,function(data){
-		console.log($('[name=dataURL]').val())
+		// console.log($('[name=dataURL]').val())
 		dates = data;
-		dateKeys = Object.keys(dates);console.log(dateKeys)
+		dateKeys = Object.keys(dates);//console.log(dateKeys)
 	})
 	.done(loadDate)
 	.fail(function(err){
@@ -188,7 +339,7 @@ const initialise = (num)=>{
 	})
 
 	// window['today'] = new Date();
-	today.setDate(today.getDate() - 1);/*SET BACK BY ONE DAY TO GET LATEST REPORT ON UTC*/
+	// today.setDate(today.getDate() - 1);/*SET BACK BY ONE DAY TO GET LATEST REPORT ON UTC*/
 	window['yyStr'] = today.getFullYear() - 2000;
 	window['mmStr'] = today.getMonth() + 1;
 	if(mmStr < 10){
@@ -213,74 +364,87 @@ const initialise = (num)=>{
 				$('#dd').val('01')
 			}
 		}
-		dateString = $('#yy').val().toString() + $('#mm').val().toString() + $('#dd').val().toString();
-		localStorage.setItem("covidDateString",`20${$('#yy').val().toString()}-${$('#mm').val().toString()}-${$('#dd').val().toString()}`)
-		loadDate();
+		
+		let checkDateString = new Date(`20${$('#yy').val().toString()}-${$('#mm').val().toString()}-${$('#dd').val().toString()}`)
+		checkDateString.setHours(checkDateString.getHours() - 10)
+		console.log(checkDateString)
+		
+		// if(new Date(`20${$('#yy').val().toString()}-${$('#mm').val().toString()}-${$('#dd').val().toString()}`).getTime() > today.getTime()){
+		if(checkDateString.getTime() > today.getTime()){
+		// if(new Date().getTime() > today.getTime()){
+			$('#yy').val(dateString.substring(0,2))
+			$('#mm').val(dateString.substring(2,4))
+			$('#dd').val(dateString.substring(4))
+		}else{
+			dateString = $('#yy').val().toString() + $('#mm').val().toString() + $('#dd').val().toString();
+			localStorage.setItem("covidDateString",`20${$('#yy').val().toString()}-${$('#mm').val().toString()}-${$('#dd').val().toString()}`)
+			loadDate();
+		}
 	})
 
 	if(num != false){
 		$('#morePic').off().on('click',()=>{
 	
-			if(!dates[dateString]){
-				dates[dateString] = {
-					"images": [],
-					"updated": "xxxxxx",
-					"act": {
-						"Confirmed": 0,
-						"New": 0,
-						"Deaths": 0,
-						"Recoveries": 0
-					},
-					"nsw": {
-						"Confirmed": 0,
-						"New": 0,
-						"Deaths": 0,
-						"Recoveries": 0
-					},
-					"nt": {
-						"Confirmed": 0,
-						"New": 0,
-						"Deaths": 0,
-						"Recoveries": 0
-					},
-					"qld": {
-						"Confirmed": 0,
-						"New": 0,
-						"Deaths": 0,
-						"Recoveries": 0
-					},
-					"sa": {
-						"Confirmed": 0,
-						"New": 0,
-						"Deaths": 0,
-						"Recoveries": 0
-					},
-					"tas": {
-						"Confirmed": 0,
-						"New": 0,
-						"Deaths": 0,
-						"Recoveries": 0
-					},
-					"vic": {
-						"Confirmed": 0,
-						"New": 0,
-						"Deaths": 0,
-						"Recoveries": 0
-					},
-					"wa": {
-						"Confirmed": 0,
-						"New": 0,
-						"Deaths": 0,
-						"Recoveries": 0
-					},
-					"totals": {
-						"Confirmed": 0,
-						"New": 0,
-						"Deaths": 0,
-						"Recoveries": 0
-					}
-				}
-			}
+			// if(!dates[dateString]){
+			// 	dates[dateString] = {
+			// 		"images": [],
+			// 		"updated": "xxxxxx",
+			// 		"act": {
+			// 			"Confirmed": 0,
+			// 			"New": 0,
+			// 			"Deaths": 0,
+			// 			"Recoveries": 0
+			// 		},
+			// 		"nsw": {
+			// 			"Confirmed": 0,
+			// 			"New": 0,
+			// 			"Deaths": 0,
+			// 			"Recoveries": 0
+			// 		},
+			// 		"nt": {
+			// 			"Confirmed": 0,
+			// 			"New": 0,
+			// 			"Deaths": 0,
+			// 			"Recoveries": 0
+			// 		},
+			// 		"qld": {
+			// 			"Confirmed": 0,
+			// 			"New": 0,
+			// 			"Deaths": 0,
+			// 			"Recoveries": 0
+			// 		},
+			// 		"sa": {
+			// 			"Confirmed": 0,
+			// 			"New": 0,
+			// 			"Deaths": 0,
+			// 			"Recoveries": 0
+			// 		},
+			// 		"tas": {
+			// 			"Confirmed": 0,
+			// 			"New": 0,
+			// 			"Deaths": 0,
+			// 			"Recoveries": 0
+			// 		},
+			// 		"vic": {
+			// 			"Confirmed": 0,
+			// 			"New": 0,
+			// 			"Deaths": 0,
+			// 			"Recoveries": 0
+			// 		},
+			// 		"wa": {
+			// 			"Confirmed": 0,
+			// 			"New": 0,
+			// 			"Deaths": 0,
+			// 			"Recoveries": 0
+			// 		},
+			// 		"totals": {
+			// 			"Confirmed": 0,
+			// 			"New": 0,
+			// 			"Deaths": 0,
+			// 			"Recoveries": 0
+			// 		}
+			// 	}
+			// }
 			
 			ipcRenderer.send('archive');
 		})
@@ -288,63 +452,63 @@ const initialise = (num)=>{
 	/*map bits*/
 
 	window['query'] = getQueryParams(document.location.search);
-	window['tempDir'] = query['tempDir'];console.log(tempDir)
+	window['tempDir'] = query['tempDir'];//console.log(tempDir)
 	window['title'] = `covid_${dateString}`;
 	window['initTitle'] = title;
 	window['windata'] = null;
 };
 
-	ipcRenderer.on('archive',(event,user)=>{
+ipcRenderer.on('archive',(event,user)=>{
 
-		if(user){
-			windata = {
-				window: 'covid19pix',
-				width: 960,
-				height: $(window).height() - 72,
-				resizable: false,
-				minimizable: false,
-				fullscreen: false,
-				closable: true,
-				titleBarStyle: 'hidden',
-				backgroundColor: "#46464c",
-				opacity: 1,
-				frame: os.platform() === 'darwin',
-				data: user,
-			}
-		}else{
-			windata = {
-				window: 'login',
-				width: 288,
-				height: 162 + 24,
-				resizable: false,
-				minimizable: false,
-				fullscreen: false,
-				closable: true,
-				titleBarStyle: 'hidden',
-				backgroundColor: "#46464c",
-				opacity: 1,
-				frame: os.platform() === 'darwin',
-				data: null,
-			}
+	if(user){
+		windata = {
+			window: 'covid19pix',
+			width: 960,
+			height: $(window).height() - 72,
+			resizable: false,
+			minimizable: false,
+			fullscreen: false,
+			closable: true,
+			titleBarStyle: 'hidden',
+			backgroundColor: "#46464c",
+			opacity: 1,
+			frame: os.platform() === 'darwin',
+			data: user,
 		}
+	}else{
+		windata = {
+			window: 'login',
+			width: 288,
+			height: 162 + 24,
+			resizable: false,
+			minimizable: false,
+			fullscreen: false,
+			closable: true,
+			titleBarStyle: 'hidden',
+			backgroundColor: "#46464c",
+			opacity: 1,
+			frame: os.platform() === 'darwin',
+			data: null,
+		}
+	}
 
-		ipcRenderer.send('win',windata);
-	})
+	ipcRenderer.send('win',windata);
+})
 
-	ipcRenderer.send('win',{
-		window: 'void',
-		width: 0,
-		height: 0,
-		resizable: false,
-		minimizable: false,
-		fullscreen: false,
-		closable: true,
-		titleBarStyle: 'hidden',
-		backgroundColor: "#46464c",
-		opacity: 0,
-		frame: os.platform() === 'darwin',
-		data: null,
-	});
+ipcRenderer.send('win',{
+	window: 'void',
+	width: 0,
+	height: 0,
+	resizable: false,
+	minimizable: false,
+	fullscreen: false,
+	closable: true,
+	titleBarStyle: 'hidden',
+	backgroundColor: "#46464c",
+	opacity: 0,
+	frame: os.platform() === 'darwin',
+	data: null,
+});
 	/*void window - temporary fix for input focus inconsistency*/
 //};
 
@@ -359,67 +523,70 @@ const loadDate = ()=>{console.log('loadDate')
 			"updated": "xxxxxx",
 			"act": {
 				"Confirmed": 0,
-				"New": 0,
+				"New": null,
 				"Deaths": 0,
-				"Recoveries": 0
+				"Recoveries": null
 			},
 			"nsw": {
 				"Confirmed": 0,
-				"New": 0,
+				"New": null,
 				"Deaths": 0,
-				"Recoveries": 0
+				"Recoveries": null
 			},
 			"nt": {
 				"Confirmed": 0,
-				"New": 0,
+				"New": null,
 				"Deaths": 0,
-				"Recoveries": 0
+				"Recoveries": null
 			},
 			"qld": {
 				"Confirmed": 0,
-				"New": 0,
+				"New": null,
 				"Deaths": 0,
-				"Recoveries": 0
+				"Recoveries": null
 			},
 			"sa": {
 				"Confirmed": 0,
-				"New": 0,
+				"New": null,
 				"Deaths": 0,
-				"Recoveries": 0
+				"Recoveries": null
 			},
 			"tas": {
 				"Confirmed": 0,
-				"New": 0,
+				"New": null,
 				"Deaths": 0,
-				"Recoveries": 0
+				"Recoveries": null
 			},
 			"vic": {
 				"Confirmed": 0,
-				"New": 0,
+				"New": null,
 				"Deaths": 0,
-				"Recoveries": 0
+				"Recoveries": null
 			},
 			"wa": {
 				"Confirmed": 0,
-				"New": 0,
+				"New": null,
 				"Deaths": 0,
-				"Recoveries": 0
+				"Recoveries": null
 			},
 			"totals": {
 				"Confirmed": 0,
-				"New": 0,
+				"New": null,
 				"Deaths": 0,
-				"Recoveries": 0
+				"Recoveries": null
 			}
 		}
+	}else{
+		console.warn('.')
 	}
-	dates[dateString]['totals'] = {
-		"Confirmed": 0,
-		"New": 0,
-		"Deaths": 0,
-		"Recoveries": 0
-	}
-	console.log(dates[dateString]['totals'])
+	// dates[dateString]['totals'] = {
+	// 	"Confirmed": 0,
+	// 	"New": null,
+	// 	"Deaths": 0,
+	// 	"Recoveries": null
+	// }
+	// console.log(dates[dateString]['totals'])
+	// console.log(dates)
 	// dateKeys = Object.keys(dates);
 
 	let pix = dates[dateString]['images'];
@@ -564,48 +731,49 @@ const loadDate = ()=>{console.log('loadDate')
 				default:
 				for(let i in ausstateterrs){
 					let arr = data.substring(data.indexOf(`${ausstateterrs[i]},Australia`),data.indexOf(`,"${ausstateterrs[i]}, Australia"`)).split(',')
-					// console.log(arr)
+					// // console.log(arr)
 
-					// let yesterday = new Date(arr[2])
-					// yesterday.setDate(yesterday.getDate() - 1);
-					// let YyyStr = yesterday.getFullYear() - 2000;
-					// let YmmStr = yesterday.getMonth() + 1;
-					// if(YmmStr < 10){
-					// 	YmmStr = '0' + YmmStr;
+					// // let yesterday = new Date(arr[2])
+					// // yesterday.setDate(yesterday.getDate() - 1);
+					// // let YyyStr = yesterday.getFullYear() - 2000;
+					// // let YmmStr = yesterday.getMonth() + 1;
+					// // if(YmmStr < 10){
+					// // 	YmmStr = '0' + YmmStr;
+					// // }
+					// // let YddStr = yesterday.getDate();
+					// // if(YddStr < 10){
+					// // 	YddStr = '0' + YddStr;
+					// // }
+					// // let yesterStr = `${YyyStr}${YmmStr}${YddStr}`
+
+					// for(let j in ausstateterrs){
+					// 	if(ausstateterrs[j] == arr[0]){
+
+					// 		let New = Number(arr[5]) - Number(dates[yesterStr][short[j]]['Confirmed']);
+					// 		if(New < 0){
+					// 			New = 0;
+					// 		}console.log(short[j],New)
+
+					// 		dates[dateString]['updated'] = arr[2]
+					// 		dates[dateString][short[j]] = {
+					// 			Confirmed:Number(arr[5]),
+					// 			New:New,
+					// 			Deaths:Number(arr[6]),
+					// 			Recoveries:Number(arr[7]),
+					// 		}
+
+					// 		// dates[dateString]['totals']['Confirmed'] += dates[dateString][short[j]]['Confirmed']
+					// 		// dates[dateString]['totals']['New'] += dates[dateString][short[j]]['New']
+					// 		// dates[dateString]['totals']['Deaths'] += dates[dateString][short[j]]['Deaths']
+					// 		// dates[dateString]['totals']['Recoveries'] += dates[dateString][short[j]]['Recoveries']
+					// 	}
 					// }
-					// let YddStr = yesterday.getDate();
-					// if(YddStr < 10){
-					// 	YddStr = '0' + YddStr;
-					// }
-					// let yesterStr = `${YyyStr}${YmmStr}${YddStr}`
 
-					for(let j in ausstateterrs){
-						if(ausstateterrs[j] == arr[0]){
-
-							let New = Number(arr[5]) - Number(dates[yesterStr][short[j]]['Confirmed']);
-							if(New < 0){
-								New = 0;
-							}console.log(short[j],New)
-
-							dates[dateString]['updated'] = arr[2]
-							dates[dateString][short[j]] = {
-								Confirmed:Number(arr[5]),
-								New:New,
-								Deaths:Number(arr[6]),
-								Recoveries:Number(arr[7]),
-							}
-
-							// dates[dateString]['totals']['Confirmed'] += dates[dateString][short[j]]['Confirmed']
-							// dates[dateString]['totals']['New'] += dates[dateString][short[j]]['New']
-							// dates[dateString]['totals']['Deaths'] += dates[dateString][short[j]]['Deaths']
-							// dates[dateString]['totals']['Recoveries'] += dates[dateString][short[j]]['Recoveries']
-						}
-					}
-
-					dates[dateString]['totals']['Confirmed'] += dates[dateString][short[i]]['Confirmed']
-					dates[dateString]['totals']['New'] += dates[dateString][short[i]]['New']
-					dates[dateString]['totals']['Deaths'] += dates[dateString][short[i]]['Deaths']
-					dates[dateString]['totals']['Recoveries'] += dates[dateString][short[i]]['Recoveries']
+					// dates[dateString]['totals']['Confirmed'] += dates[dateString][short[i]]['Confirmed']
+					// dates[dateString]['totals']['New'] += dates[dateString][short[i]]['New']
+					// dates[dateString]['totals']['Deaths'] += dates[dateString][short[i]]['Deaths']
+					// dates[dateString]['totals']['Recoveries'] += dates[dateString][short[i]]['Recoveries']
+					dates[dateString]['updated'] = arr[2]
 				}
 
 				/*world*/
@@ -638,20 +806,72 @@ const loadDate = ()=>{console.log('loadDate')
 				/*world*/
 				break;
 			}/*switch*/
-			console.warn(wConfirmed,wNew,wDeaths,wRecoveries)
+			// console.warn(wConfirmed,wNew,wDeaths,wRecoveries)
 			console.log(dates)
-			console.log(dateKeys)
-			console.log(dateString)
-			console.log(new Date(dates[dateString]['updated']))
+			// console.log(dateKeys)
+			// console.log(dateString)
+			// console.log(new Date(dates[dateString]['updated']))
 			// console.log(JSON.stringify(dates))
 			// processData(data.replace('FIPS,Admin2,',''));
+			$('.publish').prop('disabled',false);
 	 	},
 	 	error:(err)=>{
-	 		alert(JSON.stringify(err))
-	 		today = new Date();
-	 		initialise(false)
+	 	// 	// alert(JSON.stringify(err))
+	 	// 	// alert('Report not ready yet.\nTry again later.')
+	 	// 	// today = new Date();
+	 	// 	/**/
+	 	// 	today.setDate(today.getDate() - 1);/*SET BACK BY ONE DAY TO GET LATEST REPORT ON UTC*/
+			// yyStr = today.getFullYear() - 2000;
+			// mmStr = today.getMonth() + 1;
+			// if(mmStr < 10){
+			// 	mmStr = '0' + mmStr;
+			// }
+			// ddStr = today.getDate();
+			// if(ddStr < 10){
+			// 	ddStr = '0' + ddStr;
+			// }
+
+			// $('#yy').val(yyStr);
+			// $('#mm').val(mmStr);
+			// $('#dd').val(ddStr);
+	 	// 	/**/
+	 	// 	initialise(false);
+	 	// 	// alert('Report not ready yet.\nTry again later.');
+
+	 		console.log(dates)
+
+	 		new Notification('Not yet...',{
+				body: `Report for ${$('#dd').val()}/${$('#mm').val()}/20${$('#yy').val()} not available.\nPress 'Reload' to try again later.`
+			});
+
+	 		// $('.publish').prop('disabled',true);
 	 	}
 	});
+
+	for(let i in short){
+		$(`#C_${short[i]}`).val(dates[dateString][`${short[i]}`]['Confirmed']);
+		$(`#N_${short[i]}`).val(dates[dateString][`${short[i]}`]['New']);
+		$(`#D_${short[i]}`).val(dates[dateString][`${short[i]}`]['Deaths']);
+		$(`#R_${short[i]}`).val(dates[dateString][`${short[i]}`]['Recoveries']);
+	}
+
+	$('#C_totals').val(dates[dateString]['totals']['Confirmed']);
+	$('#N_totals').val(dates[dateString]['totals']['New']);
+	$('#D_totals').val(dates[dateString]['totals']['Deaths']);
+	$('#R_totals').val(dates[dateString]['totals']['Recoveries']);
+	
+	if(dates[dateString]['world']){
+		$('#C_world').val(dates[dateString]['world']['Confirmed']);
+		$('#N_world').val(dates[dateString]['world']['New']);
+		$('#D_world').val(dates[dateString]['world']['Deaths']);
+		$('#R_world').val(dates[dateString]['world']['Recoveries']);
+	}else{
+		$('#C_world').val(null);
+		$('#N_world').val(null);
+		$('#D_world').val(null);
+		$('#R_world').val(null);
+	}
+
 	/*COVID*/
 
 	/*photos*/
@@ -665,7 +885,7 @@ const loadDate = ()=>{console.log('loadDate')
 		}
 
 		let thisCaption = pix[i]['Description'].substring(0,stringEnd)
-		console.log(pix[i])
+		// console.log(pix[i])
 		$('#morePic').before(`
 			<div class="picBox" id="picBox_${i}">
 				<img src="${pix[i]['Layout']}">
@@ -717,7 +937,7 @@ const loadDate = ()=>{console.log('loadDate')
 	// 		console.log(percentage + "% | " + received + " bytes out of " + total + " bytes.");
 	// 	}
 	// }).then(function(){
-	// 	console.log("File succesfully downloaded");
+	// 	console.log("File successfully downloaded");
 	// });
 };
 
@@ -758,6 +978,7 @@ const upload = ()=>{
 	// 	}
 	// }
 	/*tidy up*/
+	$('.publish').prop('disabled',true);
 
 	console.warn('Uploading info')
 	console.log(dates)
@@ -769,6 +990,15 @@ const upload = ()=>{
 			console.error("An error ocurred creating the file " + err.message);
 		}else{
 
+			if(os.platform() === 'darwin'){
+				shell.showItemInFolder(`${tempDir}/dates.js`)
+				// remote.BrowserWindow.getFocusedWindow().close();
+			}else{
+				ipcRenderer.send('unlock');
+				shell.showItemInFolder(`${tempDir}/dates.js`)
+				// remote.BrowserWindow.getFocusedWindow().close();
+			}
+
 			let c = new Client;
 
 			c.on('ready', function() {
@@ -778,7 +1008,10 @@ const upload = ()=>{
 						throw err;
 						(err)=>{alert(JSON.stringify(err))}
 					}
-					alert('done!')
+					new Notification('Done!',{
+						body: `Update successful.`
+					});
+					$('.publish').prop('disabled',false);
 					$('#map_box').html(`<iframe frameborder="0" scrolling="no" src="http://hosted.aap.com.au/interactives/covid19/index.html"></iframe>`)
 					c.end();
 				});
@@ -794,14 +1027,13 @@ const upload = ()=>{
 	})
 };
 $('.publish').off().on('click',upload)
+$('.reload').off().on('click',loadDate)
 
 window.onerror = function (msg, url, lineNo, columnNo, error) {
-	alert(`Ah. Looks like an error.\nLikely in uploading a file.\nSwitch off VPN and try again.`)
-	// alert(msg)
-	// console.log(url)
-	// console.log(lineNo)
-	// console.log(columnNo)
-	// console.log(error)
+	if(msg.indexOf('ECONNREFUSED') >= 0 || msg.indexOf('ECONNRESET') >= 0){
+		alert(`Ah. Looks like an error.\nLikely in uploading a file.\nSwitch off VPN and try again.`)
+		$('.publish').prop('disabled',false);
+	}
 	return false;
 }
 /**
