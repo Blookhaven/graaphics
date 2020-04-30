@@ -32,7 +32,7 @@
     "electron-updater": "^4.0.6",
     "ftp": "^0.3.10",
     "google-maps": "^3.3.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "os": "^0.1.1",
     "temp": "^0.9.0",
     "wordcount": "^1.1.1"
