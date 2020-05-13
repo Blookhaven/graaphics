@@ -273,8 +273,6 @@ const numInput = (e)=>{
 };
 
 $('.numInput').off().on('input',numInput);
-// $('.numInput').off().on('input keyup',numInput);
-// $('.numInput').off().on('keydown keyup input blur change',numInput);
 
 $('.numInput').on('focusin',(e)=>{
 	$(e.target).select();
@@ -310,6 +308,15 @@ const decimalise = (value,places)=>{
 	let increment = 1 / divide;//for the value of the "step" property on range sliders
 	return [number,increment];
 };
+let timers = [];
+let checkedWorld = timers.length > 0;
+const clearTimers = ()=>{
+	checkedWorld = timers.length > 0;
+	for(let i in timers){
+		clearTimeout(timers[i]);
+	}
+	timers = [];
+};
 /*general use functions*/
 
 const getQueryParams = (qs)=>{
@@ -338,8 +345,6 @@ const initialise = (num)=>{
 		console.log(err)
 	})
 
-	// window['today'] = new Date();
-	// today.setDate(today.getDate() - 1);/*SET BACK BY ONE DAY TO GET LATEST REPORT ON UTC*/
 	window['yyStr'] = today.getFullYear() - 2000;
 	window['mmStr'] = today.getMonth() + 1;
 	if(mmStr < 10){
@@ -364,14 +369,32 @@ const initialise = (num)=>{
 				$('#dd').val('01')
 			}
 		}
+
+		/*200513*/
+		// today = new Date();
+		// yyStr = today.getFullYear() - 2000;
+		// mmStr = today.getMonth() + 1;
+		// if(mmStr < 10){
+		// 	mmStr = '0' + mmStr;
+		// }
+		// ddStr = today.getDate();
+		// if(ddStr < 10){
+		// 	ddStr = '0' + ddStr;
+		// }
+
+		// $('#yy').val(yyStr);
+		// $('#mm').val(mmStr);
+		// $('#dd').val(ddStr);
+
+		// dateString = $('#yy').val().toString() + $('#mm').val().toString() + $('#dd').val().toString();
+		/*200513*/
 		
 		let checkDateString = new Date(`20${$('#yy').val().toString()}-${$('#mm').val().toString()}-${$('#dd').val().toString()}`)
 		checkDateString.setHours(checkDateString.getHours() - 10)
 		console.log(checkDateString)
-		
-		// if(new Date(`20${$('#yy').val().toString()}-${$('#mm').val().toString()}-${$('#dd').val().toString()}`).getTime() > today.getTime()){
+
 		if(checkDateString.getTime() > today.getTime()){
-		// if(new Date().getTime() > today.getTime()){
+
 			$('#yy').val(dateString.substring(0,2))
 			$('#mm').val(dateString.substring(2,4))
 			$('#dd').val(dateString.substring(4))
@@ -384,68 +407,6 @@ const initialise = (num)=>{
 
 	if(num != false){
 		$('#morePic').off().on('click',()=>{
-	
-			// if(!dates[dateString]){
-			// 	dates[dateString] = {
-			// 		"images": [],
-			// 		"updated": "xxxxxx",
-			// 		"act": {
-			// 			"Confirmed": 0,
-			// 			"New": 0,
-			// 			"Deaths": 0,
-			// 			"Recoveries": 0
-			// 		},
-			// 		"nsw": {
-			// 			"Confirmed": 0,
-			// 			"New": 0,
-			// 			"Deaths": 0,
-			// 			"Recoveries": 0
-			// 		},
-			// 		"nt": {
-			// 			"Confirmed": 0,
-			// 			"New": 0,
-			// 			"Deaths": 0,
-			// 			"Recoveries": 0
-			// 		},
-			// 		"qld": {
-			// 			"Confirmed": 0,
-			// 			"New": 0,
-			// 			"Deaths": 0,
-			// 			"Recoveries": 0
-			// 		},
-			// 		"sa": {
-			// 			"Confirmed": 0,
-			// 			"New": 0,
-			// 			"Deaths": 0,
-			// 			"Recoveries": 0
-			// 		},
-			// 		"tas": {
-			// 			"Confirmed": 0,
-			// 			"New": 0,
-			// 			"Deaths": 0,
-			// 			"Recoveries": 0
-			// 		},
-			// 		"vic": {
-			// 			"Confirmed": 0,
-			// 			"New": 0,
-			// 			"Deaths": 0,
-			// 			"Recoveries": 0
-			// 		},
-			// 		"wa": {
-			// 			"Confirmed": 0,
-			// 			"New": 0,
-			// 			"Deaths": 0,
-			// 			"Recoveries": 0
-			// 		},
-			// 		"totals": {
-			// 			"Confirmed": 0,
-			// 			"New": 0,
-			// 			"Deaths": 0,
-			// 			"Recoveries": 0
-			// 		}
-			// 	}
-			// }
-			
 			ipcRenderer.send('archive');
 		})
 	}
@@ -516,6 +477,8 @@ ipcRenderer.send('win',{
 let localities = []
 
 const loadDate = ()=>{console.log('loadDate')
+
+	clearTimers();
 
 	if(!dates[dateString]){
 		dates[dateString] = {
@@ -600,6 +563,8 @@ const loadDate = ()=>{console.log('loadDate')
 	let world
 	console.log(`${mmStr}-${ddStr}-20${yyStr}`);
 	console.log(Number(dateString))
+	console.log(checkedWorld)
+	// console.log(new Date(dateString))
 	$.ajax({
 		type: "GET",
 		url: `https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/${
@@ -731,48 +696,6 @@ const loadDate = ()=>{console.log('loadDate')
 				default:
 				for(let i in ausstateterrs){
 					let arr = data.substring(data.indexOf(`${ausstateterrs[i]},Australia`),data.indexOf(`,"${ausstateterrs[i]}, Australia"`)).split(',')
-					// // console.log(arr)
-
-					// // let yesterday = new Date(arr[2])
-					// // yesterday.setDate(yesterday.getDate() - 1);
-					// // let YyyStr = yesterday.getFullYear() - 2000;
-					// // let YmmStr = yesterday.getMonth() + 1;
-					// // if(YmmStr < 10){
-					// // 	YmmStr = '0' + YmmStr;
-					// // }
-					// // let YddStr = yesterday.getDate();
-					// // if(YddStr < 10){
-					// // 	YddStr = '0' + YddStr;
-					// // }
-					// // let yesterStr = `${YyyStr}${YmmStr}${YddStr}`
-
-					// for(let j in ausstateterrs){
-					// 	if(ausstateterrs[j] == arr[0]){
-
-					// 		let New = Number(arr[5]) - Number(dates[yesterStr][short[j]]['Confirmed']);
-					// 		if(New < 0){
-					// 			New = 0;
-					// 		}console.log(short[j],New)
-
-					// 		dates[dateString]['updated'] = arr[2]
-					// 		dates[dateString][short[j]] = {
-					// 			Confirmed:Number(arr[5]),
-					// 			New:New,
-					// 			Deaths:Number(arr[6]),
-					// 			Recoveries:Number(arr[7]),
-					// 		}
-
-					// 		// dates[dateString]['totals']['Confirmed'] += dates[dateString][short[j]]['Confirmed']
-					// 		// dates[dateString]['totals']['New'] += dates[dateString][short[j]]['New']
-					// 		// dates[dateString]['totals']['Deaths'] += dates[dateString][short[j]]['Deaths']
-					// 		// dates[dateString]['totals']['Recoveries'] += dates[dateString][short[j]]['Recoveries']
-					// 	}
-					// }
-
-					// dates[dateString]['totals']['Confirmed'] += dates[dateString][short[i]]['Confirmed']
-					// dates[dateString]['totals']['New'] += dates[dateString][short[i]]['New']
-					// dates[dateString]['totals']['Deaths'] += dates[dateString][short[i]]['Deaths']
-					// dates[dateString]['totals']['Recoveries'] += dates[dateString][short[i]]['Recoveries']
 					dates[dateString]['updated'] = arr[2]
 				}
 
@@ -806,45 +729,23 @@ const loadDate = ()=>{console.log('loadDate')
 				/*world*/
 				break;
 			}/*switch*/
-			// console.warn(wConfirmed,wNew,wDeaths,wRecoveries)
 			console.log(dates)
-			// console.log(dateKeys)
-			// console.log(dateString)
-			// console.log(new Date(dates[dateString]['updated']))
-			// console.log(JSON.stringify(dates))
 			// processData(data.replace('FIPS,Admin2,',''));
 			$('.publish').prop('disabled',false);
+			$('[name=world]').removeClass('unavailable unpopulated');
+			if(checkedWorld){
+				let reloadNow = confirm(`World figures now available.\nReload now?`);
+				if(reloadNow){
+					loadDate();
+				}else{
+					$('[name=world]').addClass('unpopulated');
+				}
+			}			
 	 	},
 	 	error:(err)=>{
-	 	// 	// alert(JSON.stringify(err))
-	 	// 	// alert('Report not ready yet.\nTry again later.')
-	 	// 	// today = new Date();
-	 	// 	/**/
-	 	// 	today.setDate(today.getDate() - 1);/*SET BACK BY ONE DAY TO GET LATEST REPORT ON UTC*/
-			// yyStr = today.getFullYear() - 2000;
-			// mmStr = today.getMonth() + 1;
-			// if(mmStr < 10){
-			// 	mmStr = '0' + mmStr;
-			// }
-			// ddStr = today.getDate();
-			// if(ddStr < 10){
-			// 	ddStr = '0' + ddStr;
-			// }
-
-			// $('#yy').val(yyStr);
-			// $('#mm').val(mmStr);
-			// $('#dd').val(ddStr);
-	 	// 	/**/
-	 	// 	initialise(false);
-	 	// 	// alert('Report not ready yet.\nTry again later.');
-
 	 		console.log(dates)
-
-	 		new Notification('Not yet...',{
-				body: `Report for ${$('#dd').val()}/${$('#mm').val()}/20${$('#yy').val()} not available.\nPress 'Reload' to try again later.`
-			});
-
-	 		// $('.publish').prop('disabled',true);
+			$('[name=world]').addClass('unavailable');
+			timers.push(setTimeout(loadDate,3.6e+6));
 	 	}
 	});
 
@@ -951,7 +852,7 @@ ipcRenderer.on('covid19pic',(event,data)=>{
 	console.log(dateString)
 
 	dates[dateString]['images'][dates[dateString]['images'].length] = data;
-	loadDate();
+	loadDate();//does this need to be called from here?
 	ipcRenderer.send('nodesent');//this goes to main process then gets sent to covid19pic window to close it
 })
 
@@ -990,14 +891,14 @@ const upload = ()=>{
 			console.error("An error ocurred creating the file " + err.message);
 		}else{
 
-			if(os.platform() === 'darwin'){
-				shell.showItemInFolder(`${tempDir}/dates.js`)
-				// remote.BrowserWindow.getFocusedWindow().close();
-			}else{
-				ipcRenderer.send('unlock');
-				shell.showItemInFolder(`${tempDir}/dates.js`)
-				// remote.BrowserWindow.getFocusedWindow().close();
-			}
+			// if(os.platform() === 'darwin'){
+			// 	shell.showItemInFolder(`${tempDir}/dates.js`)
+			// 	// remote.BrowserWindow.getFocusedWindow().close();
+			// }else{
+			// 	ipcRenderer.send('unlock');
+			// 	shell.showItemInFolder(`${tempDir}/dates.js`)
+			// 	// remote.BrowserWindow.getFocusedWindow().close();
+			// }
 
 			let c = new Client;
 
@@ -1033,6 +934,13 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
 	if(msg.indexOf('ECONNREFUSED') >= 0 || msg.indexOf('ECONNRESET') >= 0){
 		alert(`Ah. Looks like an error.\nLikely in uploading a file.\nSwitch off VPN and try again.`)
 		$('.publish').prop('disabled',false);
+
+		if(os.platform() === 'darwin'){
+			shell.showItemInFolder(`${tempDir}/dates.js`)
+		}else{
+			ipcRenderer.send('unlock');
+			shell.showItemInFolder(`${tempDir}/dates.js`)
+		}
 	}
 	return false;
 }
@@ -1113,3 +1021,61 @@ const saveImage = ()=>{
 	});
 };
 $('.static').off().on('click',saveImage)
+
+/*******/
+// // let fixtures
+// const doSomething = ()=>{
+// 	let fix = 'http://cdnhosted.aap.com.au/Rest/v1/SportsData/AFL/Fixtures/AFL2019?apikey=918704ec-4811-45b6-a169-16bae3df69a8&format=json'
+// 	// let lad = 'http://cdnhosted.aap.com.au/Rest/v1/SportsData/AFL/Ladder/AFL2019?apikey=918704ec-4811-45b6-a169-16bae3df69a8&format=json'
+// 	window['matchIDs'] = [];
+// 	window['mnum'] = 0;
+// 	jQuery.ajax({
+// 		url: fix,
+// 		type: 'GET',
+// 		dataType: 'json',
+// 		success: (info)=>{
+// 			// console.log(info)
+// 			let thisRound;
+// 			let thisMatch;
+// 			for(let i in info['Rounds']){
+// 				thisRound = info['Rounds'][i];
+// 				for(let j in thisRound['Matches']){
+// 					thisMatch = thisRound['Matches'][j]['Match_ID'];
+// 					matchIDs.push(thisMatch)
+// 				}
+// 			}
+// 			doSomethingElse();
+// 		},
+// 		error:(err)=>{
+// 			throw err;
+// 		}
+// 	})
+// };
+// const doSomethingElse = ()=>{
+	
+// 	let path = `http://cdnhosted.aap.com.au/Rest/v1/SportsData/AFL/Score/Afl2019/dom-1_${matchIDs[mnum]}_Event?apikey=918704ec-4811-45b6-a169-16bae3df69a8&format=json`
+// 	let filename = `${documents+slash}graaphics${slash}aaa${slash+matchIDs[mnum]}.json`;
+
+// 	jQuery.ajax({
+// 		url: path,
+// 		type: 'GET',
+// 		dataType: 'json',
+// 		success: (rnd)=>{
+// 			console.log(mnum);
+// 			// fs.writeFileSync(windata['data']['filename'],resolve.toJPEG(100))
+// 			fs.writeFileSync(filename,JSON.stringify(rnd))
+
+// 			setTimeout(()=>{
+// 				mnum ++
+// 				doSomethingElse()
+// 			},2000)
+// 		},
+// 		error: (err)=>{
+// 			throw err;
+// 		}
+// 	})
+
+// 	// 
+// 	// console.log(matchIDs)
+// };
+// $('.static').off().on('click',doSomething)

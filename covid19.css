@@ -670,6 +670,15 @@ h{
 	}
 }
 
+.unpopulated{
+	background-color: #ffa;
+}
+.unavailable{
+	background-color: #f00;
+}
+.unavailable::placeholder{
+	color: #fff;
+}
 
 .displayNone{
 	display: none;
