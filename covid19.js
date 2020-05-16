@@ -563,7 +563,7 @@ const loadDate = ()=>{console.log('loadDate')
 	let world
 	console.log(`${mmStr}-${ddStr}-20${yyStr}`);
 	console.log(Number(dateString))
-	console.log(checkedWorld)
+	// console.log(dates[dateString]['world'] == undefined)
 	// console.log(new Date(dateString))
 	$.ajax({
 		type: "GET",
@@ -733,7 +733,7 @@ const loadDate = ()=>{console.log('loadDate')
 			// processData(data.replace('FIPS,Admin2,',''));
 			$('.publish').prop('disabled',false);
 			$('[name=world]').removeClass('unavailable unpopulated');
-			if(checkedWorld){
+			if(checkedWorld && dates[dateString]['world'] == undefined){
 				let reloadNow = confirm(`World figures now available.\nReload now?`);
 				if(reloadNow){
 					loadDate();
@@ -1021,61 +1021,3 @@ const saveImage = ()=>{
 	});
 };
 $('.static').off().on('click',saveImage)
-
-/*******/
-// // let fixtures
-// const doSomething = ()=>{
-// 	let fix = 'http://cdnhosted.aap.com.au/Rest/v1/SportsData/AFL/Fixtures/AFL2019?apikey=918704ec-4811-45b6-a169-16bae3df69a8&format=json'
-// 	// let lad = 'http://cdnhosted.aap.com.au/Rest/v1/SportsData/AFL/Ladder/AFL2019?apikey=918704ec-4811-45b6-a169-16bae3df69a8&format=json'
-// 	window['matchIDs'] = [];
-// 	window['mnum'] = 0;
-// 	jQuery.ajax({
-// 		url: fix,
-// 		type: 'GET',
-// 		dataType: 'json',
-// 		success: (info)=>{
-// 			// console.log(info)
-// 			let thisRound;
-// 			let thisMatch;
-// 			for(let i in info['Rounds']){
-// 				thisRound = info['Rounds'][i];
-// 				for(let j in thisRound['Matches']){
-// 					thisMatch = thisRound['Matches'][j]['Match_ID'];
-// 					matchIDs.push(thisMatch)
-// 				}
-// 			}
-// 			doSomethingElse();
-// 		},
-// 		error:(err)=>{
-// 			throw err;
-// 		}
-// 	})
-// };
-// const doSomethingElse = ()=>{
-	
-// 	let path = `http://cdnhosted.aap.com.au/Rest/v1/SportsData/AFL/Score/Afl2019/dom-1_${matchIDs[mnum]}_Event?apikey=918704ec-4811-45b6-a169-16bae3df69a8&format=json`
-// 	let filename = `${documents+slash}graaphics${slash}aaa${slash+matchIDs[mnum]}.json`;
-
-// 	jQuery.ajax({
-// 		url: path,
-// 		type: 'GET',
-// 		dataType: 'json',
-// 		success: (rnd)=>{
-// 			console.log(mnum);
-// 			// fs.writeFileSync(windata['data']['filename'],resolve.toJPEG(100))
-// 			fs.writeFileSync(filename,JSON.stringify(rnd))
-
-// 			setTimeout(()=>{
-// 				mnum ++
-// 				doSomethingElse()
-// 			},2000)
-// 		},
-// 		error: (err)=>{
-// 			throw err;
-// 		}
-// 	})
-
-// 	// 
-// 	// console.log(matchIDs)
-// };
-// $('.static').off().on('click',doSomething)
