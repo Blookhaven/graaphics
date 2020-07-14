@@ -7,7 +7,7 @@ const ipcRenderer = electron.ipcRenderer;
 $('body').append(`
 	<div class="titleBar">Search Image Archive</div>
 	<main>
-		<input type="text" id="searchField" placeholder="Search" value="virus">
+		<input type="text" id="searchField" placeholder="Search" value="covid">
 		<div class="container">
 			<div id="thumbsBox"></div>
 		</div>

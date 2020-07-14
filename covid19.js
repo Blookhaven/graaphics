@@ -795,14 +795,16 @@ const loadDate = ()=>{console.log('loadDate')
 			</div>
 		`)
 
-		// downloadFile({
-		// 	remoteFile: pix[i]['Layout'],
-		// 	localFile: `${documents}/graaphics/covid19/layout/${pix[i]['AssetId']}.jpg`
-		// })
-		// downloadFile({
-		// 	remoteFile: pix[i]['Thumbnail'],
-		// 	localFile: `${documents}/graaphics/covid19/thumbnail/${pix[i]['AssetId']}.jpg`
-		// })
+		/** H **/
+		downloadFile({
+			remoteFile: pix[i]['Layout'],
+			localFile: `${documents}/graaphics/covid19/layout/${pix[i]['AssetId']}.jpg`
+		})
+		downloadFile({
+			remoteFile: pix[i]['Thumbnail'],
+			localFile: `${documents}/graaphics/covid19/thumbnail/${pix[i]['AssetId']}.jpg`
+		})
+		/** H **/
 	}
 
 	$('.picBox textarea').off().on('input',(e)=>{
